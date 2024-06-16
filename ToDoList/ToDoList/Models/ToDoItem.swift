@@ -33,7 +33,27 @@ struct ToDoItem: Identifiable {
     }
 }
 
-// MARK: - Parse
+// MARK: - Init Raw
+
+extension ToDoItem {
+    init?(raw: [String]) {
+        self.id = raw[Order.id]
+        self.text = raw[Order.text]
+        self.deadline = raw[Order.deadline].toDate()
+        self.modificationDate = raw[Order.modificationDate].toDate()
+        
+        guard let importance = Importance(rawValue: raw[Order.importance]),
+              let isDone = Bool(raw[Order.isDone]),
+              let creationDate = raw[Order.creationDate].toDate()
+        else { return nil }
+        
+        self.importance = importance
+        self.isDone = isDone
+        self.creationDate = creationDate
+    }
+}
+
+// MARK: - JSON Parse
 
 extension ToDoItem {
     
@@ -71,6 +91,7 @@ extension ToDoItem {
 // MARK: - JSON
 
 extension ToDoItem {
+    
     var json: Any {
         var dictionary: [String : Any] = [:]
         
@@ -95,9 +116,34 @@ extension ToDoItem {
     }
 }
 
+// MARK: - CSV Parse
+
+extension ToDoItem {
+    
+    static func parse(csv: Any) -> [ToDoItem?] {
+        guard let string = csv as? String else { return [] }
+        
+        var rows = string.components(separatedBy: Constants.Strings.newLine)
+        rows.removeFirst()
+    
+        var toDoItems = [ToDoItem?]()
+        
+        for row in rows {
+            let csvArray = row.components(separatedBy: Constants.Strings.comma)
+            if csvArray.count == Order.count {
+                let item = ToDoItem(raw: csvArray)
+                toDoItems.append(item)
+            }
+        }
+        
+        return toDoItems
+    }
+}
+
 // MARK: - IndexOfItem
 
 extension [ToDoItem] {
+    
     func indexOfItem(withId id: ToDoItem.ID) -> Self.Index? {
         let index = firstIndex(where: { $0.id == id })
         return index

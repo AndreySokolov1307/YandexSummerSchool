@@ -1,24 +1,5 @@
 import SwiftUI
 
-class Sample {
-    static func item() -> ToDoItem {
-        return ToDoItem(id: "123", text: "VAMOOOOS",
-                        importance: .high,
-                        deadline: Date(),
-                        isDone: false,
-                        creationDate: Date(),
-                        modificationDate: nil)
-    }
-    static func item2() -> ToDoItem {
-        return ToDoItem(text: "555",
-                        importance: .regular,
-                        deadline: nil,
-                        isDone: true,
-                        creationDate: Date(),
-                        modificationDate: Date())
-    }
-}
-
 struct ContentView: View {
     
     let fileCache = FileCache()
@@ -46,6 +27,11 @@ struct ContentView: View {
             Button("print") {
                 print(fileCache.toDoItems)
             }
+            
+            Button("csv parse") {
+                print(ToDoItem.parse(csv: Sample.sampleCSV))
+            }
+            
         }
         .padding()
     }

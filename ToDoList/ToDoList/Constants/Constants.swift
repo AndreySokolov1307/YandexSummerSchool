@@ -15,5 +15,7 @@ enum Constants {
         static let isoDefaultFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
         static let dayMonthFormat = "dd MMMM"
         static let dayMonthYearFormat = "dd MMMM yyyy"
+        static let newLine = "\n"
+        static let comma = ","
     }
 }
