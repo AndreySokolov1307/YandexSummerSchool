@@ -2,9 +2,21 @@ import Foundation
 
 final class FileCache {
     
+    // MARK: - FileCacheError
+    
+    enum FileCacheError: Error {
+        case fileNotFound
+        case unableToLoad(Error)
+        case unableToSave(Error)
+    }
+    
+    // MARK: - Public Properties
+    
     private(set) var toDoItems: [ToDoItem] = []
     
-    func addNewItem(_ item: ToDoItem) {
+    // MARK: - Public Methods
+    
+    func addItem(_ item: ToDoItem) {
         if !toDoItems.contains(where: { $0.id == item.id }) {
             toDoItems.append(item)
         } else if let index = toDoItems.indexOfItem(withId: item.id) {
@@ -19,14 +31,14 @@ final class FileCache {
         }
     }
     
-    func saveItems(to file: String) {
+    func saveItems(to file: String) throws {
         guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                 in: .userDomainMask).first
-        else { return }
+        else { throw FileCacheError.fileNotFound }
         
         let archieveURL = documentsDirectory
             .appendingPathComponent(file)
-            .appendingPathExtension(FileFormat.json.rawValue)
+            .appendingPathExtension(FileFormat.json.title)
     
         let jsonArray = toDoItems.map { $0.json }
         
@@ -35,18 +47,18 @@ final class FileCache {
                                                   options: [])
             try data.write(to: archieveURL)
         } catch {
-            print(error.localizedDescription)
+            throw FileCacheError.unableToSave(error)
         }
     }
     
-    func loadItems(from file: String) {
+    func loadItems(from file: String) throws {
         guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                 in: .userDomainMask).first
-        else { return }
+        else { throw FileCacheError.fileNotFound }
         
         let archieveURL = documentsDirectory
             .appendingPathComponent(file)
-            .appendingPathExtension(FileFormat.json.rawValue)
+            .appendingPathExtension(FileFormat.json.title)
         
         do {
             let retrievedJsonData = try Data(contentsOf: archieveURL)
@@ -55,7 +67,7 @@ final class FileCache {
                 toDoItems = jsonObject.compactMap(ToDoItem.parse)
             }
         } catch {
-            print(error.localizedDescription)
+            throw FileCacheError.unableToLoad(error)
         }
     }
 }

@@ -15,7 +15,10 @@ enum Constants {
         static let isoDefaultFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
         static let dayMonthFormat = "dd MMMM"
         static let dayMonthYearFormat = "dd MMMM yyyy"
-        static let newLine = "\n"
-        static let comma = ","
+        static let newLine: Character = "\n"
+        static let comma: Character = ","
+        static let quoteChar: Character = "\""
+        static let empty = ""
+        static let csvHeader = "id,text,importance,is done,deadline,creation date,modification date"
     }
 }

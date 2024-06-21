@@ -1,15 +1,15 @@
 import Foundation
 
-extension [String] {
-    subscript(order: ToDoItem.Order) -> String {
+extension [String?] {
+    subscript(order: ToDoItem.PropertyOrder) -> String? {
         return self[order.rawValue]
     }
 }
 
 extension ToDoItem {
-    enum Order: Int, CaseIterable {
+    enum PropertyOrder: Int, CaseIterable {
         
-        static let count = Order.allCases.count
+        static let count = PropertyOrder.allCases.count
         
         case id
         case text

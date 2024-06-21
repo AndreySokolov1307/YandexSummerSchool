@@ -1,10 +1,18 @@
 import Foundation
 
-struct ToDoItem: Identifiable {
+struct ToDoItem: Identifiable, Equatable {
+    
+    // MARK: - Importance
     
     enum Importance: String {
-       case low, regular, high
+        case low, regular, high
+        
+        var title: String {
+            return rawValue
+        }
     }
+    
+    // MARK: - Public Properties
     
     let id: String
     let text: String
@@ -14,14 +22,16 @@ struct ToDoItem: Identifiable {
     let creationDate: Date
     let modificationDate: Date?
     
+    // MARK: - Init
+    
     init(
         id: String = UUID().uuidString,
         text: String,
         importance: Importance,
-        deadline: Date?,
+        deadline: Date? = nil,
         isDone: Bool,
         creationDate: Date,
-        modificationDate: Date?
+        modificationDate: Date? = nil
     ) {
         self.id = id
         self.text = text
@@ -33,23 +43,56 @@ struct ToDoItem: Identifiable {
     }
 }
 
-// MARK: - Init Raw
+// MARK: - Init Row
 
 extension ToDoItem {
-    init?(raw: [String]) {
-        self.id = raw[Order.id]
-        self.text = raw[Order.text]
-        self.deadline = raw[Order.deadline].toDate()
-        self.modificationDate = raw[Order.modificationDate].toDate()
-        
-        guard let importance = Importance(rawValue: raw[Order.importance]),
-              let isDone = Bool(raw[Order.isDone]),
-              let creationDate = raw[Order.creationDate].toDate()
+    
+    init?(row: [String?]) {
+        guard let id = row[PropertyOrder.id],
+              let text = row[PropertyOrder.text],
+              let isDoneRaw = row[PropertyOrder.isDone],
+              let isDone = Bool(isDoneRaw),
+              let importanceRaw = row[PropertyOrder.importance],
+              let importance = Importance(rawValue: importanceRaw),
+              let creationDateRaw = row[PropertyOrder.creationDate],
+              let creationDate = creationDateRaw.toDate()
         else { return nil }
         
+        self.id = id
+        self.text = text
+        self.deadline = row[PropertyOrder.deadline]?.toDate()
         self.importance = importance
         self.isDone = isDone
         self.creationDate = creationDate
+        self.modificationDate = row[PropertyOrder.modificationDate]?.toDate()
+    }
+}
+
+// MARK: - JSON
+
+extension ToDoItem {
+    
+    var json: Any {
+        var dictionary: [String : Any] = [:]
+        
+        dictionary[Constants.JsonKeys.id] = id
+        dictionary[Constants.JsonKeys.text] = text
+        dictionary[Constants.JsonKeys.isDone] = isDone
+        dictionary[Constants.JsonKeys.creationDate] = creationDate.ISO8601Format()
+        
+        if importance != .regular {
+            dictionary[Constants.JsonKeys.importance] = importance.title
+        }
+        
+        if let deadline = deadline {
+            dictionary[Constants.JsonKeys.deadline] = deadline.ISO8601Format()
+        }
+        
+        if let modificationDate = modificationDate {
+            dictionary[Constants.JsonKeys.modificationDate] = modificationDate.ISO8601Format()
+        }
+        
+        return dictionary
     }
 }
 
@@ -88,64 +131,52 @@ extension ToDoItem {
     }
 }
 
-// MARK: - JSON
-
-extension ToDoItem {
-    
-    var json: Any {
-        var dictionary: [String : Any] = [:]
-        
-        dictionary[Constants.JsonKeys.id] = id
-        dictionary[Constants.JsonKeys.text] = text
-        dictionary[Constants.JsonKeys.isDone] = isDone
-        dictionary[Constants.JsonKeys.creationDate] = creationDate.ISO8601Format()
-        
-        if importance != .regular {
-            dictionary[Constants.JsonKeys.importance] = importance.rawValue
-        }
-        
-        if let deadline = deadline {
-            dictionary[Constants.JsonKeys.deadline] = deadline.ISO8601Format()
-        }
-        
-        if let modificationDate = modificationDate {
-            dictionary[Constants.JsonKeys.modificationDate] = modificationDate.ISO8601Format()
-        }
-        
-        return dictionary
-    }
-}
-
 // MARK: - CSV Parse
 
 extension ToDoItem {
     
-    static func parse(csv: Any) -> [ToDoItem?] {
+    static func parse(
+        csv: Any,
+        delimeter: Character = Constants.Strings.comma,
+        hasHeaderRow: Bool = true
+    ) -> [ToDoItem?] {
+        
         guard let string = csv as? String else { return [] }
-        
-        var rows = string.components(separatedBy: Constants.Strings.newLine)
-        rows.removeFirst()
-    
-        var toDoItems = [ToDoItem?]()
-        
-        for row in rows {
-            let csvArray = row.components(separatedBy: Constants.Strings.comma)
-            if csvArray.count == Order.count {
-                let item = ToDoItem(raw: csvArray)
-                toDoItems.append(item)
+        var rows = [[String?]]()
+        let quoteChar = Constants.Strings.quoteChar
+        var currentString = Constants.Strings.empty
+        var inQuote = false
+        var strings = [String?]()
+        var todoItems = [ToDoItem?]()
+
+            for char in string {
+                if char == quoteChar {
+                    inQuote.toggle()
+                    continue
+                } else if char == delimeter && !inQuote {
+                    strings.append(currentString.isEmpty ? nil : currentString)
+                    currentString = Constants.Strings.empty
+                    continue
+                } else if char == Constants.Strings.newLine {
+                    strings.append(currentString.isEmpty ? nil : currentString)
+                    rows.append(strings)
+                    strings = []
+                    currentString = Constants.Strings.empty
+                    continue
+                }
+                currentString.append(char)
             }
+        
+        strings.append(currentString.isEmpty ? nil : currentString)
+        rows.append(strings)
+        
+        if hasHeaderRow {
+            rows.removeFirst()
         }
         
-        return toDoItems
+        todoItems = rows.map(ToDoItem.init(row:))
+        
+        return todoItems
     }
 }
 
-// MARK: - IndexOfItem
-
-extension [ToDoItem] {
-    
-    func indexOfItem(withId id: ToDoItem.ID) -> Self.Index? {
-        let index = firstIndex(where: { $0.id == id })
-        return index
-    }
-}
