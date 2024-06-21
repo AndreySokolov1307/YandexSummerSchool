@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ContentView: View {
     
-    let fileCache = FileCache()
     var body: some View {
         VStack {
            Text("To do")
