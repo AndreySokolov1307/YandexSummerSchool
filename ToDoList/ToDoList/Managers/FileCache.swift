@@ -32,13 +32,10 @@ final class FileCache {
     }
     
     func saveItems(to file: String) throws {
-        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
-                                                                in: .userDomainMask).first
-        else { throw FileCacheError.fileNotFound }
-        
-        let archieveURL = documentsDirectory
-            .appendingPathComponent(file)
-            .appendingPathExtension(FileFormat.json.title)
+    
+        guard let archieveURL = getURL(for: file, fileFormat: .json) else {
+            throw FileCacheError.fileNotFound
+        }
     
         let jsonArray = toDoItems.map { $0.json }
         
@@ -52,13 +49,10 @@ final class FileCache {
     }
     
     func loadItems(from file: String) throws {
-        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
-                                                                in: .userDomainMask).first
-        else { throw FileCacheError.fileNotFound }
         
-        let archieveURL = documentsDirectory
-            .appendingPathComponent(file)
-            .appendingPathExtension(FileFormat.json.title)
+        guard let archieveURL = getURL(for: file, fileFormat: .json) else {
+            throw FileCacheError.fileNotFound
+        }
         
         do {
             let retrievedJsonData = try Data(contentsOf: archieveURL)
@@ -69,5 +63,19 @@ final class FileCache {
         } catch {
             throw FileCacheError.unableToLoad(error)
         }
+    }
+    
+    // MARK: - Private methods
+    
+    private func getURL(for file: String,fileFormat: FileFormat) -> URL? {
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
+                                                                in: .userDomainMask).first
+        else { return nil }
+        
+        let archieveURL = documentsDirectory
+            .appendingPathComponent(file)
+            .appendingPathExtension(fileFormat.title)
+        
+        return archieveURL
     }
 }
