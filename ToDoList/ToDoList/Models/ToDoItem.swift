@@ -4,12 +4,10 @@ struct ToDoItem: Identifiable, Equatable {
     
     // MARK: - Importance
     
-    enum Importance: String {
+    enum Importance: String, Identifiable {
         case low, regular, high
         
-        var title: String {
-            return rawValue
-        }
+        var id: Self { self }
     }
     
     // MARK: - Public Properties
@@ -29,8 +27,8 @@ struct ToDoItem: Identifiable, Equatable {
         text: String,
         importance: Importance,
         deadline: Date? = nil,
-        isDone: Bool,
-        creationDate: Date,
+        isDone: Bool = false,
+        creationDate: Date = Date(),
         modificationDate: Date? = nil
     ) {
         self.id = id
@@ -81,7 +79,7 @@ extension ToDoItem {
         dictionary[Constants.JsonKeys.creationDate] = creationDate.ISO8601Format()
         
         if importance != .regular {
-            dictionary[Constants.JsonKeys.importance] = importance.title
+            dictionary[Constants.JsonKeys.importance] = importance.rawValue
         }
         
         if let deadline = deadline {

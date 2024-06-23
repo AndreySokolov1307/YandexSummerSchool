@@ -17,9 +17,9 @@ fileprivate enum MockConstants {
     static let validCSVRow: [String?] = ["123","Hello, world!","low","2024-06-16T19:31:56+02:00","true","2024-06-16T19:31:56+02:00", nil]
     static let csv = """
     id,text,importance,deadline,isDone,creationDate,modificationDate
-    \(id),\"\(text)\",\(importanceLow.title),,\(isDone),\(dateString),
-    \(id2),\(text2),\(importanceRegular.title),,\(isDone),\(dateString),\(dateString)
-    ,\(text3),\(importanceRegular.title),,\(isDone),
+    \(id),\"\(text)\",\(importanceLow.rawValue),,\(isDone),\(dateString),
+    \(id2),\(text2),\(importanceRegular.rawValue),,\(isDone),\(dateString),\(dateString)
+    ,\(text3),\(importanceRegular.rawValue),,\(isDone),
     """
 }
 
@@ -91,7 +91,7 @@ final class ToDoItemTest: XCTestCase {
                        modificationDate: MockConstants.date)
         // When
         let json = sut.json as! [String : Any]
-        dictionary[Constants.JsonKeys.importance] = MockConstants.importanceLow.title
+        dictionary[Constants.JsonKeys.importance] = MockConstants.importanceLow.rawValue
         
         // Then
         XCTAssert(NSDictionary(dictionary: dictionary).isEqual(to: json))
@@ -140,7 +140,7 @@ final class ToDoItemTest: XCTestCase {
                        modificationDate: MockConstants.date)
         // When
         let json = sut.json as! [String : Any]
-        dictionary[Constants.JsonKeys.importance] = MockConstants.importanceLow.title
+        dictionary[Constants.JsonKeys.importance] = MockConstants.importanceLow.rawValue
         
         // Then
         XCTAssertEqual(sut, ToDoItem.parse(json: json))

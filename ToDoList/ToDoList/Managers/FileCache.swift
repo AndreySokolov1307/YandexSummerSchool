@@ -33,7 +33,7 @@ final class FileCache {
     
     func saveItems(to file: String) throws {
     
-        guard let archieveURL = getURL(for: file, fileFormat: .json) else {
+        guard let archieveURL = url(for: file, fileFormat: .json) else {
             throw FileCacheError.fileNotFound
         }
     
@@ -50,7 +50,7 @@ final class FileCache {
     
     func loadItems(from file: String) throws {
         
-        guard let archieveURL = getURL(for: file, fileFormat: .json) else {
+        guard let archieveURL = url(for: file, fileFormat: .json) else {
             throw FileCacheError.fileNotFound
         }
         
@@ -65,9 +65,9 @@ final class FileCache {
         }
     }
     
-    // MARK: - Private methods
+    // MARK: - Private Methods
     
-    private func getURL(for file: String,fileFormat: FileFormat) -> URL? {
+    private func url(for file: String,fileFormat: FileFormat) -> URL? {
         guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                 in: .userDomainMask).first
         else { return nil }

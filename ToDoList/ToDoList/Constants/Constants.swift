@@ -19,6 +19,14 @@ enum Constants {
         static let comma: Character = ","
         static let quoteChar: Character = "\""
         static let empty = ""
-        static let csvHeader = "id,text,importance,is done,deadline,creation date,modification date"
+        static let itemsViewTitle = "Мои дела"
+        static let itemTextPlaceholder = "Что надо сделать?"
+        static let importance = "Важность"
+        static let deadline = "Сделать до"
+        static let deleteItem = "Удалить"
+        static let itemDetailViewTitle = "Дело"
+        static let newToDo = "Новое"
+        static let show = "Показать"
+        static let hide = "Скрыть"
     }
 }
