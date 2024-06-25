@@ -1,10 +1,16 @@
 import SwiftUI
 
 struct DeadlineCell: View {
-    @Binding var hasDeadline: Bool
+    
+    // MARK: - Public Properties
+    
+    @Binding
+    var hasDeadline: Bool
     
     var deadlineTitle: String
     var onTap: () -> Void
+    
+    // MARK: - Body
     
     var body: some View {
         Toggle(isOn: $hasDeadline) {
@@ -18,15 +24,18 @@ struct DeadlineCell: View {
         .buttonStyle(.plain)
     }
     
-    var deadlineText: some View {
+    // MARK: - Private Views
+    
+    private var deadlineText: some View {
         Text(Constants.Strings.deadline)
     }
     
-    var deadlineButton: some View {
+    private var deadlineButton: some View {
         Button {
             onTap()
         } label: {
             Text(deadlineTitle)
+                .font(AppFont.subheadBold13.font)
         }
         .foregroundColor(Theme.MainColor.blue.color)
     }

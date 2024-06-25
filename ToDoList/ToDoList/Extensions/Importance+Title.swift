@@ -6,11 +6,11 @@ extension Importance {
     var title: String {
         switch self {
         case .low :
-            return "Низкая"
+            return Constants.Strings.importanceLowTitle
         case .regular:
-            return "нет"
+            return Constants.Strings.importanceRegularTitle
         case .high:
-            return "Высокая"
+            return Constants.Strings.importanceHighTitle
         }
     }
 }

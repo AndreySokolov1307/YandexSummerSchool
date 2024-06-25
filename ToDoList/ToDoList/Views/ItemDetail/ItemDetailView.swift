@@ -5,81 +5,139 @@ fileprivate enum LayoutConstants {
 }
 
 struct ItemDetailView: View {
-    @State var text: String = ""
-    @State var importance: Importance = .high
-    @State var hasDeadline = false
-    @State var deadline = Date()
-    @State var isDatePickerShowing = false
+    
+    // MARK: - Public Properties
+    
+    @State
+    var isDatePickerShowing = false
+    
+    @StateObject
+    var vm: ItemDetailViewModel
+    
+    // MARK: - Private Properties
+    
+    @Environment(\.dismiss)
+    private var dissmiss
+    
+    // MARK: - Body
     
     var body: some View {
-        List {
-            textFieldCell
-            Section {
-                importanceCell
-                deadlineCell
-                if isDatePickerShowing {
-                    deadlineDatePicker
+        NavigationStack {
+            List {
+                let _ = Self._printChanges()
+                textFieldCell
+                Section {
+                    importanceCell
+                    deadlineCell
+                    if isDatePickerShowing {
+                        deadlineDatePicker
+                    }
+                }
+                .rowSepatatorTrailingPadding()
+                deleteItemButton
+            }
+            .background(Theme.Back.backPrimary.color)
+            .navigationBarTitle(Constants.Strings.itemDetailViewTitle)
+            .navigationBarTitleDisplayMode(.inline)
+            .scrollContentBackground(.hidden)
+            .scrollDismissesKeyboard(.interactively)
+            .environment(\.defaultMinListRowHeight, LayoutConstants.minRowHeight)
+            .toolbar {
+                ToolbarItem(placement: .confirmationAction) {
+                    toolBarSaveButton
+                }
+                ToolbarItem(placement: .cancellationAction) {
+                    toolBarCancelButton
                 }
             }
-            .rowSepatatorTrailingPadding()
-            deleteItemButton
         }
-        .navigationBarTitle(Constants.Strings.itemDetailViewTitle)
-        .navigationBarTitleDisplayMode(.inline)
-        .scrollContentBackground(.hidden)
-        .scrollDismissesKeyboard(.interactively)
-        .background(Theme.Back.backPrimary.color)
-        .environment(\.defaultMinListRowHeight, LayoutConstants.minRowHeight)
     }
     
-    var textFieldCell: some View {
-        TextFieldCell(text: $text)
+    // MARK: - Private Views
+    
+    private var textFieldCell: some View {
+        TextFieldCell(text: $vm.text)
+            .listRowBackground(Theme.Back.backSecondary.color)
     }
     
-    var importanceCell: some View {
-        ImportanceCell(importance: $importance)
+    private var importanceCell: some View {
+        ImportanceCell(importance: $vm.importance)
+            .listRowBackground(Theme.Back.backSecondary.color)
     }
     
-    var deadlineCell: some View {
+    private var deadlineCell: some View {
         DeadlineCell(
-            hasDeadline: $hasDeadline,
-            deadlineTitle: deadline.ISO8601Format(),
+            hasDeadline: $vm.hasDeadline,
+            deadlineTitle: vm.deadline.toString(withFormat: DateFormatt.dayMonthYear.title),
             onTap: {
                 withAnimation {
                     isDatePickerShowing.toggle()
                 }
             })
-        .onChange(of: hasDeadline) { hasDeadline in
+        .listRowBackground(Theme.Back.backSecondary.color)
+        .onChange(of: vm.hasDeadline) { hasDeadline in
             if !hasDeadline {
-                deadline = Date().addingTimeInterval(500000)
+                vm.deadline = Constants.Dates.nextDay
                 isDatePickerShowing = false
             }
         }
     }
     
-    var deadlineDatePicker: some View {
+    private var deadlineDatePicker: some View {
         DatePicker(
             Constants.Strings.deadline,
-            selection: $deadline,
+            selection: $vm.deadline,
             displayedComponents: [.date]
         )
+        .listRowBackground(Theme.Back.backSecondary.color)
         .datePickerStyle(.graphical)
     }
     
-    var deleteItemButton: some View {
+    private var deleteItemButton: some View {
         HStack {
             Spacer()
             Button(Constants.Strings.deleteItem, action: {
-                print("delete")
+                dissmiss()
+                DispatchQueue.main.async {
+                    vm.deleteItem(withId: vm.id)
+                }
             })
+            .buttonStyle(
+                EnabledDisabledButtonStyle(
+                    enabledColor: Theme.MainColor.red.color,
+                    disabledColor: Theme.Label.tertiary.color
+                )
+            )
+            .disabled(vm.deleteDisabled)
             .foregroundColor(Theme.MainColor.red.color)
             Spacer()
+        }
+        .listRowBackground(Theme.Back.backSecondary.color)
+    }
+    
+    private var toolBarSaveButton: some View {
+        Button(Constants.Strings.save) {
+            vm.addItem()
+            dissmiss()
+        }
+        .buttonStyle(
+            EnabledDisabledButtonStyle(
+                enabledColor: Theme.MainColor.blue.color,
+                disabledColor: Theme.Label.tertiary.color
+            )
+        )
+        .disabled(vm.text.isEmpty)
+    }
+    
+    private var toolBarCancelButton: some View {
+        Button(Constants.Strings.cancel) {
+            dissmiss()
         }
     }
 }
 
 struct ItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemDetailView()
+        ItemDetailView(vm: ItemDetailViewModel(toDoItem: ToDoItem.newItem(), fileCache: FileCache()))
     }
 }

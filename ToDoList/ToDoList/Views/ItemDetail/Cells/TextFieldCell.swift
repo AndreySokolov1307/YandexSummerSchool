@@ -7,8 +7,18 @@ fileprivate enum LayoutConstants {
 }
 
 struct TextFieldCell: View {
-    @Binding var text: String
-    @FocusState private var isFocused: Bool
+    
+    // MARK: - Public Properties
+    
+    @Binding
+    var text: String
+    
+    // MARK: - Private Properties
+    
+    @FocusState
+    private var isFocused: Bool
+    
+    // MARK: - Body
     
     var body: some View {
         VStack {
@@ -18,6 +28,7 @@ struct TextFieldCell: View {
                 .padding(.bottom, LayoutConstants.textFieldBottomPadding)
             Spacer()
         }
+        .background(Theme.Back.backSecondary.color)
         .background(.white)
         .frame(minHeight: LayoutConstants.minHeight)
         .onTapGesture {
@@ -28,6 +39,6 @@ struct TextFieldCell: View {
 
 struct TextFieldCell_Previews: PreviewProvider {
     static var previews: some View {
-        TextFieldCell(text: .constant("fff"))
+        TextFieldCell(text: .constant("fffscsdcsdcsdcsdcsd"))
     }
 }

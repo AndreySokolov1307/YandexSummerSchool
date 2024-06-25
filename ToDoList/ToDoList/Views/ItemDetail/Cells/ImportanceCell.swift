@@ -5,16 +5,30 @@ fileprivate enum LayoutConstatns {
 }
 
 struct ImportanceCell: View {
-    @Binding var importance: Importance
+    
+    // MARK: - Public Properties
+    
+    @Binding
+    var importance: Importance
+    
+    // MARK: - Body
     
     var body: some View {
-        HStack(alignment: .center, spacing: 40) {
+        HStack(alignment: .center, spacing: LayoutConstatns.hStackSpacing) {
             Text(Constants.Strings.importance)
                 .font(AppFont.body.font)
                 .frame(maxWidth: .infinity, alignment: .leading)
             ImportancePicker(importance: $importance)
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }
+    }
+}
+
+// MARK: - Equatable
+
+extension ImportanceCell: Equatable {
+    static func == (lhs: ImportanceCell, rhs: ImportanceCell) -> Bool {
+        return lhs.importance == rhs.importance
     }
 }
 

@@ -29,6 +29,7 @@ enum Theme {
         case blue
         case gray
         case grayLight
+        case white
         
         var color: Color {
             Color(rawValue)
@@ -40,6 +41,14 @@ enum Theme {
         case backPrimary
         case backSecondary
         case elevated
+        
+        var color: Color {
+            Color(rawValue)
+        }
+    }
+    
+    enum Shadow: String {
+        case button
         
         var color: Color {
             Color(rawValue)

@@ -12,9 +12,6 @@ enum Constants {
     }
     
     enum Strings {
-        static let isoDefaultFormat = "yyyy-MM-dd'T'HH:mm:ssXXXXX"
-        static let dayMonthFormat = "dd MMMM"
-        static let dayMonthYearFormat = "dd MMMM yyyy"
         static let newLine: Character = "\n"
         static let comma: Character = ","
         static let quoteChar: Character = "\""
@@ -28,5 +25,15 @@ enum Constants {
         static let newToDo = "Новое"
         static let show = "Показать"
         static let hide = "Скрыть"
+        static let importanceLowTitle = "низкая"
+        static let importanceRegularTitle = "нет"
+        static let importanceHighTitle = "высокая"
+        static let save = "Сохранить"
+        static let cancel = "Отменить"
+        static let file = "todoitems123"
+    }
+    
+    enum Dates {
+        static let nextDay = Date().addingTimeInterval(60 * 60 * 24)
     }
 }

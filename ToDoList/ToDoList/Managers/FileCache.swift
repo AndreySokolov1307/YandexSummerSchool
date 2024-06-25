@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 final class FileCache {
     
@@ -12,7 +13,7 @@ final class FileCache {
     
     // MARK: - Public Properties
     
-    private(set) var toDoItems: [ToDoItem] = []
+    @Published private(set) var toDoItems: [ToDoItem] = []
     
     // MARK: - Public Methods
     
@@ -20,8 +21,7 @@ final class FileCache {
         if !toDoItems.contains(where: { $0.id == item.id }) {
             toDoItems.append(item)
         } else if let index = toDoItems.indexOfItem(withId: item.id) {
-            toDoItems.remove(at: index)
-            toDoItems.insert(item, at: index)
+            toDoItems[index] = item
         }
     }
     

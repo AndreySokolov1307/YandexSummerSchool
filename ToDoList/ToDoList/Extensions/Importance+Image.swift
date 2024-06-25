@@ -6,7 +6,7 @@ extension Importance {
         case .low :
             return Images.importanceLow.image
         case .regular:
-            return Image(systemName: "r.circle")
+            return Image(systemName: "circle")
         case .high:
             return Images.importanceHigh.image
         }

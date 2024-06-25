@@ -2,11 +2,16 @@ import SwiftUI
 
 struct ImportancePicker: View {
     
-    @Binding var importance: Importance
+    // MARK: - Public Properties
+    
+    @Binding
+    var importance: Importance
+    
+    // MARK: - Body
     
     var body: some View {
         Picker(importance.title, selection: $importance) {
-            Importance.low.image
+            Images.importanceLow.image
                 .tag(Importance.low)
             Text(Importance.regular.title)
                 .tag(Importance.regular)

@@ -6,6 +6,8 @@ enum AppFont {
     case headline
     case body
     case subhead
+    case subheadBold
+    case subheadBold13
     case footnote
     
     var font: Font {
@@ -20,6 +22,10 @@ enum AppFont {
             return Font.system(size: 17, weight: .regular)
         case .subhead:
             return Font.system(size: 15, weight: .regular)
+        case .subheadBold:
+            return Font.system(size: 15, weight: .bold)
+        case .subheadBold13:
+            return Font.system(size: 13, weight: .bold)
         case .footnote:
             return Font.system(size: 13, weight: .semibold)
         }

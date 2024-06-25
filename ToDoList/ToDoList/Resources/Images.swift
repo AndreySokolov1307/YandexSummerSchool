@@ -6,6 +6,7 @@ enum Images: String {
     case priorityRegular
     case priorityHigh
     case success
+    case chevron
     
     var image: Image {
        Image(rawValue)
@@ -17,6 +18,11 @@ enum Images: String {
 extension Images {
     enum SFSymbols: String {
         case calendar
+        case circle
+        case plus
+        case checkmarkCircleFill = "checkmark.circle.fill"
+        case infoCircleFill = "info.circle.fill"
+        case trashFill = "trash.fill"
         
         var image: Image {
             return Image(systemName: rawValue)

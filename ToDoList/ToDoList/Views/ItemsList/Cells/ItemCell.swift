@@ -1,42 +1,64 @@
 import SwiftUI
 
 fileprivate enum LayoutConstants {
-    static let spacing: CGFloat = 12
+    static let mainHSpacing: CGFloat = 12
+    static let deadlineLabelSpacing: CGFloat = 2
+    static let lineLimit: Int = 3
+    static let innerHSpacing: CGFloat = 2
+    static let vSpacing: CGFloat = 2
 }
 
 struct ItemCell: View {
     
-    @Binding var toDoItem: ToDoItem
+    // MARK: - Public Properties
     
+    var toDoItem: ToDoItem
+    var onButtonTap: () -> Void
+    
+    // MARK: - Body
+
     var body: some View {
-        HStack(spacing: LayoutConstants.spacing) {
+        HStack(spacing: LayoutConstants.mainHSpacing) {
             isDoneButton
-            VStack(alignment: .leading) {
-                itemText
-                if let _ = toDoItem.deadline, !toDoItem.isDone {
-                    deadlineLabel
+            HStack(spacing: LayoutConstants.innerHSpacing) {
+                if toDoItem.importance != .regular && !toDoItem.isDone {
+                    toDoItem.importance.image
+                }
+                VStack(alignment: .leading, spacing: LayoutConstants.vSpacing) {
+                    itemText
+                    if let _ = toDoItem.deadline, !toDoItem.isDone {
+                        deadlineLabel
+                    }
                 }
             }
+            Spacer()
+            chevroneImage
         }
     }
     
-    var isDoneButton: some View {
+    // MARK: - Private Views
+    
+    private var isDoneButton: some View {
         Button {
-            print( "todo is done")
+            DispatchQueue.main.async {
+                onButtonTap()
+            }
         } label: {
             if toDoItem.isDone {
                 Images.success.image
+                    .foregroundColor(Theme.MainColor.green.color)
             } else if toDoItem.importance == .high {
                 Images.priorityHigh.image
                     .foregroundColor(Theme.MainColor.red.color)
             } else {
                 Images.priorityRegular.image
-                    .foregroundColor(Theme.Support.separator.color)
+                    .foregroundColor(Theme.Label.labelSecondary.color)
             }
         }
+        .buttonStyle(.plain)
     }
     
-    var itemText: some View {
+    private var itemText: some View {
         Text(toDoItem.text)
             .foregroundColor(
                 toDoItem.isDone ?
@@ -44,24 +66,32 @@ struct ItemCell: View {
                 Theme.Label.labelPrimary.color
             )
             .font(AppFont.body.font)
+            .lineLimit(LayoutConstants.lineLimit)
             .strikethrough(
                 toDoItem.isDone,
                 color: Theme.Label.tertiary.color
             )
     }
     
-    var deadlineLabel: some View {
-        Label(
-            (toDoItem.deadline?.ISO8601Format())!,
-            systemImage: Images.SFSymbols.calendar.rawValue
-        )
+    private var deadlineLabel: some View {
+        HStack(spacing: LayoutConstants.deadlineLabelSpacing) {
+            Images.SFSymbols.calendar.image
+            if let deadline = toDoItem.deadline {
+                Text((deadline.toString(withFormat: DateFormatt.dayMonth.title)))
+            }
+        }
         .font(AppFont.subhead.font)
         .foregroundColor(Theme.Label.tertiary.color)
     }
-}
-
-struct ItemCell_Previews: PreviewProvider {
-    static var previews: some View {
-        ItemCell(toDoItem: .constant(ToDoItem(text: "asdcasdc", importance: .high,deadline: Date(), isDone: false, creationDate: Date())))
+    
+    private var chevroneImage: some View {
+        Images.chevron.image
+            .foregroundColor(Theme.MainColor.gray.color)
     }
 }
+
+//struct ItemCell_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ItemCell(toDoItem: ToDoItem(text: "asdcasdc", importance: .high,deadline: Date(), isDone: false, creationDate: Date()), onButtonTap: {})
+//    }
+//}
