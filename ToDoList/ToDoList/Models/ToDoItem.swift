@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 
 struct ToDoItem: Identifiable, Equatable {
     
@@ -19,6 +20,7 @@ struct ToDoItem: Identifiable, Equatable {
     let isDone: Bool
     let creationDate: Date
     let modificationDate: Date?
+    let hexColor: String?
     
     // MARK: - Init
     
@@ -29,7 +31,8 @@ struct ToDoItem: Identifiable, Equatable {
         deadline: Date? = nil,
         isDone: Bool = false,
         creationDate: Date = Date(),
-        modificationDate: Date? = nil
+        modificationDate: Date? = nil,
+        hexColor: String? = nil
     ) {
         self.id = id
         self.text = text
@@ -38,6 +41,7 @@ struct ToDoItem: Identifiable, Equatable {
         self.isDone = isDone
         self.creationDate = creationDate
         self.modificationDate = modificationDate
+        self.hexColor = hexColor
     }
 }
 
@@ -52,11 +56,12 @@ extension ToDoItem {
         dictionary[Constants.JsonKeys.text] = text
         dictionary[Constants.JsonKeys.isDone] = isDone
         dictionary[Constants.JsonKeys.creationDate] = creationDate.ISO8601Format()
+        dictionary[Constants.JsonKeys.hexColor] = hexColor
         
         if importance != .regular {
             dictionary[Constants.JsonKeys.importance] = importance.rawValue
         }
-        
+      
         if let deadline = deadline {
             dictionary[Constants.JsonKeys.deadline] = deadline.ISO8601Format()
         }
@@ -89,6 +94,7 @@ extension ToDoItem {
         let deadline = (dictionary[Constants.JsonKeys.deadline] as? String)?.toDate()
         let modificationDate = (dictionary[Constants.JsonKeys.modificationDate] as?
                                 String)?.toDate()
+        let hexColor = dictionary[Constants.JsonKeys.hexColor] as? String
         
         let toDoItem = ToDoItem(
             id: id,
@@ -97,7 +103,8 @@ extension ToDoItem {
             deadline: deadline,
             isDone: isDone,
             creationDate: creationDate,
-            modificationDate: modificationDate
+            modificationDate: modificationDate,
+            hexColor: hexColor
         )
         
         return toDoItem

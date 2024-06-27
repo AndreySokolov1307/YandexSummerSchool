@@ -2,6 +2,7 @@ import SwiftUI
 
 fileprivate enum LayoutConstants {
     static let minRowHeight: CGFloat = 56
+    static let rectangleCornerRadius: CGFloat = 16
 }
 
 struct ItemDetailView: View {
@@ -11,23 +12,45 @@ struct ItemDetailView: View {
     @State
     var isDatePickerShowing = false
     
+    @State
+    var isColorPickerShowing = false
+    
     @StateObject
     var vm: ItemDetailViewModel
+    
+    @State
+    var initialColor: Color = .white
     
     // MARK: - Private Properties
     
     @Environment(\.dismiss)
-    private var dissmiss
+    private var dismiss
+    
+    @Environment(\.horizontalSizeClass)
+    private var horizontalSizeClass
+    
+    private var inLandscape: Bool {
+        horizontalSizeClass == .regular
+    }
     
     // MARK: - Body
     
     var body: some View {
-        NavigationStack {
-            List {
-                let _ = Self._printChanges()
-                textFieldCell
+        NavigationStack() {
+            controlsList
+                    .toolbar(content: toolBarContent)
+        }
+    }
+    
+    // MARK: - Public Views
+    
+    var controlsList: some View {
+        List {
+            textFieldCell
+            if !inLandscape {
                 Section {
                     importanceCell
+                    colorCell
                     deadlineCell
                     if isDatePickerShowing {
                         deadlineDatePicker
@@ -36,33 +59,35 @@ struct ItemDetailView: View {
                 .rowSepatatorTrailingPadding()
                 deleteItemButton
             }
-            .background(Theme.Back.backPrimary.color)
-            .navigationBarTitle(Constants.Strings.itemDetailViewTitle)
-            .navigationBarTitleDisplayMode(.inline)
-            .scrollContentBackground(.hidden)
-            .scrollDismissesKeyboard(.interactively)
-            .environment(\.defaultMinListRowHeight, LayoutConstants.minRowHeight)
-            .toolbar {
-                ToolbarItem(placement: .confirmationAction) {
-                    toolBarSaveButton
-                }
-                ToolbarItem(placement: .cancellationAction) {
-                    toolBarCancelButton
-                }
-            }
         }
+        .fullScreenCover(isPresented: $isColorPickerShowing, content: {
+            ItemColorView(color: $vm.color, initialColor: $initialColor, hasColor: $vm.hasColor)
+        })
+        .background(Theme.Back.backPrimary.color)
+        .navigationBarTitle(Constants.Strings.itemDetailViewTitle)
+        .navigationBarTitleDisplayMode(.inline)
+        .scrollContentBackground(.hidden)
+        .scrollDismissesKeyboard(.interactively)
+        .environment(\.defaultMinListRowHeight, LayoutConstants.minRowHeight)
     }
     
     // MARK: - Private Views
     
     private var textFieldCell: some View {
-        TextFieldCell(text: $vm.text)
+        TextFieldCell(text: $vm.text, color: $vm.color)
             .listRowBackground(Theme.Back.backSecondary.color)
     }
     
     private var importanceCell: some View {
         ImportanceCell(importance: $vm.importance)
             .listRowBackground(Theme.Back.backSecondary.color)
+    }
+    
+    private var colorCell: some View {
+        ItemColorCell(color: vm.color) {
+            initialColor = vm.color
+            isColorPickerShowing = true
+        }
     }
     
     private var deadlineCell: some View {
@@ -97,9 +122,9 @@ struct ItemDetailView: View {
         HStack {
             Spacer()
             Button(Constants.Strings.deleteItem, action: {
-                dissmiss()
+                dismiss()
                 DispatchQueue.main.async {
-                    vm.deleteItem(withId: vm.id)
+                    vm.deleteItem()
                 }
             })
             .buttonStyle(
@@ -118,7 +143,7 @@ struct ItemDetailView: View {
     private var toolBarSaveButton: some View {
         Button(Constants.Strings.save) {
             vm.addItem()
-            dissmiss()
+            dismiss()
         }
         .buttonStyle(
             EnabledDisabledButtonStyle(
@@ -126,12 +151,24 @@ struct ItemDetailView: View {
                 disabledColor: Theme.Label.tertiary.color
             )
         )
-        .disabled(vm.text.isEmpty)
+        .disabled(vm.saveDisables)
     }
     
     private var toolBarCancelButton: some View {
         Button(Constants.Strings.cancel) {
-            dissmiss()
+            dismiss()
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    @ToolbarContentBuilder
+    private func toolBarContent() -> some ToolbarContent {
+        ToolbarItem(placement: .confirmationAction) {
+            toolBarSaveButton
+        }
+        ToolbarItem(placement: .cancellationAction) {
+            toolBarCancelButton
         }
     }
 }

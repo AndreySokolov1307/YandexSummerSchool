@@ -24,5 +24,6 @@ extension ToDoItem {
         self.isDone = isDone
         self.creationDate = creationDate
         self.modificationDate = row[PropertyOrder.modificationDate]?.toDate()
+        self.hexColor = nil
     }
 }

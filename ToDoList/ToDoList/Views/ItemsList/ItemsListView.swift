@@ -96,14 +96,6 @@ struct ItemsListView: View {
             selectedItem = ToDoItem.newItem()
         }
         .padding(LayoutConstants.addNewItemButonPadding)
-        .sheet(item: $selectedItem) { item in
-            ItemDetailView(
-                vm: ItemDetailViewModel(
-                    toDoItem: item,
-                    fileCache: vm.fileCache
-                )
-            )
-        }
     }
 }
 

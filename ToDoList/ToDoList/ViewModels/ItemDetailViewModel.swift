@@ -1,4 +1,4 @@
-import Foundation
+import SwiftUI
 import Combine
 
 class ItemDetailViewModel: ObservableObject {
@@ -15,9 +15,18 @@ class ItemDetailViewModel: ObservableObject {
     var creationDate: Date
     var modificationDate: Date?
     let toDoType: ToDoType
+    var hasColor: Bool
     
     var deleteDisabled: Bool {
         return toDoType == .new ? true : false
+    }
+    
+    var saveDisables: Bool {
+        text.isEmpty
+    }
+    
+    var initialColor: Color {
+        return color
     }
     
     @Published
@@ -31,6 +40,9 @@ class ItemDetailViewModel: ObservableObject {
     
     @Published
     var deadline: Date
+    
+    @Published
+    var color: Color
     
     // MARK: - Private Properties
     
@@ -48,6 +60,8 @@ class ItemDetailViewModel: ObservableObject {
         self.creationDate = toDoItem.creationDate
         self.fileCache = fileCache
         self.toDoType = toDoItem.text.isEmpty ? .new : .existed
+        self.hasColor = toDoItem.hexColor == nil ? false : true
+        self.color = Color(hex: toDoItem.hexColor) ?? .white
     }
     
     // MARK: - Public Methods
@@ -63,17 +77,18 @@ class ItemDetailViewModel: ObservableObject {
         
         let item  = ToDoItem(
             id: id,
-            text: text,
+            text: text.trimmingCharacters(in: .whitespacesAndNewlines),
             importance: importance,
             deadline: currentDeadline,
             isDone: isDone,
             creationDate: creationDate,
-            modificationDate: toDoType == .new ? nil : Date()
+            modificationDate: toDoType == .new ? nil : Date(),
+            hexColor: hasColor ? color.hexString : nil
         )
         fileCache.addItem(item)
     }
     
-    func deleteItem(withId id: String) {
+    func deleteItem() {
         fileCache.deleteItem(withId: id)
     }
 }

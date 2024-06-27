@@ -9,6 +9,7 @@ enum Constants {
         static let deadline = "deadline"
         static let creationDate = "creationDate"
         static let modificationDate = "modificationDate"
+        static let hexColor = "hexColor"
     }
     
     enum Strings {
@@ -31,6 +32,9 @@ enum Constants {
         static let save = "Сохранить"
         static let cancel = "Отменить"
         static let file = "todoitems123"
+        static let deleteColor = "Удалить цвет"
+        static let addColor = "Добавить"
+        static let color = "Цвет"
     }
     
     enum Dates {

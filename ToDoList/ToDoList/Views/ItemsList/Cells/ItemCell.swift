@@ -6,6 +6,7 @@ fileprivate enum LayoutConstants {
     static let lineLimit: Int = 3
     static let innerHSpacing: CGFloat = 2
     static let vSpacing: CGFloat = 2
+    static let circleSide: CGFloat = 8
 }
 
 struct ItemCell: View {
@@ -32,6 +33,7 @@ struct ItemCell: View {
                 }
             }
             Spacer()
+            colorCircle
             chevroneImage
         }
     }
@@ -82,6 +84,15 @@ struct ItemCell: View {
         }
         .font(AppFont.subhead.font)
         .foregroundColor(Theme.Label.tertiary.color)
+    }
+    
+    private var colorCircle: some View {
+        Circle()
+            .fill(Color(hex: toDoItem.hexColor) ?? Theme.Back.backSecondary.color)
+            .frame(
+                width: LayoutConstants.circleSide,
+                height: LayoutConstants.circleSide
+            )
     }
     
     private var chevroneImage: some View {

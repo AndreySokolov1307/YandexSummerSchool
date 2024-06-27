@@ -3,6 +3,17 @@ import Combine
 
 final class FileCache {
     
+    // MARK: - FileFormat
+    
+    enum FileFormat: String {
+        case json
+        case csv
+        
+        var title: String {
+            return rawValue
+        }
+    }
+    
     // MARK: - FileCacheError
     
     enum FileCacheError: Error {

@@ -29,7 +29,6 @@
 		324903242C1E44C700068B12 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324903232C1E44C700068B12 /* Constants.swift */; };
 		324903262C1E44E600068B12 /* String+Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324903252C1E44E600068B12 /* String+Date.swift */; };
 		324903292C1E476D00068B12 /* FileCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324903282C1E476D00068B12 /* FileCache.swift */; };
-		3249032C2C1E4BD600068B12 /* FileFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3249032B2C1E4BD600068B12 /* FileFormat.swift */; };
 		3262DA5A2C28E11C0031488B /* NewItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3262DA592C28E11C0031488B /* NewItemCell.swift */; };
 		3262DA5E2C28F2720031488B /* ItemsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3262DA5D2C28F2720031488B /* ItemsListViewModel.swift */; };
 		3262DA602C28FA060031488B /* ItemDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3262DA5F2C28FA050031488B /* ItemDetailViewModel.swift */; };
@@ -43,6 +42,16 @@
 		327C4D842C2B777C0074933B /* InfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327C4D832C2B777C0074933B /* InfoButton.swift */; };
 		327C4D862C2B78D60074933B /* DeleteButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327C4D852C2B78D60074933B /* DeleteButton.swift */; };
 		327C4D882C2B815C0074933B /* ToDoItem+Init.swift in Sources */ = {isa = PBXBuildFile; fileRef = 327C4D872C2B815C0074933B /* ToDoItem+Init.swift */; };
+		329D160C2C2D8A2800C5EC76 /* ItemColorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329D160B2C2D8A2800C5EC76 /* ItemColorCell.swift */; };
+		329D35CA2C2C907D00036905 /* CustomColorPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329D35C92C2C907D00036905 /* CustomColorPicker.swift */; };
+		329D35CC2C2C90D700036905 /* ShapeStyle+ColorPickerGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329D35CB2C2C90D700036905 /* ShapeStyle+ColorPickerGradient.swift */; };
+		329D35CE2C2CA21200036905 /* ItemColorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329D35CD2C2CA21200036905 /* ItemColorView.swift */; };
+		329D35D12C2CA50200036905 /* ColorPeakerHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329D35D02C2CA50200036905 /* ColorPeakerHeader.swift */; };
+		329D35D32C2CA85F00036905 /* ColorPeakerFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329D35D22C2CA85F00036905 /* ColorPeakerFooter.swift */; };
+		329D35D52C2CAD1500036905 /* ColorRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329D35D42C2CAD1500036905 /* ColorRepresentation.swift */; };
+		329D35D72C2CD0D300036905 /* GradientRing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329D35D62C2CD0D300036905 /* GradientRing.swift */; };
+		329D35D92C2CE5BD00036905 /* UIColor+HexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329D35D82C2CE5BD00036905 /* UIColor+HexString.swift */; };
+		329D35DB2C2CE90600036905 /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 329D35DA2C2CE90600036905 /* Color+Hex.swift */; };
 		32C66C2F2C1F4B70002AE2BA /* ToDoItem+Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32C66C2E2C1F4B70002AE2BA /* ToDoItem+Order.swift */; };
 		32E767572C2784F2009F5B1C /* DeadlineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E767562C2784F2009F5B1C /* DeadlineCell.swift */; };
 		32E7675A2C2792E0009F5B1C /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E767592C2792E0009F5B1C /* TextFieldCell.swift */; };
@@ -92,7 +101,6 @@
 		324903232C1E44C700068B12 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		324903252C1E44E600068B12 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		324903282C1E476D00068B12 /* FileCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileCache.swift; sourceTree = "<group>"; };
-		3249032B2C1E4BD600068B12 /* FileFormat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileFormat.swift; sourceTree = "<group>"; };
 		3249032D2C1E53B700068B12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3262DA592C28E11C0031488B /* NewItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemCell.swift; sourceTree = "<group>"; };
 		3262DA5D2C28F2720031488B /* ItemsListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsListViewModel.swift; sourceTree = "<group>"; };
@@ -107,6 +115,16 @@
 		327C4D832C2B777C0074933B /* InfoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoButton.swift; sourceTree = "<group>"; };
 		327C4D852C2B78D60074933B /* DeleteButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteButton.swift; sourceTree = "<group>"; };
 		327C4D872C2B815C0074933B /* ToDoItem+Init.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoItem+Init.swift"; sourceTree = "<group>"; };
+		329D160B2C2D8A2800C5EC76 /* ItemColorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemColorCell.swift; sourceTree = "<group>"; };
+		329D35C92C2C907D00036905 /* CustomColorPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomColorPicker.swift; sourceTree = "<group>"; };
+		329D35CB2C2C90D700036905 /* ShapeStyle+ColorPickerGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ShapeStyle+ColorPickerGradient.swift"; sourceTree = "<group>"; };
+		329D35CD2C2CA21200036905 /* ItemColorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemColorView.swift; sourceTree = "<group>"; };
+		329D35D02C2CA50200036905 /* ColorPeakerHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPeakerHeader.swift; sourceTree = "<group>"; };
+		329D35D22C2CA85F00036905 /* ColorPeakerFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPeakerFooter.swift; sourceTree = "<group>"; };
+		329D35D42C2CAD1500036905 /* ColorRepresentation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorRepresentation.swift; sourceTree = "<group>"; };
+		329D35D62C2CD0D300036905 /* GradientRing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GradientRing.swift; sourceTree = "<group>"; };
+		329D35D82C2CE5BD00036905 /* UIColor+HexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+HexString.swift"; sourceTree = "<group>"; };
+		329D35DA2C2CE90600036905 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		32C66C2E2C1F4B70002AE2BA /* ToDoItem+Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ToDoItem+Order.swift"; sourceTree = "<group>"; };
 		32E767562C2784F2009F5B1C /* DeadlineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineCell.swift; sourceTree = "<group>"; };
 		32E767592C2792E0009F5B1C /* TextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
@@ -151,10 +169,6 @@
 			isa = PBXGroup;
 			children = (
 				3242D3092C27146D00905FA7 /* ListHeaderView.swift */,
-				327C4D7B2C2B23F60074933B /* AddNewItemButton.swift */,
-				327C4D812C2B769C0074933B /* SuccessButton.swift */,
-				327C4D832C2B777C0074933B /* InfoButton.swift */,
-				327C4D852C2B78D60074933B /* DeleteButton.swift */,
 			);
 			path = SupplementaryViews;
 			sourceTree = "<group>";
@@ -173,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				320B2D782C27337C009C9063 /* ItemDetailView.swift */,
+				329D35CD2C2CA21200036905 /* ItemColorView.swift */,
 				32E767582C2786D9009F5B1C /* Cells */,
 				32E7675B2C2799C6009F5B1C /* SupplementaryViews */,
 			);
@@ -211,6 +226,7 @@
 				3249031E2C1E3AB900068B12 /* Extensions */,
 				327C4D782C2B1A800074933B /* Styles */,
 				32E7675C2C279B60009F5B1C /* Modifiers */,
+				329D35C82C2C900600036905 /* UIComponents */,
 				324903172C1E2E1E00068B12 /* Resources */,
 			);
 			path = ToDoList;
@@ -262,7 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				324903212C1E44AE00068B12 /* ToDoItem.swift */,
-				3249032B2C1E4BD600068B12 /* FileFormat.swift */,
+				329D35D42C2CAD1500036905 /* ColorRepresentation.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -300,6 +316,9 @@
 				3262DA612C29031F0031488B /* ToDoItem+NewItem.swift */,
 				327C4D7D2C2B5C250074933B /* DateToString.swift */,
 				327C4D872C2B815C0074933B /* ToDoItem+Init.swift */,
+				329D35CB2C2C90D700036905 /* ShapeStyle+ColorPickerGradient.swift */,
+				329D35D82C2CE5BD00036905 /* UIColor+HexString.swift */,
+				329D35DA2C2CE90600036905 /* Color+Hex.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -329,12 +348,28 @@
 			path = Styles;
 			sourceTree = "<group>";
 		};
+		329D35C82C2C900600036905 /* UIComponents */ = {
+			isa = PBXGroup;
+			children = (
+				327C4D7B2C2B23F60074933B /* AddNewItemButton.swift */,
+				329D35C92C2C907D00036905 /* CustomColorPicker.swift */,
+				327C4D812C2B769C0074933B /* SuccessButton.swift */,
+				327C4D832C2B777C0074933B /* InfoButton.swift */,
+				327C4D852C2B78D60074933B /* DeleteButton.swift */,
+				329D35D02C2CA50200036905 /* ColorPeakerHeader.swift */,
+				329D35D22C2CA85F00036905 /* ColorPeakerFooter.swift */,
+				329D35D62C2CD0D300036905 /* GradientRing.swift */,
+			);
+			path = UIComponents;
+			sourceTree = "<group>";
+		};
 		32E767582C2786D9009F5B1C /* Cells */ = {
 			isa = PBXGroup;
 			children = (
 				320B2D7C2C274A17009C9063 /* ImportanceCell.swift */,
 				32E767562C2784F2009F5B1C /* DeadlineCell.swift */,
 				32E767592C2792E0009F5B1C /* TextFieldCell.swift */,
+				329D160B2C2D8A2800C5EC76 /* ItemColorCell.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -492,8 +527,11 @@
 				327C4D822C2B769C0074933B /* SuccessButton.swift in Sources */,
 				327C4D7A2C2B1AA50074933B /* EnabledDisabledButtonStyle.swift in Sources */,
 				327C4D842C2B777C0074933B /* InfoButton.swift in Sources */,
+				329D35DB2C2CE90600036905 /* Color+Hex.swift in Sources */,
+				329D35D92C2CE5BD00036905 /* UIColor+HexString.swift in Sources */,
 				327C4D7C2C2B23F60074933B /* AddNewItemButton.swift in Sources */,
 				327C4D802C2B5EB70074933B /* DateFormat.swift in Sources */,
+				329D35D12C2CA50200036905 /* ColorPeakerHeader.swift in Sources */,
 				32376D622C2463BA00BCBC99 /* ToDoItem+Index.swift in Sources */,
 				324902EC2C1E2CE500068B12 /* ItemsListView.swift in Sources */,
 				32E767572C2784F2009F5B1C /* DeadlineCell.swift in Sources */,
@@ -504,22 +542,28 @@
 				320B2D752C271BF1009C9063 /* Theme.swift in Sources */,
 				32C66C2F2C1F4B70002AE2BA /* ToDoItem+Order.swift in Sources */,
 				32E7675E2C279B84009F5B1C /* RowSeparatorTrailingPadding.swift in Sources */,
+				329D35D72C2CD0D300036905 /* GradientRing.swift in Sources */,
 				324903222C1E44AE00068B12 /* ToDoItem.swift in Sources */,
 				324903292C1E476D00068B12 /* FileCache.swift in Sources */,
+				329D35CA2C2C907D00036905 /* CustomColorPicker.swift in Sources */,
 				320B2D772C272D91009C9063 /* AppFont.swift in Sources */,
 				3242D30A2C27146E00905FA7 /* ListHeaderView.swift in Sources */,
 				3262DA602C28FA060031488B /* ItemDetailViewModel.swift in Sources */,
+				329D35D32C2CA85F00036905 /* ColorPeakerFooter.swift in Sources */,
 				320716872C28537B000C66CC /* ItemCell.swift in Sources */,
 				327C4D862C2B78D60074933B /* DeleteButton.swift in Sources */,
 				32392FE22C2A2E550078030C /* RowSepatatorLeadingPadding.swift in Sources */,
+				329D160C2C2D8A2800C5EC76 /* ItemColorCell.swift in Sources */,
 				320B2D792C27337C009C9063 /* ItemDetailView.swift in Sources */,
+				329D35CC2C2C90D700036905 /* ShapeStyle+ColorPickerGradient.swift in Sources */,
+				329D35CE2C2CA21200036905 /* ItemColorView.swift in Sources */,
 				320B2D852C2751E9009C9063 /* Images.swift in Sources */,
 				327C4D882C2B815C0074933B /* ToDoItem+Init.swift in Sources */,
 				3262DA622C29031F0031488B /* ToDoItem+NewItem.swift in Sources */,
 				320B2D832C274E86009C9063 /* Importance+Image.swift in Sources */,
 				324903242C1E44C700068B12 /* Constants.swift in Sources */,
-				3249032C2C1E4BD600068B12 /* FileFormat.swift in Sources */,
 				320B2D7F2C274ADA009C9063 /* ImportancePicker.swift in Sources */,
+				329D35D52C2CAD1500036905 /* ColorRepresentation.swift in Sources */,
 				32E7675A2C2792E0009F5B1C /* TextFieldCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
