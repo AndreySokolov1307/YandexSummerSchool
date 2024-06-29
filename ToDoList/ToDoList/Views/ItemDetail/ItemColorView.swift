@@ -2,11 +2,14 @@ import SwiftUI
 
 fileprivate enum LayoutConstants {
     static let vStckSpacing: CGFloat = 16
-    static let colorPickerHight: CGFloat = 400
+    static let colorPickerHeight: CGFloat = 400
+    static let grayColorPickerHeight: CGFloat = 44
     static let cornerRadius: CGFloat = 16
 }
 
 struct ItemColorView: View {
+    
+    // MARK: - Public Properties
     
     @Binding
     var color: Color
@@ -17,44 +20,59 @@ struct ItemColorView: View {
     @Binding
     var hasColor: Bool
     
+    // MARK: - Private Properties
+    
     @Environment(\.dismiss)
-    var dismiss
+    private var dismiss
     
     @Environment(\.horizontalSizeClass)
-    var landscape
+    private var horizontalSizeClass
     
-    var isLandscape: Bool {
-        landscape == .regular
+    @Environment(\.verticalSizeClass)
+    private var verticalSizeClass
+    
+    private var inLandscape: Bool {
+        horizontalSizeClass == .regular || verticalSizeClass == .compact
     }
+    
+    // MARK: - Body
     
     var body: some View {
         NavigationStack {
                 colorPicker
-                .navigationBarTitle(Constants.Strings.itemDetailViewTitle)
+                .navigationBarTitle(Constants.Strings.itemColorPickerTitle)
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar(content: toolBarContent)
         }
     }
     
-    var colorPicker: some View {
+    // MARK: - Private Views
+    
+    private var colorPicker: some View {
         GeometryReader { proxy in
-            if isLandscape {
+            if inLandscape {
                 HStack {
                     VStack(alignment: .leading) {
                         ColorPeakerHeader(color: color)
                         Spacer()
                         deleteButton
                     }
-                    CustomColorPicker(color: $color)
+                    VStack {
+                        PaletteColorPicker(color: $color)
+                        GrayShadesColorPicker(color: $color)
+                            .frame(height: proxy.size.height / 6)
+                    }
                 }
             } else {
                 VStack {
                     VStack(spacing: LayoutConstants.vStckSpacing) {
                         ColorPeakerHeader(color: color)
-                        CustomColorPicker(color: $color)
+                        PaletteColorPicker(color: $color)
+                        GrayShadesColorPicker(color: $color)
+                            .frame(height: LayoutConstants.grayColorPickerHeight)
                         deleteButton
                     }
-                    .frame(height: LayoutConstants.colorPickerHight)
+                    .frame(height: LayoutConstants.colorPickerHeight)
                     .padding()
                     .background(Theme.Back.backSecondary.color)
                     .cornerRadius(LayoutConstants.cornerRadius)
@@ -66,7 +84,7 @@ struct ItemColorView: View {
         .background(Theme.Back.backPrimary.color)
     }
     
-    var deleteButton: some View {
+    private var deleteButton: some View {
         HStack {
             Button(Constants.Strings.deleteColor, action: {
                 color = .white

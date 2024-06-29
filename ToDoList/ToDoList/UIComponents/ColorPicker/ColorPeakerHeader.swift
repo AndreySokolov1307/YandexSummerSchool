@@ -7,7 +7,11 @@ fileprivate enum LayoutConstants {
 
 struct ColorPeakerHeader: View {
     
+    // MARK: - Public Properties
+    
     var color: Color
+    
+    // MARK: - Body
     
     var body: some View {
         HStack(spacing: LayoutConstants.spacing) {
@@ -17,7 +21,9 @@ struct ColorPeakerHeader: View {
         }
     }
     
-    var gradientRing: some View {
+    // MARK: - Private Views
+    
+    private var gradientRing: some View {
         GradientRing(color: color)
     }
     

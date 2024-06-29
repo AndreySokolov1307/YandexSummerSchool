@@ -41,6 +41,19 @@ extension ShapeStyle where Self == LinearGradient {
     }
 }
 
+extension ShapeStyle where Self == LinearGradient {
+    
+    static func grayShadesGradient() -> LinearGradient {
+        let grayGradient = Gradient(colors: [
+            Color(hue: 0, saturation: 0, brightness: 1),
+            Color(hue: 0, saturation: 0, brightness: 0.5),
+            Color(hue: 0, saturation: 0, brightness: 0)
+        ])
+        
+        return LinearGradient(gradient: grayGradient, startPoint: .leading, endPoint: .trailing)
+    }
+}
+
 extension ShapeStyle where Self == AngularGradient {
     
     static func angularColorPaletteGradient() -> AngularGradient {

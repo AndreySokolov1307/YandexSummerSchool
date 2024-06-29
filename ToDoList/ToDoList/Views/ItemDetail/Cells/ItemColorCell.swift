@@ -2,9 +2,12 @@ import SwiftUI
 
 struct ItemColorCell: View {
     
+    // MARK: - Private Properties
+    
     var color: Color?
-
     var onTap: (() -> Void)?
+    
+    // MARK: - Body
     
     var body: some View {
         HStack {

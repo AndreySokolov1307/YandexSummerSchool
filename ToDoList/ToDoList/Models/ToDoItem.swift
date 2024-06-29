@@ -1,7 +1,7 @@
 import Foundation
 import SwiftUI
 
-struct ToDoItem: Identifiable, Equatable {
+struct ToDoItem: Identifiable, Equatable, Hashable {
     
     // MARK: - Importance
     

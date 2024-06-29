@@ -3,6 +3,14 @@ import Combine
 
 final class FileCache {
     
+    // MARK: - FileCacheError
+    
+    enum FileCacheError: Error {
+        case fileNotFound
+        case unableToLoad(Error)
+        case unableToSave(Error)
+    }
+    
     // MARK: - FileFormat
     
     enum FileFormat: String {
@@ -14,17 +22,10 @@ final class FileCache {
         }
     }
     
-    // MARK: - FileCacheError
-    
-    enum FileCacheError: Error {
-        case fileNotFound
-        case unableToLoad(Error)
-        case unableToSave(Error)
-    }
-    
     // MARK: - Public Properties
     
-    @Published private(set) var toDoItems: [ToDoItem] = []
+    @Published
+    private(set) var toDoItems: [ToDoItem] = []
     
     // MARK: - Public Methods
     

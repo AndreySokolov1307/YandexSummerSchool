@@ -101,8 +101,8 @@ struct ItemCell: View {
     }
 }
 
-//struct ItemCell_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ItemCell(toDoItem: ToDoItem(text: "asdcasdc", importance: .high,deadline: Date(), isDone: false, creationDate: Date()), onButtonTap: {})
-//    }
-//}
+struct ItemCell_Previews: PreviewProvider {
+    static var previews: some View {
+        ItemCell(toDoItem: ToDoItem(text: "asdcasdc", importance: .high,deadline: Date(), isDone: false, creationDate: Date()), onButtonTap: {})
+    }
+}

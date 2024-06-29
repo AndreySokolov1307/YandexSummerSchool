@@ -41,14 +41,16 @@ struct TextFieldCell: View {
         }
     }
     
-    var textField: some View {
+    // MARK: - Private Views
+    
+    private var textField: some View {
         TextField(Constants.Strings.itemTextPlaceholder, text: $text, axis: .vertical)
             .focused($isFocused)
             .padding(.top, LayoutConstants.textFieldTopPadding)
             .padding(.bottom, LayoutConstants.textFieldBottomPadding)
     }
     
-    var colorLine: some View {
+    private var colorLine: some View {
         RoundedRectangle(cornerRadius: LayoutConstants.lineCornerRadius)
             .fill(color)
             .frame(width: LayoutConstants.lineWidth)

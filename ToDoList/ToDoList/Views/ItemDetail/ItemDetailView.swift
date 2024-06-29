@@ -3,23 +3,15 @@ import SwiftUI
 fileprivate enum LayoutConstants {
     static let minRowHeight: CGFloat = 56
     static let rectangleCornerRadius: CGFloat = 16
+    static let zero: CGFloat = 0
 }
 
 struct ItemDetailView: View {
     
     // MARK: - Public Properties
     
-    @State
-    var isDatePickerShowing = false
-    
-    @State
-    var isColorPickerShowing = false
-    
-    @StateObject
-    var vm: ItemDetailViewModel
-    
-    @State
-    var initialColor: Color = .white
+    @ObservedObject
+    var viewModel: ItemDetailViewModel
     
     // MARK: - Private Properties
     
@@ -29,25 +21,82 @@ struct ItemDetailView: View {
     @Environment(\.horizontalSizeClass)
     private var horizontalSizeClass
     
+    @Environment(\.verticalSizeClass)
+    private var verticalSizeClass
+    
+    @FocusState
+    private var isFocused: Bool
+    
+    @State
+    private var isDatePickerShowing = false
+    
+    @State
+    private var isColorPickerShowing = false
+    
+    @State
+    private var initialColor: Color = .white
+    
     private var inLandscape: Bool {
-        horizontalSizeClass == .regular
+        horizontalSizeClass == .regular || verticalSizeClass == .compact
     }
     
     // MARK: - Body
     
     var body: some View {
         NavigationStack() {
-            controlsList
-                    .toolbar(content: toolBarContent)
+            content
+                .background(Theme.Back.backPrimary.color)
+                .navigationBarTitle(Constants.Strings.itemDetailViewTitle)
+                .scrollDismissesKeyboard(.interactively)
+                .navigationBarTitleDisplayMode(.inline)
+                .scrollContentBackground(.hidden)
+                .toolbar(content: toolBarContent)
+        }
+    }
+
+    // MARK: - Private Views
+    
+   @ViewBuilder
+   private var content: some View {
+        if inLandscape {
+            horizontalLayout
+        } else {
+            verticalLayout
         }
     }
     
-    // MARK: - Public Views
-    
-    var controlsList: some View {
+   private var horizontalLayout: some View {
+        GeometryReader { proxy in
+            HStack {
+                List {
+                    textFieldCell
+                        .frame(
+                            minHeight: proxy.size.height - proxy.safeAreaInsets.bottom - proxy.safeAreaInsets.top
+                        )
+                }
+                List {
+                    Section {
+                        importanceCell
+                        colorCell
+                        deadlineCell
+                        if isDatePickerShowing {
+                            deadlineDatePicker
+                        }
+                    }
+                    .rowSepatatorTrailingPadding()
+                    deleteItemButton
+                }
+                .frame(
+                    maxWidth: isFocused ? LayoutConstants.zero : proxy.size.width
+                )
+            }
+        }
+    }
+  
+
+    private var verticalLayout: some View {
         List {
             textFieldCell
-            if !inLandscape {
                 Section {
                     importanceCell
                     colorCell
@@ -58,51 +107,50 @@ struct ItemDetailView: View {
                 }
                 .rowSepatatorTrailingPadding()
                 deleteItemButton
-            }
         }
-        .fullScreenCover(isPresented: $isColorPickerShowing, content: {
-            ItemColorView(color: $vm.color, initialColor: $initialColor, hasColor: $vm.hasColor)
-        })
-        .background(Theme.Back.backPrimary.color)
-        .navigationBarTitle(Constants.Strings.itemDetailViewTitle)
-        .navigationBarTitleDisplayMode(.inline)
-        .scrollContentBackground(.hidden)
-        .scrollDismissesKeyboard(.interactively)
         .environment(\.defaultMinListRowHeight, LayoutConstants.minRowHeight)
     }
     
-    // MARK: - Private Views
-    
     private var textFieldCell: some View {
-        TextFieldCell(text: $vm.text, color: $vm.color)
+        TextFieldCell(text: $viewModel.text, color: $viewModel.color)
             .listRowBackground(Theme.Back.backSecondary.color)
+            .focused($isFocused)
+
     }
     
     private var importanceCell: some View {
-        ImportanceCell(importance: $vm.importance)
+        ImportanceCell(importance: $viewModel.importance)
             .listRowBackground(Theme.Back.backSecondary.color)
+        
     }
     
     private var colorCell: some View {
-        ItemColorCell(color: vm.color) {
-            initialColor = vm.color
+        ItemColorCell(color: viewModel.color) {
+            initialColor = viewModel.color
             isColorPickerShowing = true
         }
+        .listRowBackground(Theme.Back.backSecondary.color)
+        .fullScreenCover(
+            isPresented: $isColorPickerShowing,
+            content: {
+                ItemColorView(color: $viewModel.color, initialColor: $initialColor, hasColor: $viewModel.hasColor)
+            }
+        )
     }
     
     private var deadlineCell: some View {
         DeadlineCell(
-            hasDeadline: $vm.hasDeadline,
-            deadlineTitle: vm.deadline.toString(withFormat: DateFormatt.dayMonthYear.title),
+            hasDeadline: $viewModel.hasDeadline,
+            deadlineTitle: viewModel.deadline.toString(withFormat: DateFormatt.dayMonthYear.title),
             onTap: {
                 withAnimation {
                     isDatePickerShowing.toggle()
                 }
             })
         .listRowBackground(Theme.Back.backSecondary.color)
-        .onChange(of: vm.hasDeadline) { hasDeadline in
+        .onChange(of: viewModel.hasDeadline) { hasDeadline in
             if !hasDeadline {
-                vm.deadline = Constants.Dates.nextDay
+                viewModel.deadline = Constants.Dates.nextDay
                 isDatePickerShowing = false
             }
         }
@@ -111,7 +159,8 @@ struct ItemDetailView: View {
     private var deadlineDatePicker: some View {
         DatePicker(
             Constants.Strings.deadline,
-            selection: $vm.deadline,
+            selection: $viewModel.deadline,
+            in: Date()...,
             displayedComponents: [.date]
         )
         .listRowBackground(Theme.Back.backSecondary.color)
@@ -122,9 +171,10 @@ struct ItemDetailView: View {
         HStack {
             Spacer()
             Button(Constants.Strings.deleteItem, action: {
+                isFocused = false
                 dismiss()
                 DispatchQueue.main.async {
-                    vm.deleteItem()
+                    viewModel.deleteItem()
                 }
             })
             .buttonStyle(
@@ -133,8 +183,7 @@ struct ItemDetailView: View {
                     disabledColor: Theme.Label.tertiary.color
                 )
             )
-            .disabled(vm.deleteDisabled)
-            .foregroundColor(Theme.MainColor.red.color)
+            .disabled(viewModel.deleteDisabled)
             Spacer()
         }
         .listRowBackground(Theme.Back.backSecondary.color)
@@ -142,7 +191,8 @@ struct ItemDetailView: View {
     
     private var toolBarSaveButton: some View {
         Button(Constants.Strings.save) {
-            vm.addItem()
+            viewModel.addItem()
+            isFocused = false
             dismiss()
         }
         .buttonStyle(
@@ -151,7 +201,7 @@ struct ItemDetailView: View {
                 disabledColor: Theme.Label.tertiary.color
             )
         )
-        .disabled(vm.saveDisables)
+        .disabled(viewModel.saveDisabled)
     }
     
     private var toolBarCancelButton: some View {
@@ -175,6 +225,6 @@ struct ItemDetailView: View {
 
 struct ItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemDetailView(vm: ItemDetailViewModel(toDoItem: ToDoItem.newItem(), fileCache: FileCache()))
+        ItemDetailView(viewModel: ItemDetailViewModel(toDoItem: ToDoItem.newItem(), fileCache: FileCache()))
     }
 }

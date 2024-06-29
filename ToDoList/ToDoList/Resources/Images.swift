@@ -20,6 +20,7 @@ extension Images {
         case calendar
         case circle
         case plus
+        case checkmark
         case checkmarkCircleFill = "checkmark.circle.fill"
         case infoCircleFill = "info.circle.fill"
         case trashFill = "trash.fill"

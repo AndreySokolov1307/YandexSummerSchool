@@ -26,6 +26,11 @@ enum Constants {
         static let newToDo = "Новое"
         static let show = "Показать"
         static let hide = "Скрыть"
+        static let filter = "Фильтр"
+        static let sortByImportance = "Важности"
+        static let sortByCreationDate = "Добавлению"
+        static let sortBy = "Сортировать по"
+        static let isDoneTitle = "Выполненные"
         static let importanceLowTitle = "низкая"
         static let importanceRegularTitle = "нет"
         static let importanceHighTitle = "высокая"
@@ -35,6 +40,7 @@ enum Constants {
         static let deleteColor = "Удалить цвет"
         static let addColor = "Добавить"
         static let color = "Цвет"
+        static let itemColorPickerTitle = "Выбери цвет"
     }
     
     enum Dates {

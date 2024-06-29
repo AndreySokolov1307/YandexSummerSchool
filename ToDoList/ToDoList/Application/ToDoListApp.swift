@@ -2,8 +2,16 @@ import SwiftUI
 
 @main
 struct ToDoListApp: App {
-    @StateObject var itemsListViewModel = ItemsListViewModel(fileCache: FileCache())
-    @Environment(\.scenePhase) private var scenePhase
+    
+    // MARK: - Private Properties
+    
+    @StateObject
+    private var itemsListViewModel = ItemsListViewModel(fileCache: FileCache())
+    
+    @Environment(\.scenePhase)
+    private var scenePhase
+    
+    // MARK: - Body
     
     var body: some Scene {
         WindowGroup {
@@ -14,7 +22,7 @@ struct ToDoListApp: App {
                         try itemsListViewModel.loadItems()
                     } catch {
                         print(error)
-                    }
+                    } 
                 }
                 .onChange(of: scenePhase) { phase in
                     if phase == .inactive {

@@ -4,8 +4,6 @@ import Foundation
 
 extension ToDoItem {
     
-    // MARK: - Init Row
-    
     init?(row: [String?]) {
         guard let id = row[PropertyOrder.id],
               let text = row[PropertyOrder.text],

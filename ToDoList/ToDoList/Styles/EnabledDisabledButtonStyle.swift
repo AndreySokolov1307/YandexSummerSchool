@@ -1,12 +1,18 @@
 import SwiftUI
 
-
 struct EnabledDisabledButtonStyle: ButtonStyle {
     
-    @Environment(\.isEnabled) var isEnabled
+    // MARK: - Public Properties
     
     let enabledColor: Color
     let disabledColor: Color
+    
+    // MARK: - Private Properties
+    
+    @Environment(\.isEnabled)
+    private var isEnabled
+    
+    // MARK: - Public Methods
     
     func makeBody(configuration: Configuration) -> some View {
         configuration.label

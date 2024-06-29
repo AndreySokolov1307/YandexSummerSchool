@@ -1,8 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstatns {
-    static let hStackSpacing: CGFloat = 16
-}
+private let hStackSpacing: CGFloat = 16
 
 struct ImportanceCell: View {
     
@@ -14,21 +12,13 @@ struct ImportanceCell: View {
     // MARK: - Body
     
     var body: some View {
-        HStack(alignment: .center, spacing: LayoutConstatns.hStackSpacing) {
+        HStack(alignment: .center, spacing: hStackSpacing) {
             Text(Constants.Strings.importance)
                 .font(AppFont.body.font)
                 .frame(maxWidth: .infinity, alignment: .leading)
             ImportancePicker(importance: $importance)
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }
-    }
-}
-
-// MARK: - Equatable
-
-extension ImportanceCell: Equatable {
-    static func == (lhs: ImportanceCell, rhs: ImportanceCell) -> Bool {
-        return lhs.importance == rhs.importance
     }
 }
 

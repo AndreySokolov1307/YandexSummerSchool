@@ -3,6 +3,8 @@ import Combine
 
 class ItemDetailViewModel: ObservableObject {
     
+    // MARK: - ToDoType
+    
     enum ToDoType {
         case new
         case existed
@@ -12,7 +14,7 @@ class ItemDetailViewModel: ObservableObject {
     
     let id: String
     var isDone: Bool
-    var creationDate: Date
+    let creationDate: Date
     var modificationDate: Date?
     let toDoType: ToDoType
     var hasColor: Bool
@@ -21,7 +23,7 @@ class ItemDetailViewModel: ObservableObject {
         return toDoType == .new ? true : false
     }
     
-    var saveDisables: Bool {
+    var saveDisabled: Bool {
         text.isEmpty
     }
     

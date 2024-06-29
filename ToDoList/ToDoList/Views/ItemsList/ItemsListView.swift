@@ -12,8 +12,10 @@ struct ItemsListView: View {
     @EnvironmentObject
     var vm: ItemsListViewModel
     
+    // MARK: - Private Properties
+    
     @State
-    var selectedItem: ToDoItem? = nil
+    private var selectedItem: ToDoItem? = nil
     
     // MARK: - Body
     
@@ -66,7 +68,7 @@ struct ItemsListView: View {
         .sheet(item: $selectedItem,
                content: { item in
             ItemDetailView(
-                vm: ItemDetailViewModel(
+                viewModel: ItemDetailViewModel(
                     toDoItem: item,
                     fileCache: vm.fileCache
                 )
@@ -88,7 +90,11 @@ struct ItemsListView: View {
     }
     
     private var listHeaderView: some View {
-        ListHeaderView(filterOption: $vm.filterOption, isDoneCount: vm.isDoneCount)
+        ListHeaderView(
+            sortOption: $vm.sortOption,
+            filterOption: $vm.filterOption,
+            isDoneCount: vm.isDoneCount
+        )
     }
     
     private var addNewItemButton: some View {
