@@ -1,15 +1,14 @@
 import Foundation
+import SwiftUI
 
-struct ToDoItem: Identifiable, Equatable {
+struct ToDoItem: Identifiable, Equatable, Hashable {
     
     // MARK: - Importance
     
-    enum Importance: String {
+    enum Importance: String, Identifiable {
         case low, regular, high
         
-        var title: String {
-            return rawValue
-        }
+        var id: Self { self }
     }
     
     // MARK: - Public Properties
@@ -21,6 +20,7 @@ struct ToDoItem: Identifiable, Equatable {
     let isDone: Bool
     let creationDate: Date
     let modificationDate: Date?
+    let hexColor: String?
     
     // MARK: - Init
     
@@ -29,9 +29,10 @@ struct ToDoItem: Identifiable, Equatable {
         text: String,
         importance: Importance,
         deadline: Date? = nil,
-        isDone: Bool,
-        creationDate: Date,
-        modificationDate: Date? = nil
+        isDone: Bool = false,
+        creationDate: Date = Date(),
+        modificationDate: Date? = nil,
+        hexColor: String? = nil
     ) {
         self.id = id
         self.text = text
@@ -40,31 +41,7 @@ struct ToDoItem: Identifiable, Equatable {
         self.isDone = isDone
         self.creationDate = creationDate
         self.modificationDate = modificationDate
-    }
-}
-
-// MARK: - Init Row
-
-extension ToDoItem {
-    
-    init?(row: [String?]) {
-        guard let id = row[PropertyOrder.id],
-              let text = row[PropertyOrder.text],
-              let isDoneRaw = row[PropertyOrder.isDone],
-              let isDone = Bool(isDoneRaw),
-              let importanceRaw = row[PropertyOrder.importance],
-              let importance = Importance(rawValue: importanceRaw),
-              let creationDateRaw = row[PropertyOrder.creationDate],
-              let creationDate = creationDateRaw.toDate()
-        else { return nil }
-        
-        self.id = id
-        self.text = text
-        self.deadline = row[PropertyOrder.deadline]?.toDate()
-        self.importance = importance
-        self.isDone = isDone
-        self.creationDate = creationDate
-        self.modificationDate = row[PropertyOrder.modificationDate]?.toDate()
+        self.hexColor = hexColor
     }
 }
 
@@ -79,11 +56,12 @@ extension ToDoItem {
         dictionary[Constants.JsonKeys.text] = text
         dictionary[Constants.JsonKeys.isDone] = isDone
         dictionary[Constants.JsonKeys.creationDate] = creationDate.ISO8601Format()
+        dictionary[Constants.JsonKeys.hexColor] = hexColor
         
         if importance != .regular {
-            dictionary[Constants.JsonKeys.importance] = importance.title
+            dictionary[Constants.JsonKeys.importance] = importance.rawValue
         }
-        
+      
         if let deadline = deadline {
             dictionary[Constants.JsonKeys.deadline] = deadline.ISO8601Format()
         }
@@ -116,6 +94,7 @@ extension ToDoItem {
         let deadline = (dictionary[Constants.JsonKeys.deadline] as? String)?.toDate()
         let modificationDate = (dictionary[Constants.JsonKeys.modificationDate] as?
                                 String)?.toDate()
+        let hexColor = dictionary[Constants.JsonKeys.hexColor] as? String
         
         let toDoItem = ToDoItem(
             id: id,
@@ -124,7 +103,8 @@ extension ToDoItem {
             deadline: deadline,
             isDone: isDone,
             creationDate: creationDate,
-            modificationDate: modificationDate
+            modificationDate: modificationDate,
+            hexColor: hexColor
         )
         
         return toDoItem

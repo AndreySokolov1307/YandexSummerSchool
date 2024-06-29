@@ -1,4 +1,5 @@
 import Foundation
+import Combine
 
 final class FileCache {
     
@@ -10,8 +11,20 @@ final class FileCache {
         case unableToSave(Error)
     }
     
+    // MARK: - FileFormat
+    
+    enum FileFormat: String {
+        case json
+        case csv
+        
+        var title: String {
+            return rawValue
+        }
+    }
+    
     // MARK: - Public Properties
     
+    @Published
     private(set) var toDoItems: [ToDoItem] = []
     
     // MARK: - Public Methods
@@ -20,8 +33,7 @@ final class FileCache {
         if !toDoItems.contains(where: { $0.id == item.id }) {
             toDoItems.append(item)
         } else if let index = toDoItems.indexOfItem(withId: item.id) {
-            toDoItems.remove(at: index)
-            toDoItems.insert(item, at: index)
+            toDoItems[index] = item
         }
     }
     
@@ -32,13 +44,10 @@ final class FileCache {
     }
     
     func saveItems(to file: String) throws {
-        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
-                                                                in: .userDomainMask).first
-        else { throw FileCacheError.fileNotFound }
-        
-        let archieveURL = documentsDirectory
-            .appendingPathComponent(file)
-            .appendingPathExtension(FileFormat.json.title)
+    
+        guard let archieveURL = url(for: file, fileFormat: .json) else {
+            throw FileCacheError.fileNotFound
+        }
     
         let jsonArray = toDoItems.map { $0.json }
         
@@ -52,13 +61,10 @@ final class FileCache {
     }
     
     func loadItems(from file: String) throws {
-        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
-                                                                in: .userDomainMask).first
-        else { throw FileCacheError.fileNotFound }
         
-        let archieveURL = documentsDirectory
-            .appendingPathComponent(file)
-            .appendingPathExtension(FileFormat.json.title)
+        guard let archieveURL = url(for: file, fileFormat: .json) else {
+            throw FileCacheError.fileNotFound
+        }
         
         do {
             let retrievedJsonData = try Data(contentsOf: archieveURL)
@@ -69,5 +75,19 @@ final class FileCache {
         } catch {
             throw FileCacheError.unableToLoad(error)
         }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func url(for file: String,fileFormat: FileFormat) -> URL? {
+        guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
+                                                                in: .userDomainMask).first
+        else { return nil }
+        
+        let archieveURL = documentsDirectory
+            .appendingPathComponent(file)
+            .appendingPathExtension(fileFormat.title)
+        
+        return archieveURL
     }
 }
