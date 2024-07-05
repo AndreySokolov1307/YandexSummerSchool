@@ -24,6 +24,7 @@ struct ItemsListView: View {
             ZStack(alignment: .bottom) {
                 itemsList
                 addNewItemButton
+                    .toolbar(content: toolBarContent)
             }
         }
     }
@@ -102,6 +103,22 @@ struct ItemsListView: View {
             selectedItem = ToDoItem.newItem()
         }
         .padding(LayoutConstants.addNewItemButonPadding)
+    }
+    
+    // MARK: - Private Methods
+    
+    @ToolbarContentBuilder
+    private func toolBarContent() -> some ToolbarContent {
+        ToolbarItem(placement: .confirmationAction) {
+            NavigationLink(destination: {
+                CalendarListView(fileCache: vm.fileCache)
+                    .navigationTitle(Constants.Strings.calendarListTitle)
+                    .navigationBarTitleDisplayMode(.inline)
+                    .ignoresSafeArea()
+            }, label: {
+                Images.SFSymbols.calendar.image
+            })
+        }
     }
 }
 

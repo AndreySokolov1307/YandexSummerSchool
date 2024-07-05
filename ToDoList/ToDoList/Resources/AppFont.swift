@@ -7,6 +7,7 @@ enum AppFont {
     case body
     case subhead
     case subheadBold
+    case subheadSemibold
     case subheadBold13
     case footnote
     
@@ -24,10 +25,35 @@ enum AppFont {
             return Font.system(size: 15, weight: .regular)
         case .subheadBold:
             return Font.system(size: 15, weight: .bold)
+        case .subheadSemibold:
+            return Font.system(size: 15, weight: .semibold)
         case .subheadBold13:
             return Font.system(size: 13, weight: .bold)
         case .footnote:
             return Font.system(size: 13, weight: .semibold)
+        }
+    }
+    
+    var uiFont: UIFont {
+        switch self {
+        case .largeTitle:
+            return UIFont.systemFont(ofSize: 38, weight: .bold)
+        case .title:
+            return UIFont.systemFont(ofSize: 20, weight: .semibold)
+        case .headline:
+            return UIFont.systemFont(ofSize: 17, weight: .semibold)
+        case .body:
+            return UIFont.systemFont(ofSize: 17, weight: .regular)
+        case .subhead:
+            return UIFont.systemFont(ofSize: 15, weight: .regular)
+        case .subheadBold:
+            return UIFont.systemFont(ofSize: 15, weight: .bold)
+        case .subheadSemibold:
+            return UIFont.systemFont(ofSize: 15, weight: .semibold)
+        case .subheadBold13:
+            return UIFont.systemFont(ofSize: 13, weight: .bold)
+        case .footnote:
+            return UIFont.systemFont(ofSize: 13, weight: .semibold)
         }
     }
 }

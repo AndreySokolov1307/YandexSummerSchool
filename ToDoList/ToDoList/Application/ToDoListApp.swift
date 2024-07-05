@@ -20,6 +20,7 @@ struct ToDoListApp: App {
                 .onAppear {
                     do {
                         try itemsListViewModel.loadItems()
+                        try CategoryStore.shared.loadItems()
                     } catch {
                         print(error)
                     } 
@@ -28,6 +29,7 @@ struct ToDoListApp: App {
                     if phase == .inactive {
                         do {
                             try itemsListViewModel.saveItems()
+                            try CategoryStore.shared.saveCategories()
                         } catch {
                             print(error)
                         }

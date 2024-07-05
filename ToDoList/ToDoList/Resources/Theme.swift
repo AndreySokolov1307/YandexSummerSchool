@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 enum Theme {
     
@@ -10,6 +11,10 @@ enum Theme {
         var color: Color {
             Color(rawValue)
         }
+        
+        var uiColor: UIColor {
+            UIColor(named: rawValue) ?? .white
+        }
     }
     
     enum Label: String {
@@ -20,6 +25,10 @@ enum Theme {
         
         var color: Color {
             Color(rawValue)
+        }
+        
+        var uiColor: UIColor {
+            UIColor(named: rawValue) ?? .white
         }
     }
     
@@ -34,6 +43,10 @@ enum Theme {
         var color: Color {
             Color(rawValue)
         }
+        
+        var uiColor: UIColor {
+            UIColor(named: rawValue) ?? .white
+        }
     }
     
     enum Back: String {
@@ -45,6 +58,10 @@ enum Theme {
         var color: Color {
             Color(rawValue)
         }
+        
+        var uiColor: UIColor {
+            UIColor(named: rawValue) ?? .white
+        }
     }
     
     enum Shadow: String {
@@ -52,6 +69,10 @@ enum Theme {
         
         var color: Color {
             Color(rawValue)
+        }
+        
+        var uiColor: UIColor {
+            UIColor(named: rawValue) ?? .white
         }
     }
 }

@@ -3,6 +3,21 @@ import SwiftUI
 
 struct ToDoItem: Identifiable, Equatable, Hashable {
     
+    // MARK: - Category
+    
+    struct Category: Identifiable, Equatable, Hashable {
+        let name: String
+        let color: UIColor
+        
+        let id: String
+        
+        init(name: String, color: UIColor, id: String = UUID().uuidString) {
+            self.name = name
+            self.color = color
+            self.id = id
+        }
+    }
+    
     // MARK: - Importance
     
     enum Importance: String, Identifiable {
@@ -21,6 +36,7 @@ struct ToDoItem: Identifiable, Equatable, Hashable {
     let creationDate: Date
     let modificationDate: Date?
     let hexColor: String?
+    let category: ToDoItem.Category?
     
     // MARK: - Init
     
@@ -32,7 +48,8 @@ struct ToDoItem: Identifiable, Equatable, Hashable {
         isDone: Bool = false,
         creationDate: Date = Date(),
         modificationDate: Date? = nil,
-        hexColor: String? = nil
+        hexColor: String? = nil,
+        category: ToDoItem.Category? = nil
     ) {
         self.id = id
         self.text = text
@@ -42,6 +59,7 @@ struct ToDoItem: Identifiable, Equatable, Hashable {
         self.creationDate = creationDate
         self.modificationDate = modificationDate
         self.hexColor = hexColor
+        self.category = category
     }
 }
 
@@ -57,6 +75,7 @@ extension ToDoItem {
         dictionary[Constants.JsonKeys.isDone] = isDone
         dictionary[Constants.JsonKeys.creationDate] = creationDate.ISO8601Format()
         dictionary[Constants.JsonKeys.hexColor] = hexColor
+        dictionary[Constants.JsonKeys.category] = category?.json
         
         if importance != .regular {
             dictionary[Constants.JsonKeys.importance] = importance.rawValue
@@ -96,6 +115,10 @@ extension ToDoItem {
                                 String)?.toDate()
         let hexColor = dictionary[Constants.JsonKeys.hexColor] as? String
         
+        let categoryJson = dictionary[Constants.JsonKeys.category]
+        
+        let category = Category.parse(json: categoryJson)
+        
         let toDoItem = ToDoItem(
             id: id,
             text: text,
@@ -104,7 +127,8 @@ extension ToDoItem {
             isDone: isDone,
             creationDate: creationDate,
             modificationDate: modificationDate,
-            hexColor: hexColor
+            hexColor: hexColor,
+            category: category
         )
         
         return toDoItem
