@@ -78,6 +78,7 @@ struct ItemDetailView: View {
                     Section {
                         importanceCell
                         colorCell
+                        categoryCell
                         deadlineCell
                         if isDatePickerShowing {
                             deadlineDatePicker
@@ -100,6 +101,7 @@ struct ItemDetailView: View {
                 Section {
                     importanceCell
                     colorCell
+                    categoryCell
                     deadlineCell
                     if isDatePickerShowing {
                         deadlineDatePicker
@@ -136,6 +138,11 @@ struct ItemDetailView: View {
                 ItemColorView(color: $viewModel.color, initialColor: $initialColor, hasColor: $viewModel.hasColor)
             }
         )
+    }
+    
+    private var categoryCell: some View {
+        CategoryCell(category: $viewModel.category)
+            .listRowBackground(Theme.Back.backSecondary.color)
     }
     
     private var deadlineCell: some View {

@@ -33,7 +33,9 @@ struct ItemCell: View {
                 }
             }
             Spacer()
-            colorCircle
+            if !toDoItem.isDone {
+                colorCircle
+            }
             chevroneImage
         }
     }

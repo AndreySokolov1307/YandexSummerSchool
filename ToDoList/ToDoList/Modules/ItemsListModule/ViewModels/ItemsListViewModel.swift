@@ -54,10 +54,6 @@ class ItemsListViewModel: ObservableObject {
     
     // MARK: - Public Methods
     
-    func addItem(_ item: ToDoItem) {
-        fileCache.addItem(item)
-    }
-    
     func deleteItem(_ item: ToDoItem) {
         self.fileCache.deleteItem(withId: item.id)
     }
@@ -77,11 +73,17 @@ class ItemsListViewModel: ObservableObject {
                                deadline: item.deadline,
                                isDone: !item.isDone,
                                creationDate: item.creationDate,
-                               modificationDate: item.modificationDate)
+                               modificationDate: item.modificationDate,
+                               hexColor: item.hexColor,
+                               category: item.category)
         addItem(newItem)
     }
     
     // MARK: - Private Methods
+    
+    private func addItem(_ item: ToDoItem) {
+        fileCache.addItem(item)
+    }
     
     private func bind() {
         fileCache.$toDoItems.combineLatest($filterOption, $sortOption)

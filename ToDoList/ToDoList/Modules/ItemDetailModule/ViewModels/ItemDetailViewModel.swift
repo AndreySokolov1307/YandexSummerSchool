@@ -46,6 +46,9 @@ class ItemDetailViewModel: ObservableObject {
     @Published
     var color: Color
     
+    @Published
+    var category: ToDoItem.Category
+    
     // MARK: - Private Properties
     
     private let fileCache: FileCache
@@ -64,6 +67,7 @@ class ItemDetailViewModel: ObservableObject {
         self.toDoType = toDoItem.text.isEmpty ? .new : .existed
         self.hasColor = toDoItem.hexColor == nil ? false : true
         self.color = Color(hex: toDoItem.hexColor) ?? .white
+        self.category = toDoItem.category ?? ToDoItem.Category.other
     }
     
     // MARK: - Public Methods
@@ -74,7 +78,7 @@ class ItemDetailViewModel: ObservableObject {
         if !hasDeadline {
             currentDeadline = nil
         } else {
-            currentDeadline = deadline
+            currentDeadline = croppDate(deadline)
         }
         
         let item  = ToDoItem(
@@ -85,13 +89,22 @@ class ItemDetailViewModel: ObservableObject {
             isDone: isDone,
             creationDate: creationDate,
             modificationDate: toDoType == .new ? nil : Date(),
-            hexColor: hasColor ? color.hexString : nil
+            hexColor: hasColor ? color.hexString : nil,
+            category: category == ToDoItem.Category.other ? nil : category
         )
         fileCache.addItem(item)
     }
     
     func deleteItem() {
         fileCache.deleteItem(withId: id)
+    }
+    
+    // MARK: - Private Methods
+    
+    private func croppDate(_ date: Date) -> Date? {
+        let components = date.components(.day, .month, .year)
+        let croppedDate = Calendar.current.date(from: components)
+        return croppedDate
     }
 }
 

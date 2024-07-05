@@ -10,6 +10,10 @@ enum Constants {
         static let creationDate = "creationDate"
         static let modificationDate = "modificationDate"
         static let hexColor = "hexColor"
+        static let name = "name"
+        static let color = "color"
+        static let categoryId = "categoryId"
+        static let category = "categoty"
     }
     
     enum Strings {
@@ -17,6 +21,7 @@ enum Constants {
         static let comma: Character = ","
         static let quoteChar: Character = "\""
         static let empty = ""
+        static let space = " "
         static let itemsViewTitle = "Мои дела"
         static let itemTextPlaceholder = "Что надо сделать?"
         static let importance = "Важность"
@@ -41,9 +46,26 @@ enum Constants {
         static let addColor = "Добавить"
         static let color = "Цвет"
         static let itemColorPickerTitle = "Выбери цвет"
+        static let calendarListTitle = "Мои дела"
+        static let doneAction = "Done"
+        static let notDoneAction = "Not done"
+        static let categoryFile = "categories123"
+        static let otherSection = "Другое"
+        static let deadlineCellReuseIdentifier = "DeadlineDateCell"
+        static let otherDeadlineCellReuseIdentifier = "OtherDeadlineCell"
+        static let calendarItemCellReuseIdentifier = "CalendarItemCell"
+        static let calendarHeaderReuseIdentifier =
+        "CalendarListHeader"
+        static let newCategoryTitle = "Новая категория"
+        static let category = "Категория"
+        static let chooseColor = "Выбрать цвет"
     }
     
     enum Dates {
         static let nextDay = Date().addingTimeInterval(60 * 60 * 24)
+    }
+    
+    enum Numbers {
+        static let maxCategoryLenght: Int = 25
     }
 }

@@ -23,5 +23,6 @@ extension ToDoItem {
         self.creationDate = creationDate
         self.modificationDate = row[PropertyOrder.modificationDate]?.toDate()
         self.hexColor = nil
+        self.category = nil
     }
 }
