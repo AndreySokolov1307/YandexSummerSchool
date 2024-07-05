@@ -2,7 +2,7 @@ import UIKit
 
 fileprivate enum LayoutConstants {
     static let tableViewSectionFooterHeight: CGFloat = 0
-    static let collectionViewHeight: CGFloat = 100
+    static let collectionViewHeight: CGFloat = 90
     static let sepatatorHeight: CGFloat = 1 / UIScreen.main.scale
     static let addNewButtonBottomAnchor: CGFloat = -56
 }
@@ -43,7 +43,7 @@ final class CalendarItemListView: UIView {
     // MARK: - Private Methods
     
     private func configureView() {
-        backgroundColor = Theme.Back.backPrimary.color.uiColor
+        backgroundColor = Theme.Back.backPrimary.uiColor
         
         tableView.backgroundColor = .clear
         tableView.sectionFooterHeight = LayoutConstants.tableViewSectionFooterHeight

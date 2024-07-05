@@ -12,7 +12,7 @@ final class CalendarListHeader: UITableViewHeaderFooterView {
     
     private let dateLabel: UILabel = .style {
         $0.font = AppFont.subheadSemibold.uiFont
-        $0.textColor = Theme.Label.tertiary.color.uiColor
+        $0.textColor = Theme.Label.tertiary.uiColor
     }
     
     // MARK: - Init

@@ -25,14 +25,14 @@ final class RoundPlusButton: UIButton {
     // MARK: - Private Methods
     
     private func configureView() {
-        backgroundColor = Theme.MainColor.blue.color.uiColor
+        backgroundColor = Theme.MainColor.blue.uiColor
         layer.cornerRadius = LayoutConstants.cornerRadius
         layer.shadowOffset = LayoutConstants.shadowOffset
         layer.shadowRadius = LayoutConstants.shadowRaduis
         layer.shadowColor = Theme.Shadow.button.color.uiColor.cgColor
         layer.shadowOpacity = LayoutConstants.shadowOpacity
         
-        let colorsConfig = UIImage.SymbolConfiguration(paletteColors: [Theme.Back.backSecondary.color.uiColor])
+        let colorsConfig = UIImage.SymbolConfiguration(paletteColors: [Theme.Back.backSecondary.uiColor])
         let sizeConfig = UIImage.SymbolConfiguration(
             pointSize: LayoutConstants.imageSize,
             weight: UIImage.SymbolWeight.bold,

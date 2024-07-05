@@ -32,6 +32,8 @@ final class NewCategoryView: UIView {
     
     private let textField: UITextField = .style {
         $0.placeholder = Constants.Strings.category
+        $0.backgroundColor = Theme.Back.backSecondary.uiColor
+        $0.textColor = Theme.Label.labelPrimary.uiColor
     }
         
     private let categoryColorView: CategoryColorView = {
@@ -42,13 +44,14 @@ final class NewCategoryView: UIView {
  
     private let charactersLeftLabel: UILabel = .style {
         $0.font = AppFont.footnote.uiFont
-        $0.textColor = Theme.Label.tertiary.color.uiColor
+        $0.backgroundColor = Theme.Back.backSecondary.uiColor
+        $0.textColor = Theme.Label.tertiary.uiColor
     }
     
     private let chooseColorButton: UIButton = .style {
         $0.setTitle(Constants.Strings.chooseColor, for: .normal)
         $0.titleLabel?.font = AppFont.subheadSemibold.uiFont
-        $0.setTitleColor(Theme.MainColor.blue.color.uiColor, for: .normal)
+        $0.setTitleColor(Theme.MainColor.blue.uiColor, for: .normal)
         $0.contentHorizontalAlignment = .left
     }
     
@@ -69,7 +72,7 @@ final class NewCategoryView: UIView {
         $0.spacing = LayoutConstants.nameVStackSpacing
         $0.layoutMargins = LayoutConstants.universalInsets
         $0.isLayoutMarginsRelativeArrangement = true
-        $0.backgroundColor = Theme.Back.backSecondary.color.uiColor
+        $0.backgroundColor = Theme.Back.backSecondary.uiColor
     }
         
     private let hStack: UIStackView = .style {
@@ -80,7 +83,7 @@ final class NewCategoryView: UIView {
         $0.layoutMargins = LayoutConstants.universalInsets
         $0.isLayoutMarginsRelativeArrangement = true
         $0.spacing = LayoutConstants.universalSpacing
-        $0.backgroundColor = Theme.Back.backSecondary.color.uiColor
+        $0.backgroundColor = Theme.Back.backSecondary.uiColor
     }
     
     // MARK: - Init
@@ -119,7 +122,7 @@ final class NewCategoryView: UIView {
     }
 
     private func configureView() {
-        backgroundColor = Theme.Back.backPrimary.color.uiColor
+        backgroundColor = Theme.Back.backPrimary.uiColor
         
         textField.delegate = self
         

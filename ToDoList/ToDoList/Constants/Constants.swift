@@ -68,4 +68,15 @@ enum Constants {
     enum Numbers {
         static let maxCategoryLenght: Int = 25
     }
+    
+    enum Categories {
+        static let jobTitle = "Работа"
+        static let studyTitle = "Учеба"
+        static let hobbyTitle = "Хобби"
+        static let otherTitle = "Другое"
+        static let jobID = "1"
+        static let studyID = "2"
+        static let hobbyID = "3"
+        static let otherID = "4"
+    }
 }

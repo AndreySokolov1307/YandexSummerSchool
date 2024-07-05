@@ -17,12 +17,12 @@ final class DeadlineDateCell: UICollectionViewCell {
         
     private let dayLabel: UILabel = style {
         $0.font = AppFont.subheadBold13.uiFont
-        $0.textColor = Theme.Label.tertiary.color.uiColor
+        $0.textColor = Theme.Label.tertiary.uiColor
     }
     
     private let monthLabel: UILabel = style {
         $0.font = AppFont.subheadBold13.uiFont
-        $0.textColor = Theme.Label.tertiary.color.uiColor
+        $0.textColor = Theme.Label.tertiary.uiColor
     }
     
     private let vStack: UIStackView = .style {
@@ -36,7 +36,7 @@ final class DeadlineDateCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                self.backgroundColor = Theme.Label.disable.color.uiColor
+                self.backgroundColor = Theme.Label.disable.uiColor
                 self.layer.borderWidth = LayoutConstants.selectedBorderWidth
                 self.layer.borderColor = Theme.Label.tertiary.color.uiColor.cgColor
             } else {

@@ -4,7 +4,7 @@ import SwiftUI
 fileprivate enum LayoutConstants {
     static let minSectionSpacing: CGFloat = 16
     static let sectionInset: UIEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
-    static let itemSideLenght: CGFloat = 76
+    static let itemSideLenght: CGFloat = 66
     static let zero: Int = 0
     static let firstCellIndexPath: IndexPath = IndexPath(item: 0, section: 0)
 }
@@ -88,7 +88,7 @@ final class CalendarItemListViewController: ViewController<CalendarItemListView>
         )
 
         navigationItem.rightBarButtonItem = button
-        navigationItem.rightBarButtonItem?.tintColor = Theme.MainColor.blue.color.uiColor
+        navigationItem.rightBarButtonItem?.tintColor = Theme.MainColor.blue.uiColor
     }
     
     private func selectFirstCollectionCell() {
@@ -142,28 +142,28 @@ extension CalendarItemListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(
-            style: .destructive,
+            style: .normal,
             title: Constants.Strings.doneAction
         ) { [weak self] action, view, completion in
             guard let item = self?.tableDataSource.itemIdentifier(for: indexPath) else { return }
             self?.viewModel.handle(.makeNotDone(item))
         }
         
-        action.backgroundColor = Theme.MainColor.gray.color.uiColor
+        action.backgroundColor = Theme.MainColor.gray.uiColor
         action.image = Images.SFSymbols.arrowBackwardCircleFill.uiImage
         return UISwipeActionsConfiguration(actions: [action])
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         let action = UIContextualAction(
-            style: .destructive,
+            style: .normal,
             title: Constants.Strings.notDoneAction
         ) { [weak self] action, view, completion in
             guard let item = self?.tableDataSource.itemIdentifier(for: indexPath) else { return }
             self?.viewModel.handle(.makeDone(item))
         }
         
-        action.backgroundColor = Theme.MainColor.green.color.uiColor
+        action.backgroundColor = Theme.MainColor.green.uiColor
         action.image = Images.SFSymbols.checkmarkCircleFill.uiImage
         return UISwipeActionsConfiguration(actions: [action])
     }

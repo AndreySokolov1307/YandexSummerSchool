@@ -17,7 +17,7 @@ final class OtherDeadlineCell: UICollectionViewCell {
     @UseAutolayout
     private var otherDeadlineLable: UILabel = style {
         $0.font = AppFont.subheadBold.uiFont
-        $0.textColor = Theme.Label.tertiary.color.uiColor
+        $0.textColor = Theme.Label.tertiary.uiColor
     }
     
     // MARK: - Public Properties
@@ -25,7 +25,7 @@ final class OtherDeadlineCell: UICollectionViewCell {
     override var isSelected: Bool {
         didSet {
             if isSelected {
-                self.backgroundColor = Theme.Label.disable.color.uiColor
+                self.backgroundColor = Theme.Label.disable.uiColor
                 self.layer.borderWidth = LayoutConstants.selectedBorderWidth
                 self.layer.borderColor = Theme.Label.tertiary.color.uiColor.cgColor
             } else {

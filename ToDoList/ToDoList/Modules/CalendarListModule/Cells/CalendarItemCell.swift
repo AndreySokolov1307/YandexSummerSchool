@@ -4,6 +4,7 @@ fileprivate enum LayoutConstants {
     static let numberOfLines: Int = 3
     static let minHeight: CGFloat = 56
     static let univarsalPadding: CGFloat = 16
+    static let heightPriority: Float = 999
 }
 
 final class CalendarItemCell: UITableViewCell {
@@ -17,7 +18,7 @@ final class CalendarItemCell: UITableViewCell {
     @UseAutolayout
     private var itemTextLabel: UILabel = .style {
         $0.numberOfLines = LayoutConstants.numberOfLines
-        $0.textColor = Theme.Label.labelPrimary.color.uiColor
+        $0.textColor = Theme.Label.labelPrimary.uiColor
     }
     
     @UseAutolayout
@@ -42,14 +43,12 @@ final class CalendarItemCell: UITableViewCell {
     // MARK: - Public Methods
     
     func updateUI(with toDoItem: ToDoItem) {
-        itemTextLabel.text = toDoItem.text
-        
         if toDoItem.isDone {
-            itemTextLabel.textColor = Theme.Label.tertiary.color.uiColor
+            itemTextLabel.textColor = Theme.Label.tertiary.uiColor
             itemTextLabel.attributedText = strikeThroughStyle(for: toDoItem.text)
-            categoryView.isHidden = false
+            categoryView.isHidden = true
         } else {
-            itemTextLabel.textColor = Theme.Label.labelPrimary.color.uiColor
+            itemTextLabel.textColor = Theme.Label.labelPrimary.uiColor
             itemTextLabel.attributedText = NSAttributedString(string: toDoItem.text)
             categoryView.isHidden = false
             categoryView.backgroundColor = toDoItem.category?.color
@@ -59,14 +58,12 @@ final class CalendarItemCell: UITableViewCell {
     // MARK: - Private Methods
     
     private func configureCell() {
-        backgroundColor = Theme.Back.backSecondary.color.uiColor
+        backgroundColor = Theme.Back.backSecondary.uiColor
       
         addSubview(itemTextLabel)
         addSubview(categoryView)
         
         NSLayoutConstraint.activate([
-            heightAnchor.constraint(greaterThanOrEqualToConstant: LayoutConstants.minHeight),
-            
             itemTextLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: LayoutConstants.univarsalPadding),
             itemTextLabel.trailingAnchor.constraint(equalTo: categoryView.leadingAnchor, constant: -LayoutConstants.univarsalPadding),
             itemTextLabel.topAnchor.constraint(equalTo: topAnchor,constant: LayoutConstants.univarsalPadding),
@@ -75,12 +72,16 @@ final class CalendarItemCell: UITableViewCell {
             categoryView.centerYAnchor.constraint(equalTo: centerYAnchor),
             categoryView.trailingAnchor.constraint(equalTo: trailingAnchor, constant:  -LayoutConstants.univarsalPadding)
         ])
+        
+        let cellHeight = heightAnchor.constraint(greaterThanOrEqualToConstant: LayoutConstants.minHeight)
+        cellHeight.isActive = true
+        cellHeight.priority = UILayoutPriority(LayoutConstants.heightPriority)
     }
     
     private func strikeThroughStyle(for text: String) -> NSAttributedString {
         let strikeThroughEffect: [NSAttributedString.Key : Any] = [
             NSAttributedString.Key.strikethroughStyle : NSUnderlineStyle.single.rawValue,
-            NSAttributedString.Key.strikethroughColor : Theme.Label.tertiary.color.uiColor
+            NSAttributedString.Key.strikethroughColor : Theme.Label.tertiary.uiColor
         ]
         
         return NSAttributedString(string: text, attributes: strikeThroughEffect)
