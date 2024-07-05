@@ -147,6 +147,7 @@ extension CalendarItemListViewController: UITableViewDelegate {
         ) { [weak self] action, view, completion in
             guard let item = self?.tableDataSource.itemIdentifier(for: indexPath) else { return }
             self?.viewModel.handle(.makeNotDone(item))
+            completion(true)
         }
         
         action.backgroundColor = Theme.MainColor.gray.uiColor
@@ -161,6 +162,7 @@ extension CalendarItemListViewController: UITableViewDelegate {
         ) { [weak self] action, view, completion in
             guard let item = self?.tableDataSource.itemIdentifier(for: indexPath) else { return }
             self?.viewModel.handle(.makeDone(item))
+            completion(true)
         }
         
         action.backgroundColor = Theme.MainColor.green.uiColor
