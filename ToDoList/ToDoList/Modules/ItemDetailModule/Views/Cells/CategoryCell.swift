@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let hStackSpacing: CGFloat = 16
     static let categoryColorSideLenght: CGFloat = 12
 }
@@ -26,7 +26,7 @@ struct CategoryCell: View {
     // MARK: - Private Views
     
     private var categoryPicker: some View {
-        Picker(Constants.Strings.category, selection:  $category) {
+        Picker(Constants.Strings.category, selection: $category) {
             ForEach(CategoryStore.shared.categories) { category in
                 Text(category.name)
                     .tag(category)

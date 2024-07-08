@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let minSectionSpacing: CGFloat = 16
     static let sectionInset: UIEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
     static let itemSideLenght: CGFloat = 66
@@ -144,7 +144,7 @@ extension CalendarItemListViewController: UITableViewDelegate {
         let action = UIContextualAction(
             style: .normal,
             title: Constants.Strings.doneAction
-        ) { [weak self] action, view, completion in
+        ) { [weak self] _, _, completion in
             guard let item = self?.tableDataSource.itemIdentifier(for: indexPath) else { return }
             self?.viewModel.handle(.makeNotDone(item))
             completion(true)
@@ -159,7 +159,7 @@ extension CalendarItemListViewController: UITableViewDelegate {
         let action = UIContextualAction(
             style: .normal,
             title: Constants.Strings.notDoneAction
-        ) { [weak self] action, view, completion in
+        ) { [weak self] _, _, completion in
             guard let item = self?.tableDataSource.itemIdentifier(for: indexPath) else { return }
             self?.viewModel.handle(.makeDone(item))
             completion(true)

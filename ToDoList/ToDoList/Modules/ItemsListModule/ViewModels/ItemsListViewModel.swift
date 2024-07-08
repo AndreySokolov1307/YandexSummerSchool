@@ -90,7 +90,7 @@ class ItemsListViewModel: ObservableObject {
             .eraseToAnyPublisher()
             .sink { [weak self] items, filterOption, sortOption in
                 guard let self else { return }
-                self.toDoItems = self.filter(items,with: filterOption)
+                self.toDoItems = self.filter(items, with: filterOption)
                 self.toDoItems = self.sort(self.toDoItems, with: sortOption)
             }
             .store(in: &cancellables)

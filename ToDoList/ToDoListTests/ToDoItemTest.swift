@@ -1,7 +1,8 @@
 import XCTest
 @testable import ToDoList
+// swiftlint:disable vertical_parameter_alignment_on_call
 
-fileprivate enum MockConstants {
+private enum MockConstants {
     static let dateString = "2024-06-15T23:10:23Z"
     static let date = try! Date(dateString, strategy: .iso8601)
     static let id = "12345"
@@ -13,8 +14,8 @@ fileprivate enum MockConstants {
     static let importanceRegular = ToDoItem.Importance.regular
     static let importanceLow = ToDoItem.Importance.low
     static let deadline: Date? = nil
-    static let invalidCSVRow: [String?] = ["123",nil,"low","2024-06-16T19:31:56+02:00","true","2024-06-16T19:31:56+02:00", nil]
-    static let validCSVRow: [String?] = ["123","Hello, world!","low","2024-06-16T19:31:56+02:00","true","2024-06-16T19:31:56+02:00", nil]
+    static let invalidCSVRow: [String?] = ["123", nil, "low", "2024-06-16T19:31:56+02:00", "true", "2024-06-16T19:31:56+02:00", nil]
+    static let validCSVRow: [String?] = ["123", "Hello, world!", "low", "2024-06-16T19:31:56+02:00", "true", "2024-06-16T19:31:56+02:00", nil]
     static let csv = """
     id,text,importance,deadline,isDone,creationDate,modificationDate
     \(id),\"\(text)\",\(importanceLow.rawValue),,\(isDone),\(dateString),
@@ -25,12 +26,13 @@ fileprivate enum MockConstants {
 
 final class ToDoItemTest: XCTestCase {
     
-    var dictionary: [String : Any] = [
-        Constants.JsonKeys.id : MockConstants.id,
-        Constants.JsonKeys.text : MockConstants.text,
-        Constants.JsonKeys.isDone : MockConstants.isDone,
+    var dictionary: [String: Any] = [
+        Constants.JsonKeys.id: MockConstants.id,
+        Constants.JsonKeys.text: MockConstants.text,
+        Constants.JsonKeys.isDone: MockConstants.isDone,
         Constants.JsonKeys.creationDate: MockConstants.dateString,
-        Constants.JsonKeys.modificationDate : MockConstants.dateString]
+        Constants.JsonKeys.modificationDate: MockConstants.dateString
+    ]
     
     func testToDoItemInitValid() {
         // Given
@@ -90,7 +92,7 @@ final class ToDoItemTest: XCTestCase {
                        creationDate: MockConstants.date,
                        modificationDate: MockConstants.date)
         // When
-        let json = sut.json as! [String : Any]
+        let json = sut.json as! [String: Any]
         dictionary[Constants.JsonKeys.importance] = MockConstants.importanceLow.rawValue
         
         // Then
@@ -107,7 +109,7 @@ final class ToDoItemTest: XCTestCase {
                        creationDate: MockConstants.date,
                        modificationDate: MockConstants.date)
         // When
-        let json = sut.json as! [String : Any]
+        let json = sut.json as! [String: Any]
         
         // Then
         XCTAssert(NSDictionary(dictionary: dictionary).isEqual(to: json))
@@ -123,7 +125,7 @@ final class ToDoItemTest: XCTestCase {
                        creationDate: MockConstants.date,
                        modificationDate: MockConstants.date)
         // When
-        let json = sut.json as! [String : Any]
+        let json = sut.json as! [String: Any]
         
         // Then
         XCTAssertEqual(sut, ToDoItem.parse(json: json))
@@ -139,7 +141,7 @@ final class ToDoItemTest: XCTestCase {
                        creationDate: MockConstants.date,
                        modificationDate: MockConstants.date)
         // When
-        let json = sut.json as! [String : Any]
+        let json = sut.json as! [String: Any]
         dictionary[Constants.JsonKeys.importance] = MockConstants.importanceLow.rawValue
         
         // Then

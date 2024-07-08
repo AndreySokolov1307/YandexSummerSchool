@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let spacing: CGFloat = 24
     static let circleSide: CGFloat = 44
 }

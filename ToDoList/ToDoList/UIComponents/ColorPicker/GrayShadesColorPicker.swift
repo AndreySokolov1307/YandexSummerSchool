@@ -43,7 +43,7 @@ struct GrayShadesColorPicker: View {
     
     // MARK: - Private properties
     
-    private func changeColor(width: CGFloat,height: CGFloat, point: CGPoint ) {
+    private func changeColor(width: CGFloat, height: CGFloat, point: CGPoint ) {
         if point.x >= 0 && point.x <= width && point.y >= 0 && point.y <= height {
         
             let brightness = 1 - (point.x / width)

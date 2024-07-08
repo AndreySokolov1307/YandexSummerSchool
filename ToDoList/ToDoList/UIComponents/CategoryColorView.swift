@@ -1,6 +1,6 @@
 import UIKit
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let shadowOffset: CGSize = CGSize(width: 0, height: 4)
     static let shadowOpacity: Float = 0.3
     static let shadowRadius: CGFloat = 1

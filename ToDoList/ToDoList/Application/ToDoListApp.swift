@@ -1,4 +1,5 @@
 import SwiftUI
+import CocoaLumberjackSwift
 
 @main
 struct ToDoListApp: App {
@@ -21,8 +22,9 @@ struct ToDoListApp: App {
                     do {
                         try itemsListViewModel.loadItems()
                         try CategoryStore.shared.loadItems()
+                        setupLoggers()
                     } catch {
-                        print(error)
+                        DDLogError("\(error)")
                     } 
                 }
                 .onChange(of: scenePhase) { phase in
@@ -31,10 +33,23 @@ struct ToDoListApp: App {
                             try itemsListViewModel.saveItems()
                             try CategoryStore.shared.saveCategories()
                         } catch {
-                            print(error)
+                            DDLogError("\(error)")
                         }
                     }
                 }
         }
+    }
+    
+    private func setupLoggers() {
+        let consoleLogger = DDOSLogger.sharedInstance
+        consoleLogger.logFormatter = LogFormatter()
+        
+        let fileLogger = DDFileLogger()
+        fileLogger.rollingFrequency = 60 * 60 * 24
+        fileLogger.logFileManager.maximumNumberOfLogFiles = 3
+        fileLogger.logFormatter = LogFormatter()
+        
+        DDLog.add(consoleLogger, with: .all)
+        DDLog.add(fileLogger, with: .error)
     }
 }

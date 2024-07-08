@@ -5,7 +5,7 @@ typealias Importance = ToDoItem.Importance
 extension Importance {
     var title: String {
         switch self {
-        case .low :
+        case .low:
             return Constants.Strings.importanceLowTitle
         case .regular:
             return Constants.Strings.importanceRegularTitle

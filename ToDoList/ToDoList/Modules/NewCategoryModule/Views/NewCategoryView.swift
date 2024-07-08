@@ -1,7 +1,7 @@
 import UIKit
 import Combine
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let universalInsets: UIEdgeInsets = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     static let univarsalCornerRadius: CGFloat = 16
     static let universalSpacing: CGFloat = 24
@@ -56,7 +56,7 @@ final class NewCategoryView: UIView {
     }
     
     @UseAutolayout
-    private var vStack: UIStackView  = .style {
+    private var vStack: UIStackView = .style {
         $0.axis = .vertical
         $0.alignment = .fill
         $0.distribution = .fill
@@ -145,9 +145,9 @@ final class NewCategoryView: UIView {
     
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            vStack.leadingAnchor.constraint(equalTo: leadingAnchor,constant: LayoutConstants.universalPadding),
+            vStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: LayoutConstants.universalPadding),
             vStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -LayoutConstants.universalPadding),
-            vStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: LayoutConstants.universalPadding),
+            vStack.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: LayoutConstants.universalPadding)
         ])
     }
     
@@ -164,7 +164,7 @@ final class NewCategoryView: UIView {
     }
     
     @objc private func textDidChange(_ sender: UITextField) {
-        guard let text = sender.text,text.count <= Constants.Numbers.maxCategoryLenght else { return }
+        guard let text = sender.text, text.count <= Constants.Numbers.maxCategoryLenght else { return }
         self.onTextChange?(text)
     }
 }

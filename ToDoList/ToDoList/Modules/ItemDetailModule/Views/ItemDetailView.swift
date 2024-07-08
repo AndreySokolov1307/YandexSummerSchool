@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let minRowHeight: CGFloat = 56
     static let rectangleCornerRadius: CGFloat = 16
     static let zero: CGFloat = 0
@@ -43,7 +43,7 @@ struct ItemDetailView: View {
     // MARK: - Body
     
     var body: some View {
-        NavigationStack() {
+        NavigationStack {
             content
                 .background(Theme.Back.backPrimary.color)
                 .navigationBarTitle(Constants.Strings.itemDetailViewTitle)
@@ -117,13 +117,11 @@ struct ItemDetailView: View {
         TextFieldCell(text: $viewModel.text, color: $viewModel.color)
             .listRowBackground(Theme.Back.backSecondary.color)
             .focused($isFocused)
-
     }
     
     private var importanceCell: some View {
         ImportanceCell(importance: $viewModel.importance)
             .listRowBackground(Theme.Back.backSecondary.color)
-        
     }
     
     private var colorCell: some View {

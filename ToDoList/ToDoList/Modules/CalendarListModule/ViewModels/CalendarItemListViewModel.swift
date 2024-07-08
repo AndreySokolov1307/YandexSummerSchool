@@ -3,12 +3,12 @@ import Combine
 
 typealias TableSection = CalendarItemListViewController.TableSection
 typealias SectionIDs = [Dictionary<TableSection, [ToDoItem]>.Keys.Element]
-typealias ItemsBySection =  [TableSection : [ToDoItem]]
+typealias ItemsBySection = [TableSection: [ToDoItem]]
 
 final class CalendarItemListViewModel {
     
     enum Output {
-        case tableContent(_ sectionIDs: SectionIDs ,_ itemsBySection: ItemsBySection )
+        case tableContent(_ sectionIDs: SectionIDs, _ itemsBySection: ItemsBySection )
         case collectionContent(_ items: [TableSection] )
     }
     
@@ -52,7 +52,7 @@ final class CalendarItemListViewModel {
     private func getData() {
         fileCahce.$toDoItems
             .sink { [weak self] items in
-                var itemsBySection = items.reduce(into: [TableSection : [ToDoItem]]()) { dict, item in
+                var itemsBySection = items.reduce(into: [TableSection: [ToDoItem]]()) { dict, item in
                     
                     let section: TableSection
                     
@@ -79,7 +79,6 @@ final class CalendarItemListViewModel {
                 let collectionItems = sectionsID
                 
                 self?.onOutput?(.collectionContent(collectionItems))
-                
             }.store(in: &cancellables)
     }
     

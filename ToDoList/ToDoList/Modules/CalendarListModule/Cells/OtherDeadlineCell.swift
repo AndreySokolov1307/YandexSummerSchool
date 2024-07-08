@@ -1,6 +1,6 @@
 import UIKit
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let selectedBorderWidth: CGFloat = 2
     static let notSelectedBorderWidth: CGFloat = 0
     static let cornerRadius: CGFloat = 12

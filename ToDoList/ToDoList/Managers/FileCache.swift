@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import CocoaLumberjackSwift
 
 final class FileCache {
     
@@ -32,6 +33,7 @@ final class FileCache {
     func addItem(_ item: ToDoItem) {
         if !toDoItems.contains(where: { $0.id == item.id }) {
             toDoItems.append(item)
+            DDLogInfo("\(Constants.Strings.itemAddMessageStart) \(item.text) \(Constants.Strings.addMessageEnd)")
         } else if let index = toDoItems.indexOfItem(withId: item.id) {
             toDoItems[index] = item
         }
@@ -40,6 +42,7 @@ final class FileCache {
     func deleteItem(withId id: ToDoItem.ID) {
         if let index = toDoItems.indexOfItem(withId: id) {
             toDoItems.remove(at: index)
+            DDLogInfo("\(Constants.Strings.itemDeleteMessageStart) \(id) \(Constants.Strings.deleteMessageEnd)")
         }
     }
     
@@ -79,7 +82,7 @@ final class FileCache {
     
     // MARK: - Private Methods
     
-    private func url(for file: String,fileFormat: FileFormat) -> URL? {
+    private func url(for file: String, fileFormat: FileFormat) -> URL? {
         guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                 in: .userDomainMask).first
         else { return nil }

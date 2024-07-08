@@ -81,7 +81,7 @@ class ItemDetailViewModel: ObservableObject {
             currentDeadline = croppDate(deadline)
         }
         
-        let item  = ToDoItem(
+        let item = ToDoItem(
             id: id,
             text: text.trimmingCharacters(in: .whitespacesAndNewlines),
             importance: importance,

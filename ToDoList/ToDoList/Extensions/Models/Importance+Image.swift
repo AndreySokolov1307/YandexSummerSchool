@@ -3,7 +3,7 @@ import SwiftUI
 extension Importance {
     var image: Image {
         switch self {
-        case .low :
+        case .low:
             return Images.importanceLow.image
         case .regular:
             return Image(systemName: "circle")

@@ -33,7 +33,7 @@ final class NewCategotyViewControlller: ViewController<NewCategoryView> {
             case .isEnabled(let isEnabled):
                 self?.navigationItem.rightBarButtonItem?.isEnabled = isEnabled
             case .charactersLeft(let leftCount):
-                if leftCount == Constants.Numbers.maxCategoryLenght  {
+                if leftCount == Constants.Numbers.maxCategoryLenght {
                     self?.rootView.state = .input
                 } else {
                     self?.rootView.state = .charactersLeft(leftCount)

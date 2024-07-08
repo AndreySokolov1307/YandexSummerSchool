@@ -1,6 +1,6 @@
 import UIKit
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let tableViewSectionFooterHeight: CGFloat = 0
     static let collectionViewHeight: CGFloat = 90
     static let sepatatorHeight: CGFloat = 1 / UIScreen.main.scale
@@ -81,7 +81,7 @@ final class CalendarItemListView: UIView {
             tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             addNewItemButton.bottomAnchor.constraint(equalTo: bottomAnchor, constant: LayoutConstants.addNewButtonBottomAnchor),
-            addNewItemButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            addNewItemButton.centerXAnchor.constraint(equalTo: centerXAnchor)
         ])
     }
     

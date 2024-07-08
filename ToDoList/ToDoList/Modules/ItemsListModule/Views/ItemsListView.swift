@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let minRowHeight: CGFloat = 56
     static let addNewItemButonPadding: CGFloat = 20
 }
@@ -15,7 +15,7 @@ struct ItemsListView: View {
     // MARK: - Private Properties
     
     @State
-    private var selectedItem: ToDoItem? = nil
+    private var selectedItem: ToDoItem?
     
     // MARK: - Body
     

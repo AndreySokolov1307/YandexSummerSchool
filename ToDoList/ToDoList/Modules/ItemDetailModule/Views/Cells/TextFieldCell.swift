@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let textFieldTopPadding: CGFloat = 10
     static let textFieldBottomPadding: CGFloat = -10
     static let minHeight: CGFloat = 120

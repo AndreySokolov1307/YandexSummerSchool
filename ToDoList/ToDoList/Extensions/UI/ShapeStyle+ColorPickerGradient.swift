@@ -34,7 +34,7 @@ extension ShapeStyle where Self == LinearGradient {
             .black.opacity(0.1),
             .black.opacity(0.3),
             .black.opacity(0.6),
-            .black.opacity(1),
+            .black.opacity(1)
         ])
         
         return LinearGradient(gradient: gradient, startPoint: .leading, endPoint: .trailing)

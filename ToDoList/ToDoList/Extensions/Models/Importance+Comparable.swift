@@ -15,5 +15,4 @@ extension Importance: Comparable {
             return 2
         }
     }
-    
 }

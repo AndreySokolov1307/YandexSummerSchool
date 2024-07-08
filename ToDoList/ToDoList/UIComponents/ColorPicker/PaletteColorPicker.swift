@@ -37,12 +37,11 @@ struct PaletteColorPicker: View {
                             )
                         }))
         }
-        
     }
     
     // MARK: - Private Methods
     
-    private func changeColor(width: CGFloat,height: CGFloat, point: CGPoint ) {
+    private func changeColor(width: CGFloat, height: CGFloat, point: CGPoint ) {
         if point.x >= 0 && point.x <= width && point.y >= 0 && point.y <= height {
             
             let halfWidth = width / 2

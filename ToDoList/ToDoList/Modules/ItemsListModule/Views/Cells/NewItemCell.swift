@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstraints {
+private enum LayoutConstraints {
     static let spacing: CGFloat = 12
     static let spacerWidth: CGFloat = 24
 }

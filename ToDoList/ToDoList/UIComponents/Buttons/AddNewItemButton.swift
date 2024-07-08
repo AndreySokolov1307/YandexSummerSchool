@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let sideLenght: CGFloat = 44
     static let imageSize: CGFloat = 22
     static let shadowRadius: CGFloat = 20
@@ -24,7 +24,7 @@ struct AddNewItemButton: View {
                 .font(.system(size: LayoutConstants.imageSize, weight: .bold))
                 .foregroundColor(Theme.Back.backSecondary.color)
                 .frame(
-                    width: LayoutConstants.sideLenght ,
+                    width: LayoutConstants.sideLenght,
                     height: LayoutConstants.sideLenght
                 )
                 .background(Theme.MainColor.blue.color)

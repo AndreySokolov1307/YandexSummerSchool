@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let mainHSpacing: CGFloat = 12
     static let deadlineLabelSpacing: CGFloat = 2
     static let lineLimit: Int = 3
@@ -27,7 +27,7 @@ struct ItemCell: View {
                 }
                 VStack(alignment: .leading, spacing: LayoutConstants.vSpacing) {
                     itemText
-                    if let _ = toDoItem.deadline, !toDoItem.isDone {
+                    if toDoItem.deadline != nil, !toDoItem.isDone {
                         deadlineLabel
                     }
                 }
@@ -105,6 +105,6 @@ struct ItemCell: View {
 
 struct ItemCell_Previews: PreviewProvider {
     static var previews: some View {
-        ItemCell(toDoItem: ToDoItem(text: "asdcasdc", importance: .high,deadline: Date(), isDone: false, creationDate: Date()), onButtonTap: {})
+        ItemCell(toDoItem: ToDoItem(text: "asdcasdc", importance: .high, deadline: Date(), isDone: false, creationDate: Date()), onButtonTap: {})
     }
 }

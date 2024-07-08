@@ -3,7 +3,7 @@ import SwiftUI
 
 extension ToDoItem.Category {
     var json: Any {
-        var dictionary: [String : Any] = [:]
+        var dictionary: [String: Any] = [:]
         
         dictionary[Constants.JsonKeys.name] = name
         dictionary[Constants.JsonKeys.color] = color.hexString
@@ -13,7 +13,7 @@ extension ToDoItem.Category {
     }
     
     static func parse(json: Any) -> ToDoItem.Category? {
-        guard let dictionary = json as? [String : Any] else { return nil }
+        guard let dictionary = json as? [String: Any] else { return nil }
         
         guard let name = dictionary[Constants.JsonKeys.name] as? String,
               let colorString = dictionary[Constants.JsonKeys.color] as? String,
