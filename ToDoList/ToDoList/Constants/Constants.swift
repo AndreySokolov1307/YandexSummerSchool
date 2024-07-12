@@ -59,6 +59,13 @@ enum Constants {
         static let newCategoryTitle = "Новая категория"
         static let category = "Категория"
         static let chooseColor = "Выбрать цвет"
+        static let logError = "ERROR"
+        static let logWarning = "WARNING"
+        static let logInfo = "INFO"
+        static let logDebug = "DEBUG"
+        static let logDefault = "VERBOSE"
+        static let addMessageEnd = "has added."
+        static let categoryAddMessageStart = "Category with name:"
     }
     
     enum Dates {

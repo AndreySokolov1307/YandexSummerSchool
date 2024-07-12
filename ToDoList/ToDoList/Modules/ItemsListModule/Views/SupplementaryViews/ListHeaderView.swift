@@ -79,7 +79,6 @@ struct ListHeaderView: View {
                     }
                     Text(option.title)
                 }
-                
             }
         }
     }

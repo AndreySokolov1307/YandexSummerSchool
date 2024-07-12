@@ -1,7 +1,8 @@
 import Foundation
 import SwiftUI
+import FileCache
 
-struct ToDoItem: Identifiable, Equatable, Hashable {
+struct ToDoItem: Identifiable, Equatable, Hashable, Cachable {
     
     // MARK: - Category
     
@@ -68,7 +69,7 @@ struct ToDoItem: Identifiable, Equatable, Hashable {
 extension ToDoItem {
     
     var json: Any {
-        var dictionary: [String : Any] = [:]
+        var dictionary: [String: Any] = [:]
         
         dictionary[Constants.JsonKeys.id] = id
         dictionary[Constants.JsonKeys.text] = text
@@ -99,7 +100,7 @@ extension ToDoItem {
     
     static func parse(json: Any) -> ToDoItem? {
         
-        guard let dictionary = json as? [String : Any] else { return nil }
+        guard let dictionary = json as? [String: Any] else { return nil }
         
         guard let id = dictionary[Constants.JsonKeys.id] as? String,
               let text = dictionary[Constants.JsonKeys.text] as? String,

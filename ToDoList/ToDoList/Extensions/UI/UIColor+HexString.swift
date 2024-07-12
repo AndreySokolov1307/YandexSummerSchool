@@ -1,5 +1,6 @@
 import UIKit
 import SwiftUI
+// swiftlint:disable force_unwrapping
 
 extension UIColor {
     var hexString: String {

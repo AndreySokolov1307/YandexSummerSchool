@@ -1,6 +1,8 @@
 import Foundation
+import CocoaLumberjackSwift
+import FileCache
 
-typealias FileFormat = FileCache.FileFormat
+typealias FileFormat = FileCache<ToDoItem>.FileFormat
 
 final class CategoryStore {
     
@@ -29,6 +31,7 @@ final class CategoryStore {
     func addCategory(_ category: ToDoItem.Category) {
         if !categories.contains(where: { $0.name == category.name }) {
             categories.append(category)
+            DDLogInfo("\(Constants.Strings.categoryAddMessageStart) \(category.name) \(Constants.Strings.addMessageEnd)")
         }
     }
     
@@ -46,11 +49,12 @@ final class CategoryStore {
                 }
             }
         } catch {
+            DDLogError("\(error)")
             throw CategoryStoreError.unableToLoad(error)
         }
     }
     
-    func saveCategories(to file: String = Constants.Strings.categoryFile) throws  {
+    func saveCategories(to file: String = Constants.Strings.categoryFile) throws {
         guard let archieveURL = url(for: file, fileFormat: .json) else {
             throw CategoryStoreError.fileNotFound
         }
@@ -62,13 +66,14 @@ final class CategoryStore {
                                                   options: [])
             try data.write(to: archieveURL)
         } catch {
+            DDLogError("\(error)")
             throw CategoryStoreError.unableToSave(error)
         }
     }
     
     // MARK: - Private Methods
     
-    private func url(for file: String,fileFormat: FileFormat) -> URL? {
+    private func url(for file: String, fileFormat: FileFormat) -> URL? {
         guard let documentsDirectory = FileManager.default.urls(for: .documentDirectory,
                                                                 in: .userDomainMask).first
         else { return nil }

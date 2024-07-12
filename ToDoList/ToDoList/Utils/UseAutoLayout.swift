@@ -1,11 +1,10 @@
-import Foundation
-
 import UIKit
 
+@MainActor
 @propertyWrapper
 struct UseAutolayout<T: UIView> {
     
-    var wrappedValue:T {
+    var wrappedValue: T {
         didSet {
             wrappedValue.translatesAutoresizingMaskIntoConstraints = false
         }

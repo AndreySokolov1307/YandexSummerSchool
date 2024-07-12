@@ -1,6 +1,6 @@
 import UIKit
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let numberOfLines: Int = 3
     static let minHeight: CGFloat = 56
     static let univarsalPadding: CGFloat = 16
@@ -66,11 +66,11 @@ final class CalendarItemCell: UITableViewCell {
         NSLayoutConstraint.activate([
             itemTextLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: LayoutConstants.univarsalPadding),
             itemTextLabel.trailingAnchor.constraint(equalTo: categoryView.leadingAnchor, constant: -LayoutConstants.univarsalPadding),
-            itemTextLabel.topAnchor.constraint(equalTo: topAnchor,constant: LayoutConstants.univarsalPadding),
+            itemTextLabel.topAnchor.constraint(equalTo: topAnchor, constant: LayoutConstants.univarsalPadding),
             itemTextLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -LayoutConstants.univarsalPadding),
             
             categoryView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            categoryView.trailingAnchor.constraint(equalTo: trailingAnchor, constant:  -LayoutConstants.univarsalPadding)
+            categoryView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -LayoutConstants.univarsalPadding)
         ])
         
         let cellHeight = heightAnchor.constraint(greaterThanOrEqualToConstant: LayoutConstants.minHeight)
@@ -79,9 +79,9 @@ final class CalendarItemCell: UITableViewCell {
     }
     
     private func strikeThroughStyle(for text: String) -> NSAttributedString {
-        let strikeThroughEffect: [NSAttributedString.Key : Any] = [
-            NSAttributedString.Key.strikethroughStyle : NSUnderlineStyle.single.rawValue,
-            NSAttributedString.Key.strikethroughColor : Theme.Label.tertiary.uiColor
+        let strikeThroughEffect: [NSAttributedString.Key: Any] = [
+            NSAttributedString.Key.strikethroughStyle: NSUnderlineStyle.single.rawValue,
+            NSAttributedString.Key.strikethroughColor: Theme.Label.tertiary.uiColor
         ]
         
         return NSAttributedString(string: text, attributes: strikeThroughEffect)

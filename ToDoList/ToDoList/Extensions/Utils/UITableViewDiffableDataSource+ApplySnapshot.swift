@@ -11,7 +11,7 @@ extension UITableViewDiffableDataSource {
         
         for sectionID in sectionsID {
             guard let sectionItems = itemsBySection[sectionID],
-                  sectionItems.count > 0 || sectionsRetainedIfEmpty.contains(sectionID)
+                  !sectionItems.isEmpty || sectionsRetainedIfEmpty.contains(sectionID)
             else { continue }
             
             snapshot.appendSections([sectionID])

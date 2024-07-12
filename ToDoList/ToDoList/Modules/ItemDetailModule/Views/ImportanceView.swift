@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstatns {
+private enum LayoutConstatns {
     static let hStackSpacing: CGFloat = 16
 }
 

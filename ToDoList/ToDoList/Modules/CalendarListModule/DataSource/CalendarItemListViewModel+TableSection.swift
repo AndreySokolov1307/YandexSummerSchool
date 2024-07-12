@@ -23,7 +23,7 @@ extension CalendarItemListViewController.TableSection: Comparable {
             return l < r
         case (other, _):
             return false
-        case (_ , other):
+        case (_, other):
             return true
         }
     }

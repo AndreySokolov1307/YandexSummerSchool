@@ -2,7 +2,7 @@ import SwiftUI
 
 struct GradientRing: View {
     
-    // MARK: Size
+    // MARK: - Size
     
     enum Size {
         case regulat

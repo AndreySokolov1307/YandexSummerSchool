@@ -43,6 +43,6 @@ struct DeadlineCell: View {
 
 struct DeadlineCell_Previews: PreviewProvider {
     static var previews: some View {
-        DeadlineCell(hasDeadline: .constant(true),deadlineTitle: "aaa" , onTap: {})
+        DeadlineCell(hasDeadline: .constant(true), deadlineTitle: "aaa", onTap: {})
     }
 }

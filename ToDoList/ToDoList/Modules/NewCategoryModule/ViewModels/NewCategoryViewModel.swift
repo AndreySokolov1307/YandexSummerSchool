@@ -24,7 +24,7 @@ final class NewCategoryViewModel {
     private var name: String = Constants.Strings.empty
     
     @Published
-    private var color: UIColor? = nil
+    private var color: UIColor?
     
     private let categoryStore = CategoryStore.shared
     
@@ -49,7 +49,7 @@ final class NewCategoryViewModel {
             self.color = color
         case .saveCategory:
             if let color = color {
-                categoryStore.addCategory(ToDoItem.Category(name: name , color: color))
+                categoryStore.addCategory(ToDoItem.Category(name: name, color: color))
             }
         }
     }

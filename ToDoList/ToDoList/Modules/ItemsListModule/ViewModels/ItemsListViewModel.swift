@@ -1,10 +1,12 @@
 import Combine
 import Foundation
+import FileCache
 
 typealias FilterOption = ItemsListViewModel.FilterOption
 typealias SortOption = ItemsListViewModel.SortOption
 
-class ItemsListViewModel: ObservableObject {
+@MainActor
+final class ItemsListViewModel: ObservableObject {
     
     // MARK: - FilterOptions
     
@@ -35,10 +37,10 @@ class ItemsListViewModel: ObservableObject {
     @Published
     var sortOption: SortOption = .creationDate
     
-    let fileCache: FileCache
+    let fileCache: FileCache<ToDoItem>
     
     var isDoneCount: Int {
-        return fileCache.toDoItems.lazy.filter({ $0.isDone }).count
+        return fileCache.items.lazy.filter({ $0.isDone }).count
     }
     
     // MARK: - Private Properties
@@ -47,7 +49,7 @@ class ItemsListViewModel: ObservableObject {
     
     // MARK: - Init
     
-    init(fileCache: FileCache) {
+    init(fileCache: FileCache<ToDoItem>) {
         self.fileCache = fileCache
         bind()
     }
@@ -86,11 +88,11 @@ class ItemsListViewModel: ObservableObject {
     }
     
     private func bind() {
-        fileCache.$toDoItems.combineLatest($filterOption, $sortOption)
+        fileCache.$items.combineLatest($filterOption, $sortOption)
             .eraseToAnyPublisher()
             .sink { [weak self] items, filterOption, sortOption in
                 guard let self else { return }
-                self.toDoItems = self.filter(items,with: filterOption)
+                self.toDoItems = self.filter(items, with: filterOption)
                 self.toDoItems = self.sort(self.toDoItems, with: sortOption)
             }
             .store(in: &cancellables)

@@ -1,4 +1,6 @@
 import SwiftUI
+import FileCache
+import CocoaLumberjackSwift
 
 @main
 struct ToDoListApp: App {
@@ -6,7 +8,7 @@ struct ToDoListApp: App {
     // MARK: - Private Properties
     
     @StateObject
-    private var itemsListViewModel = ItemsListViewModel(fileCache: FileCache())
+    private var itemsListViewModel = ItemsListViewModel(fileCache: FileCache<ToDoItem>())
     
     @Environment(\.scenePhase)
     private var scenePhase
@@ -21,8 +23,9 @@ struct ToDoListApp: App {
                     do {
                         try itemsListViewModel.loadItems()
                         try CategoryStore.shared.loadItems()
+                        LoggerManager.setupLoggers()
                     } catch {
-                        print(error)
+                        DDLogError("\(error)")
                     } 
                 }
                 .onChange(of: scenePhase) { phase in
@@ -31,7 +34,7 @@ struct ToDoListApp: App {
                             try itemsListViewModel.saveItems()
                             try CategoryStore.shared.saveCategories()
                         } catch {
-                            print(error)
+                            DDLogError("\(error)")
                         }
                     }
                 }

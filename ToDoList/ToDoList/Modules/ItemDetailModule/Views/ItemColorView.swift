@@ -1,6 +1,6 @@
 import SwiftUI
 
-fileprivate enum LayoutConstants {
+private enum LayoutConstants {
     static let vStckSpacing: CGFloat = 16
     static let colorPickerHeight: CGFloat = 400
     static let grayColorPickerHeight: CGFloat = 44
@@ -132,6 +132,6 @@ struct ItemColorView: View {
 
 struct ItemColorView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemColorView(color: .constant(.red), initialColor:.constant(.green), hasColor: .constant(true))
+        ItemColorView(color: .constant(.red), initialColor: .constant(.green), hasColor: .constant(true))
     }
 }
