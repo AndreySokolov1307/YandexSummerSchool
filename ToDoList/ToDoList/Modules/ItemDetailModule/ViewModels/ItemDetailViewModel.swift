@@ -1,6 +1,8 @@
 import SwiftUI
 import Combine
+import FileCache
 
+@MainActor
 class ItemDetailViewModel: ObservableObject {
     
     // MARK: - ToDoType
@@ -51,11 +53,11 @@ class ItemDetailViewModel: ObservableObject {
     
     // MARK: - Private Properties
     
-    private let fileCache: FileCache
+    private let fileCache: FileCache<ToDoItem>
     
     // MARK: - Init
     
-    init(toDoItem: ToDoItem, fileCache: FileCache) {
+    init(toDoItem: ToDoItem, fileCache: FileCache<ToDoItem>) {
         self.id = toDoItem.id
         self.text = toDoItem.text
         self.isDone = toDoItem.isDone

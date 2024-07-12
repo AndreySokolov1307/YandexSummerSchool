@@ -1,7 +1,8 @@
 import Foundation
 import CocoaLumberjackSwift
+import FileCache
 
-typealias FileFormat = FileCache.FileFormat
+typealias FileFormat = FileCache<ToDoItem>.FileFormat
 
 final class CategoryStore {
     
@@ -48,6 +49,7 @@ final class CategoryStore {
                 }
             }
         } catch {
+            DDLogError("\(error)")
             throw CategoryStoreError.unableToLoad(error)
         }
     }
@@ -64,6 +66,7 @@ final class CategoryStore {
                                                   options: [])
             try data.write(to: archieveURL)
         } catch {
+            DDLogError("\(error)")
             throw CategoryStoreError.unableToSave(error)
         }
     }

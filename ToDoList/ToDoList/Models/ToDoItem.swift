@@ -1,7 +1,8 @@
 import Foundation
 import SwiftUI
+import FileCache
 
-struct ToDoItem: Identifiable, Equatable, Hashable {
+struct ToDoItem: Identifiable, Equatable, Hashable, Cachable {
     
     // MARK: - Category
     

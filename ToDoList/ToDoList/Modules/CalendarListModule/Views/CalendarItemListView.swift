@@ -3,6 +3,8 @@ import UIKit
 private enum LayoutConstants {
     static let tableViewSectionFooterHeight: CGFloat = 0
     static let collectionViewHeight: CGFloat = 90
+    
+    @MainActor
     static let sepatatorHeight: CGFloat = 1 / UIScreen.main.scale
     static let addNewButtonBottomAnchor: CGFloat = -56
 }

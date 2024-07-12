@@ -1,4 +1,5 @@
 import SwiftUI
+import FileCache
 
 private enum LayoutConstants {
     static let minRowHeight: CGFloat = 56
@@ -26,6 +27,9 @@ struct ItemsListView: View {
                 addNewItemButton
                     .toolbar(content: toolBarContent)
             }
+        }
+        .task {
+            await RickAndMortyAPIManager.printCharacters()
         }
     }
     

@@ -1,7 +1,6 @@
-import Foundation
-
 import UIKit
 
+@MainActor
 @propertyWrapper
 struct UseAutolayout<T: UIView> {
     

@@ -1,4 +1,5 @@
 import SwiftUI
+import FileCache
 
 private enum LayoutConstants {
     static let minRowHeight: CGFloat = 56
@@ -177,10 +178,8 @@ struct ItemDetailView: View {
             Spacer()
             Button(Constants.Strings.deleteItem, action: {
                 isFocused = false
+                viewModel.deleteItem()
                 dismiss()
-                DispatchQueue.main.async {
-                    viewModel.deleteItem()
-                }
             })
             .buttonStyle(
                 EnabledDisabledButtonStyle(

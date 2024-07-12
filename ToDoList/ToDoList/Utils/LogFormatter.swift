@@ -1,5 +1,6 @@
 import Foundation
 import CocoaLumberjackSwift
+import FileCache
 
 final class LogFormatter: NSObject, DDLogFormatter {
  
@@ -18,8 +19,8 @@ final class LogFormatter: NSObject, DDLogFormatter {
         default:
             logLevel = Constants.Strings.logDefault
         }
-
-        return "\(logLevel) | \(logMessage.message)"
+        
+        return "[\(logLevel)] | \(logMessage.fileName) | \(logMessage.message)"
     }
 }
 

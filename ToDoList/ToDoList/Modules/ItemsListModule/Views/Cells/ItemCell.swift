@@ -44,9 +44,7 @@ struct ItemCell: View {
     
     private var isDoneButton: some View {
         Button {
-            DispatchQueue.main.async {
                 onButtonTap()
-            }
         } label: {
             if toDoItem.isDone {
                 Images.success.image

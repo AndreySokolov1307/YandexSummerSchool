@@ -1,5 +1,6 @@
 import SwiftUI
 import UIKit
+import FileCache
 
 struct CalendarListView: UIViewControllerRepresentable {
     
@@ -9,7 +10,7 @@ struct CalendarListView: UIViewControllerRepresentable {
     
     // MARK: - Public Properties
     
-    let fileCache: FileCache
+    let fileCache: FileCache<ToDoItem>
         
     // MARK: - Public Methods
     
@@ -19,6 +20,7 @@ struct CalendarListView: UIViewControllerRepresentable {
                 fileCahce: fileCache
             )
         )
+        
         context.coordinator.parentObserver = vc.observe(\.parent, changeHandler: { vc, _ in
             vc.parent?.navigationItem.rightBarButtonItems = vc.navigationItem.rightBarButtonItems
         })

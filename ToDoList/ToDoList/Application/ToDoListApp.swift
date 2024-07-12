@@ -1,4 +1,5 @@
 import SwiftUI
+import FileCache
 import CocoaLumberjackSwift
 
 @main
@@ -7,7 +8,7 @@ struct ToDoListApp: App {
     // MARK: - Private Properties
     
     @StateObject
-    private var itemsListViewModel = ItemsListViewModel(fileCache: FileCache())
+    private var itemsListViewModel = ItemsListViewModel(fileCache: FileCache<ToDoItem>())
     
     @Environment(\.scenePhase)
     private var scenePhase
@@ -22,7 +23,7 @@ struct ToDoListApp: App {
                     do {
                         try itemsListViewModel.loadItems()
                         try CategoryStore.shared.loadItems()
-                        setupLoggers()
+                        LoggerManager.setupLoggers()
                     } catch {
                         DDLogError("\(error)")
                     } 
@@ -38,18 +39,5 @@ struct ToDoListApp: App {
                     }
                 }
         }
-    }
-    
-    private func setupLoggers() {
-        let consoleLogger = DDOSLogger.sharedInstance
-        consoleLogger.logFormatter = LogFormatter()
-        
-        let fileLogger = DDFileLogger()
-        fileLogger.rollingFrequency = 60 * 60 * 24
-        fileLogger.logFileManager.maximumNumberOfLogFiles = 3
-        fileLogger.logFormatter = LogFormatter()
-        
-        DDLog.add(consoleLogger, with: .all)
-        DDLog.add(fileLogger, with: .error)
     }
 }

@@ -64,10 +64,7 @@ enum Constants {
         static let logInfo = "INFO"
         static let logDebug = "DEBUG"
         static let logDefault = "VERBOSE"
-        static let itemAddMessageStart = "Item with text:"
         static let addMessageEnd = "has added."
-        static let itemDeleteMessageStart = "Item with id:"
-        static let deleteMessageEnd = "has deleted."
         static let categoryAddMessageStart = "Category with name:"
     }
     

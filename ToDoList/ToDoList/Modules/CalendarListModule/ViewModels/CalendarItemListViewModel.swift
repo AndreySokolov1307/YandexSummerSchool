@@ -1,5 +1,6 @@
 import Foundation
 import Combine
+import FileCache
 
 typealias TableSection = CalendarItemListViewController.TableSection
 typealias SectionIDs = [Dictionary<TableSection, [ToDoItem]>.Keys.Element]
@@ -20,7 +21,7 @@ final class CalendarItemListViewModel {
     
     // MARK: - Public Properties
     
-    let fileCahce: FileCache
+    let fileCache: FileCache<ToDoItem>
     
     var onOutput: ((Output) -> Void)?
     
@@ -30,8 +31,8 @@ final class CalendarItemListViewModel {
     
     // MARK: - Init
     
-    init(fileCahce: FileCache) {
-        self.fileCahce = fileCahce
+    init(fileCahce: FileCache<ToDoItem>) {
+        self.fileCache = fileCahce
     }
     
     // MARK: - Public Methods
@@ -50,7 +51,7 @@ final class CalendarItemListViewModel {
     // MARK: - Private Methods
     
     private func getData() {
-        fileCahce.$toDoItems
+        fileCache.$items
             .sink { [weak self] items in
                 var itemsBySection = items.reduce(into: [TableSection: [ToDoItem]]()) { dict, item in
                     
@@ -92,7 +93,7 @@ final class CalendarItemListViewModel {
                                modificationDate: item.modificationDate,
                                hexColor: item.hexColor,
                                category: item.category)
-        fileCahce.addItem(newItem)
+        fileCache.addItem(newItem)
     }
     
     private func chageToNotDone(for item: ToDoItem) {
@@ -105,7 +106,7 @@ final class CalendarItemListViewModel {
                                modificationDate: item.modificationDate,
                                hexColor: item.hexColor,
                                category: item.category)
-        fileCahce.addItem(newItem)
+        fileCache.addItem(newItem)
     }
 }
 
