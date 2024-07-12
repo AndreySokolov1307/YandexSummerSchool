@@ -8,5 +8,4 @@
     func deleteItem(_ item: ToDoItem) {
         self.fileCache.deleteItem(withId: item.id)
     }
-```swift
-    
+```    
