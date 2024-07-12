@@ -140,7 +140,7 @@
 		324903232C1E44C700068B12 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		324903252C1E44E600068B12 /* String+Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Date.swift"; sourceTree = "<group>"; };
 		3249032D2C1E53B700068B12 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3261F12D2C3C4D2A00944EA4 /* FileCache */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = FileCache; path = ../FileCache; sourceTree = "<group>"; };
+		3261F12D2C3C4D2A00944EA4 /* FileCache */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = FileCache; sourceTree = "<group>"; };
 		3261F1322C3EB4FD00944EA4 /* LoggerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggerManager.swift; sourceTree = "<group>"; };
 		3261F1352C3EB82400944EA4 /* RickAndMortyAPIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RickAndMortyAPIManager.swift; sourceTree = "<group>"; };
 		3261F1372C3EC98F00944EA4 /* URLSession+dataTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+dataTask.swift"; sourceTree = "<group>"; };
