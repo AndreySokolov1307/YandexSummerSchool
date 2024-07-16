@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 
 private enum LayoutConstants {
     static let numberOfLines: Int = 3
@@ -51,7 +52,7 @@ final class CalendarItemCell: UITableViewCell {
             itemTextLabel.textColor = Theme.Label.labelPrimary.uiColor
             itemTextLabel.attributedText = NSAttributedString(string: toDoItem.text)
             categoryView.isHidden = false
-            categoryView.backgroundColor = toDoItem.category?.color
+            categoryView.backgroundColor = Color(hex: toDoItem.category?.hexColor)?.uiColor
         }
     }
 

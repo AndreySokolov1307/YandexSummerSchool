@@ -66,6 +66,9 @@ enum Constants {
         static let logDefault = "VERBOSE"
         static let addMessageEnd = "has added."
         static let categoryAddMessageStart = "Category with name:"
+        static let toDoItemBaseUrl = "://hive.mrdekk.ru/todo"
+        static let transferProtocol = "https"
+        static let toDoItemListEndpoint = "/list"
     }
     
     enum Dates {

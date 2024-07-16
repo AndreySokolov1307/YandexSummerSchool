@@ -24,6 +24,6 @@ struct ImportanceCell: View {
 
 struct ImportanceCell_Previews: PreviewProvider {
     static var previews: some View {
-        ImportanceCell(importance: .constant(.regular))
+        ImportanceCell(importance: .constant(.basic))
     }
 }

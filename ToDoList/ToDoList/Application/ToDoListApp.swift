@@ -8,7 +8,10 @@ struct ToDoListApp: App {
     // MARK: - Private Properties
     
     @StateObject
-    private var itemsListViewModel = ItemsListViewModel(fileCache: FileCache<ToDoItem>())
+    private var itemsListViewModel = ItemsListViewModel(
+        fileCache: FileCache<ToDoItem>(),
+        toDoRequestManager: ToDoRequestManager()
+    )
     
     @Environment(\.scenePhase)
     private var scenePhase
@@ -24,6 +27,13 @@ struct ToDoListApp: App {
                         try itemsListViewModel.loadItems()
                         try CategoryStore.shared.loadItems()
                         LoggerManager.setupLoggers()
+                        //NetworkCheck.shared.checkPUT()
+                       // NetworkCheck.shared.checkPost()
+                        NetworkCheck.shared.check()
+                        NetworkCheck.shared.checkGet()
+                        NetworkCheck.shared.checkDelete()
+                        NetworkCheck.shared.check()
+                       // NetworkCheck.shared.checkPatch()
                     } catch {
                         DDLogError("\(error)")
                     } 

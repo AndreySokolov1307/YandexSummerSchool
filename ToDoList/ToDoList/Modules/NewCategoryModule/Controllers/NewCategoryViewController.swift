@@ -76,6 +76,6 @@ final class NewCategotyViewControlller: ViewController<NewCategoryView> {
 extension NewCategotyViewControlller: UIColorPickerViewControllerDelegate {
     func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
         rootView.state = .selectedColor(color)
-        viewModel.handle(.categoryColor(color))
+        viewModel.handle(.categoryColor(color.hexString))
     }
 }

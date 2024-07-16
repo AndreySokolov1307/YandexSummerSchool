@@ -28,9 +28,9 @@ struct ItemsListView: View {
                     .toolbar(content: toolBarContent)
             }
         }
-        .task {
-            await RickAndMortyAPIManager.printCharacters()
-        }
+//        .task {
+//            await NetworkCheck.printCharacters()
+//        }
     }
     
     // MARK: - Private Views
@@ -129,6 +129,6 @@ struct ItemsListView: View {
 struct ItemsListView_Previews: PreviewProvider {
     static var previews: some View {
         ItemsListView()
-            .environmentObject(ItemsListViewModel(fileCache: FileCache()))
+            .environmentObject(ItemsListViewModel(fileCache: FileCache(), toDoRequestManager: ToDoRequestManager()))
     }
 }

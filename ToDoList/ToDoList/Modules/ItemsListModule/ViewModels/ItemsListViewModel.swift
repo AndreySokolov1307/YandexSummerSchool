@@ -26,6 +26,10 @@ final class ItemsListViewModel: ObservableObject {
         var id: Self { return self }
     }
     
+    enum Input {
+        
+    }
+    
     // MARK: - Public Properties
     
     @Published
@@ -39,6 +43,10 @@ final class ItemsListViewModel: ObservableObject {
     
     let fileCache: FileCache<ToDoItem>
     
+    let toDoRequestManager: IToDoRequestManager
+    
+    var revision: Int?
+    
     var isDoneCount: Int {
         return fileCache.items.lazy.filter({ $0.isDone }).count
     }
@@ -49,8 +57,12 @@ final class ItemsListViewModel: ObservableObject {
     
     // MARK: - Init
     
-    init(fileCache: FileCache<ToDoItem>) {
+    init(
+        fileCache: FileCache<ToDoItem>,
+        toDoRequestManager: IToDoRequestManager
+    ) {
         self.fileCache = fileCache
+        self.toDoRequestManager = toDoRequestManager
         bind()
     }
     
@@ -58,6 +70,10 @@ final class ItemsListViewModel: ObservableObject {
     
     func deleteItem(_ item: ToDoItem) {
         self.fileCache.deleteItem(withId: item.id)
+        if let revision {
+            self.toDoRequestManager.deleteItem(with: item.id, revision: revision)
+
+        }
     }
     
     func saveItems(to file: String = Constants.Strings.file) throws {

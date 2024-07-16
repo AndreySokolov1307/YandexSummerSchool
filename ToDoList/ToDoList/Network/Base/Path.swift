@@ -2,7 +2,7 @@ import Foundation
 
 protocol Path {
     var endpoint: String { get }
-    var method: HTTPMethod { get }
+    var method: HttpMethod { get }
     var baseUrl: String { get }
     var transferProtocol: String { get }
 }

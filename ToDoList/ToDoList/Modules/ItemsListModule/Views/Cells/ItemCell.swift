@@ -22,7 +22,7 @@ struct ItemCell: View {
         HStack(spacing: LayoutConstants.mainHSpacing) {
             isDoneButton
             HStack(spacing: LayoutConstants.innerHSpacing) {
-                if toDoItem.importance != .regular && !toDoItem.isDone {
+                if toDoItem.importance != .basic && !toDoItem.isDone {
                     toDoItem.importance.image
                 }
                 VStack(alignment: .leading, spacing: LayoutConstants.vSpacing) {
@@ -49,7 +49,7 @@ struct ItemCell: View {
             if toDoItem.isDone {
                 Images.success.image
                     .foregroundColor(Theme.MainColor.green.color)
-            } else if toDoItem.importance == .high {
+            } else if toDoItem.importance == .important {
                 Images.priorityHigh.image
                     .foregroundColor(Theme.MainColor.red.color)
             } else {
@@ -103,6 +103,6 @@ struct ItemCell: View {
 
 struct ItemCell_Previews: PreviewProvider {
     static var previews: some View {
-        ItemCell(toDoItem: ToDoItem(text: "asdcasdc", importance: .high, deadline: Date(), isDone: false, creationDate: Date()), onButtonTap: {})
+        ItemCell(toDoItem: ToDoItem(text: "asdcasdc", importance: .important, deadline: Date(), isDone: false, creationDate: Date()), onButtonTap: {})
     }
 }

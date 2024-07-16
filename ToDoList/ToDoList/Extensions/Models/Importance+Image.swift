@@ -5,9 +5,9 @@ extension Importance {
         switch self {
         case .low:
             return Images.importanceLow.image
-        case .regular:
+        case .basic:
             return Image(systemName: "circle")
-        case .high:
+        case .important:
             return Images.importanceHigh.image
         }
     }
