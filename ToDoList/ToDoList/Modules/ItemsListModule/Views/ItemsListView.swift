@@ -42,7 +42,7 @@ struct ItemsListView: View {
                     ItemCell(
                         toDoItem: todoItem,
                         onButtonTap: {
-                        vm.toggleIsDone(for: todoItem)
+                            vm.handle(.toggleIsDone(todoItem))
                     })
                     .listRowBackground(Theme.Back.backSecondary.color)
                     .contentShape(Rectangle())
@@ -51,12 +51,13 @@ struct ItemsListView: View {
                     }
                     .swipeActions(edge: .leading) {
                         SuccessButton {
-                            vm.toggleIsDone(for: todoItem)
+                            vm.handle(.toggleIsDone(todoItem))
                         }
                     }
                     .swipeActions(edge: .trailing) {
                         DeleteButton {
-                            vm.deleteItem(todoItem)
+                            //vm.deleteItem(todoItem)
+                            vm.handle(.deleteItem(todoItem))
                         }
                         InfoButton {
                             print(todoItem.text)
@@ -75,7 +76,9 @@ struct ItemsListView: View {
             ItemDetailView(
                 viewModel: ItemDetailViewModel(
                     toDoItem: item,
-                    fileCache: vm.fileCache
+                    fileCache: vm.fileCache,
+                    toDoRequestManager: vm.toDoRequestManager,
+                    toDoNetworkInfo: vm.toDoNetworkInfo
                 )
             )
         })
@@ -115,7 +118,11 @@ struct ItemsListView: View {
     private func toolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
             NavigationLink(destination: {
-                CalendarListView(fileCache: vm.fileCache)
+                CalendarListView(
+                    fileCache: vm.fileCache,
+                    toDoRequestManager: vm.toDoRequestManager,
+                    toDoNetworkInfo: vm.toDoNetworkInfo
+                )
                     .navigationTitle(Constants.Strings.calendarListTitle)
                     .navigationBarTitleDisplayMode(.inline)
                     .ignoresSafeArea()

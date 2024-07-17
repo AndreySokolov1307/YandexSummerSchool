@@ -178,7 +178,7 @@ struct ItemDetailView: View {
             Spacer()
             Button(Constants.Strings.deleteItem, action: {
                 isFocused = false
-                viewModel.deleteItem()
+                viewModel.handle(.deleteItem)
                 dismiss()
             })
             .buttonStyle(
@@ -195,7 +195,7 @@ struct ItemDetailView: View {
     
     private var toolBarSaveButton: some View {
         Button(Constants.Strings.save) {
-            viewModel.addItem()
+            viewModel.handle(.addItem)
             isFocused = false
             dismiss()
         }
@@ -229,6 +229,6 @@ struct ItemDetailView: View {
 
 struct ItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemDetailView(viewModel: ItemDetailViewModel(toDoItem: ToDoItem.newItem(), fileCache: FileCache()))
+        ItemDetailView(viewModel: ItemDetailViewModel(toDoItem: ToDoItem.newItem(), fileCache: FileCache(), toDoRequestManager: ToDoRequestManager(), toDoNetworkInfo: ToDoNetworkInfo()))
     }
 }

@@ -38,9 +38,13 @@ public final class FileCache<Item: Equatable & Identifiable & Cachable> {
         if !items.contains(where: { $0.id == item.id }) {
             items.append(item)
             DDLogDebug("\(Constants.Strings.addItemMessage)")
-        } else if let index = items.firstIndex(where: {$0.id == item.id}) {
+        } else if let index = items.firstIndex(where: { $0.id == item.id }) {
             items[index] = item
         }
+    }
+    
+    public func addItems(_ items: [Item]) {
+        self.items = items
     }
     
     public func deleteItem(withId id: Item.ID) {
@@ -62,6 +66,7 @@ public final class FileCache<Item: Equatable & Identifiable & Cachable> {
             let data = try JSONSerialization.data(withJSONObject: jsonArray,
                                                   options: [])
             try data.write(to: archieveURL)
+            DDLogInfo("Items has been successfully saved to file")
         } catch {
             throw FileCacheError.unableToSave(error)
         }
@@ -95,9 +100,7 @@ public final class FileCache<Item: Equatable & Identifiable & Cachable> {
         let archieveURL = documentsDirectory
             .appendingPathComponent(file)
             .appendingPathExtension(fileFormat.title)
-        
-        DDLogDebug("\(Constants.Strings.urlCreatedMessage)")
-        
+            
         return archieveURL
     }
 }

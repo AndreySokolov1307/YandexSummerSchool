@@ -38,7 +38,6 @@ class NetworkRequestManager {
             .mapError({ error in
                 return ErrorParser.handleError(error)
             })
-            .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
     
@@ -76,7 +75,6 @@ class NetworkRequestManager {
             .mapError({ error in
                 return ErrorParser.handleError(error)
             })
-            .receive(on: DispatchQueue.main)
             .eraseToAnyPublisher()
     }
      
@@ -118,21 +116,16 @@ class NetworkRequestManager {
         } catch {
             throw NetworkError.invalidUrl
         }
+        
         var request = URLRequest(url: url)
         
-        DDLogDebug("Created URLRequest for URL: \(url)")
-        
         request.httpMethod = path.httpMethod
+        
         headers?.forEach {
             request.setValue($0.value, forHTTPHeaderField: $0.key)
         }
         request.setValue("Bearer Aldaron", forHTTPHeaderField: HeaderKey.authorization)
+        
         return request
     }
 }
-
-
-// MARK: - REVISION 2
-// 7EBE5060-0DB6-4D6A-9EA4-1B8D7FD15C8B --- ID
-
-// for POST ONLY (and list patch)

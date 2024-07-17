@@ -24,16 +24,17 @@ struct ToDoListApp: App {
                 .environmentObject(itemsListViewModel)
                 .onAppear {
                     do {
-                        try itemsListViewModel.loadItems()
+                        itemsListViewModel.handle(.loadItems)
+                         //itemsListViewModel.loadItems()
                         try CategoryStore.shared.loadItems()
                         LoggerManager.setupLoggers()
                         //NetworkCheck.shared.checkPUT()
-                       // NetworkCheck.shared.checkPost()
-                        NetworkCheck.shared.check()
-                        NetworkCheck.shared.checkGet()
-                        NetworkCheck.shared.checkDelete()
-                        NetworkCheck.shared.check()
-                       // NetworkCheck.shared.checkPatch()
+                        //NetworkCheck.shared.checkPost()
+                        //NetworkCheck.shared.check()
+                        //NetworkCheck.shared.checkGet()
+                        //NetworkCheck.shared.checkDelete()
+                        //NetworkCheck.shared.checkPatch()
+                        //NetworkCheck.shared.check()
                     } catch {
                         DDLogError("\(error)")
                     } 
@@ -41,7 +42,7 @@ struct ToDoListApp: App {
                 .onChange(of: scenePhase) { phase in
                     if phase == .inactive {
                         do {
-                            try itemsListViewModel.saveItems()
+                            itemsListViewModel.handle(.saveItems)
                             try CategoryStore.shared.saveCategories()
                         } catch {
                             DDLogError("\(error)")

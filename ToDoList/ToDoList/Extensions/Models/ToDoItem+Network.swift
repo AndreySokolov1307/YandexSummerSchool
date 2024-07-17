@@ -9,14 +9,9 @@ extension ToDoItem {
         self.isDone = toDoItemNetwork.isDone
         self.hexColor = toDoItemNetwork.hexColor
         self.creationDate = Date(timeIntervalSince1970: TimeInterval(toDoItemNetwork.creationDate))
+        self.modificationDate = Date(timeIntervalSince1970: TimeInterval(toDoItemNetwork.modificationDate))
         self.category = nil
     
-        if let modificationDate = toDoItemNetwork.modificationDate {
-            self.modificationDate = Date(timeIntervalSince1970: TimeInterval(modificationDate))
-        } else {
-            modificationDate = nil
-        }
-        
         if let deadline = toDoItemNetwork.deadline {
             self.deadline = Date(timeIntervalSince1970: TimeInterval(deadline))
         } else {

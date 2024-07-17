@@ -9,10 +9,10 @@ final class NetworkCheck {
     
     private var cancellables = Set<AnyCancellable>()
     
-    private let revision: Int = 9
+    private let revision: Int = 10
     
     func check() {
-        toDoNetworkManager.toDoItemList()
+        toDoNetworkManager.getItemsList()
             .sink { completion in
                 print(completion)
             } receiveValue: { responce in
@@ -22,7 +22,7 @@ final class NetworkCheck {
     }
     
     func checkPUT() {
-        toDoNetworkManager.changeItem(Self.itemResponce, revision: revision)
+        toDoNetworkManager.updateItem(Self.itemResponce, revision: revision)
             .sink { completion in
                 print(completion, "PUTPUTPUTPUTPUT")
             } receiveValue: { responce in
@@ -32,7 +32,7 @@ final class NetworkCheck {
     }
     
     func checkPatch() {
-        toDoNetworkManager.updateToDoItemList(model: Self.listResponce, revision: revision)
+        toDoNetworkManager.updateItemsList(model: Self.listResponce, revision: revision)
             .sink { completion in
                 print(completion, "PATHCPATCH")
             } receiveValue: { responce in
@@ -74,7 +74,7 @@ final class NetworkCheck {
 
 extension NetworkCheck {
     static let mockItem = ToDoItemNetwork(
-        id: "7EBE5060-0DB6-4D6A-9EA4-1B8D7FD15C8B",
+        id: "7EBE5060-0DB6-4D6A-9EA4-1B8D7FD15C",
         text: "blabla ZHOPA POPA",
         importance: .basic,
         deadline: 12345,
@@ -87,9 +87,9 @@ extension NetworkCheck {
     
     static let mockItem2 = ToDoItemNetwork(
         id: "7EBE5060-0DB6-4D6A-9EA4-VAMOOOOS",
-        text: "praverka patcha lol",
+        text: "praverka patcha lol vamooos",
         importance: .basic,
-        deadline: 12345,
+        deadline: Int64(Date().timeIntervalSince1970),
         isDone: false,
         hexColor: nil,
         creationDate: 123456,

@@ -3,4 +3,5 @@ enum HeaderKey {
     static let clientId = "clientId"
     static let contentType = "contentType"
     static let lastKnownRevision = "X-Last-Known-Revision"
+    static let generateFails = "X-Generate-Fails"
 }

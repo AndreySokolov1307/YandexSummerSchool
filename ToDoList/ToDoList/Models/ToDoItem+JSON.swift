@@ -10,7 +10,7 @@ extension ToDoItem {
         dictionary[Constants.JsonKeys.id] = id
         dictionary[Constants.JsonKeys.text] = text
         dictionary[Constants.JsonKeys.isDone] = isDone
-        dictionary[Constants.JsonKeys.creationDate] = creationDate
+        dictionary[Constants.JsonKeys.creationDate] = creationDate.ISO8601Format()
         dictionary[Constants.JsonKeys.hexColor] = hexColor
         dictionary[Constants.JsonKeys.category] = category?.json
         
@@ -23,7 +23,7 @@ extension ToDoItem {
         }
         
         if let modificationDate = modificationDate {
-            dictionary[Constants.JsonKeys.modificationDate] = modificationDate
+            dictionary[Constants.JsonKeys.modificationDate] = modificationDate.ISO8601Format()
         }
         
         return dictionary
