@@ -106,6 +106,29 @@ class ItemDetailViewModel: ObservableObject {
     
     // MARK: - Private Methods
     
+//    private func loadItem(with id: String) {
+//        isLoading = true
+//        if toDoNetworkInfo.isDirty {
+//
+//        } else {
+//            toDoRequestManager.getItem(with: id)
+//                .receive(on: DispatchQueue.main)
+//                .sink { [weak self] completion in
+//                    switch completion {
+//                    case .failure(let error):
+//                        self?.sendItemFromFileCache(with: id)
+//                        DDLogError("Error occused while getting item: \(error)")
+//                    case .finished:
+//                        DDLogInfo("Item has been gotten successfully")
+//                    }
+//                } receiveValue: { [weak self] responce in
+//                    self?.toDoNetworkInfo.revision = responce.revision
+//                    self?.onOutput?(.item(ToDoItem(toDoItemNetwork: responce.element)))
+//                }
+//                .store(in: &cancellables)
+//        }
+//    }
+
     private func setupItemResponce() -> ToDoItemResponce {
        return ToDoItemResponce(
             status: "ok",

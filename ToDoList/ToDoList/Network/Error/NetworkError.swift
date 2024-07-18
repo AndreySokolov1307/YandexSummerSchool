@@ -3,7 +3,6 @@ import Foundation
 enum NetworkError: LocalizedError, Equatable {
     case invalidRequest
     case invalidUrl
-    case badImage
     case unauthorized
     case forbidden
     case notFound

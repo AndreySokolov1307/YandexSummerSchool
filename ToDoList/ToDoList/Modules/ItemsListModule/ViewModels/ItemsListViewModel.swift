@@ -13,16 +13,8 @@ final class ItemsListViewModel: ObservableObject {
     // MARK: - ToDoNetworkInfo
     
     final class ToDoNetworkInfo {
-        var revision: Int? {
-            didSet {
-                print("\(revision)")
-            }
-        }
-        var isDirty = false {
-            didSet {
-                print("\(isDirty)")
-            }
-        }
+        var revision: Int?
+        var isDirty = false 
     }
     
     // MARK: - FilterOptions
@@ -62,6 +54,9 @@ final class ItemsListViewModel: ObservableObject {
     
     @Published
     var sortOption: SortOption = .creationDate
+    
+    @Published
+    var isLoading = false
     
     let fileCache: FileCache<ToDoItem>
     
@@ -141,6 +136,7 @@ final class ItemsListViewModel: ObservableObject {
     }
     
     private func loadItems(from file: String = Constants.Strings.file) {
+        isLoading = true
         self.toDoRequestManager.getItemsList()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] completion in
@@ -156,6 +152,7 @@ final class ItemsListViewModel: ObservableObject {
                 case .finished:
                     DDLogInfo("Items successfully has been loaded")
                 }
+                self?.isLoading = false
             } receiveValue: { [weak self] responce in
                 self?.toDoNetworkInfo.revision = responce.revision
                 self?.fileCache.addItems(responce.list.compactMap { ToDoItem(toDoItemNetwork: $0) })
@@ -188,7 +185,7 @@ final class ItemsListViewModel: ObservableObject {
         let toDoNetworkItems = fileCache.items.compactMap { ToDoItemNetwork(toDoItem: $0) }
         
         return ToDoListResponce(
-            status: "ok",
+            status: Constants.Strings.okStatus,
             list: toDoNetworkItems,
             revision: nil
         )
@@ -209,7 +206,7 @@ final class ItemsListViewModel: ObservableObject {
     
     private func setupItemResponce(_ item: ToDoItem) -> ToDoItemResponce {
         return ToDoItemResponce(
-            status: "ok",
+            status: Constants.Strings.okStatus,
             element: ToDoItemNetwork(toDoItem: item),
             revision: nil)
     }

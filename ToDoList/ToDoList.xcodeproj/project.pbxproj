@@ -51,7 +51,7 @@
 		32636DA12C346522000E029C /* Category+Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32636DA02C346522000E029C /* Category+Main.swift */; };
 		32636DA42C34811A000E029C /* CalendarListHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32636DA32C34811A000E029C /* CalendarListHeader.swift */; };
 		32638F512C42AD0F009A7206 /* NetworkRequestManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32638F502C42AD0F009A7206 /* NetworkRequestManager.swift */; };
-		32638F532C42AD5B009A7206 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32638F522C42AD5B009A7206 /* HttpMethod.swift */; };
+		32638F532C42AD5B009A7206 /* HTTPMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32638F522C42AD5B009A7206 /* HTTPMethod.swift */; };
 		32638F552C42AD91009A7206 /* Path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32638F542C42AD91009A7206 /* Path.swift */; };
 		32638F582C42AE08009A7206 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32638F572C42AE08009A7206 /* NetworkError.swift */; };
 		32638F5A2C42AE2E009A7206 /* ErrorParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32638F592C42AE2E009A7206 /* ErrorParser.swift */; };
@@ -103,9 +103,12 @@
 		32E767572C2784F2009F5B1C /* DeadlineCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E767562C2784F2009F5B1C /* DeadlineCell.swift */; };
 		32E7675A2C2792E0009F5B1C /* TextFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E767592C2792E0009F5B1C /* TextFieldCell.swift */; };
 		32E7675E2C279B84009F5B1C /* RowSeparatorTrailingPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32E7675D2C279B84009F5B1C /* RowSeparatorTrailingPadding.swift */; };
+		32F1A2AD2C47F5A7004B32F2 /* LoadingViewSUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F1A2AC2C47F5A7004B32F2 /* LoadingViewSUI.swift */; };
+		32F1A2B02C47FC1B004B32F2 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F1A2AF2C47FC1B004B32F2 /* LoadingView.swift */; };
 		32F4B0C22C3B396F00458B23 /* CocoaLumberjack in Frameworks */ = {isa = PBXBuildFile; productRef = 32F4B0C12C3B396F00458B23 /* CocoaLumberjack */; };
 		32F4B0C42C3B396F00458B23 /* CocoaLumberjackSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 32F4B0C32C3B396F00458B23 /* CocoaLumberjackSwift */; };
 		32F4B0C62C3B399100458B23 /* LogFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F4B0C52C3B399100458B23 /* LogFormatter.swift */; };
+		32F5AC802C4946C90088475D /* DeviceID.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32F5AC7F2C4946C90088475D /* DeviceID.swift */; };
 		4BB599226186657566B5E6CF /* Pods_ToDoList.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E17953E798B88AF98C98D8B /* Pods_ToDoList.framework */; };
 		B64101A6D1CC71A402451794 /* Pods_ToDoListTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D77DA755A1D0361FFD23F196 /* Pods_ToDoListTests.framework */; };
 /* End PBXBuildFile section */
@@ -177,7 +180,7 @@
 		32636DA02C346522000E029C /* Category+Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Category+Main.swift"; sourceTree = "<group>"; };
 		32636DA32C34811A000E029C /* CalendarListHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarListHeader.swift; sourceTree = "<group>"; };
 		32638F502C42AD0F009A7206 /* NetworkRequestManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkRequestManager.swift; sourceTree = "<group>"; };
-		32638F522C42AD5B009A7206 /* HttpMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		32638F522C42AD5B009A7206 /* HTTPMethod.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPMethod.swift; sourceTree = "<group>"; };
 		32638F542C42AD91009A7206 /* Path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Path.swift; sourceTree = "<group>"; };
 		32638F572C42AE08009A7206 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		32638F592C42AE2E009A7206 /* ErrorParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorParser.swift; sourceTree = "<group>"; };
@@ -229,7 +232,10 @@
 		32E767562C2784F2009F5B1C /* DeadlineCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeadlineCell.swift; sourceTree = "<group>"; };
 		32E767592C2792E0009F5B1C /* TextFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldCell.swift; sourceTree = "<group>"; };
 		32E7675D2C279B84009F5B1C /* RowSeparatorTrailingPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowSeparatorTrailingPadding.swift; sourceTree = "<group>"; };
+		32F1A2AC2C47F5A7004B32F2 /* LoadingViewSUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingViewSUI.swift; sourceTree = "<group>"; };
+		32F1A2AF2C47FC1B004B32F2 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
 		32F4B0C52C3B399100458B23 /* LogFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogFormatter.swift; sourceTree = "<group>"; };
+		32F5AC7F2C4946C90088475D /* DeviceID.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceID.swift; sourceTree = "<group>"; };
 		466B700EF8DDEDD2A4E43CC6 /* Pods-ToDoListTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoListTests.debug.xcconfig"; path = "Target Support Files/Pods-ToDoListTests/Pods-ToDoListTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9B9B3CD9847DB694D6CAA836 /* Pods-ToDoList.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToDoList.release.xcconfig"; path = "Target Support Files/Pods-ToDoList/Pods-ToDoList.release.xcconfig"; sourceTree = "<group>"; };
 		D0458CFC8944B02823776E2D /* Pods_ToDoList_ToDoListUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToDoList_ToDoListUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -553,7 +559,7 @@
 			isa = PBXGroup;
 			children = (
 				32638F502C42AD0F009A7206 /* NetworkRequestManager.swift */,
-				32638F522C42AD5B009A7206 /* HttpMethod.swift */,
+				32638F522C42AD5B009A7206 /* HTTPMethod.swift */,
 				32638F542C42AD91009A7206 /* Path.swift */,
 				32638F722C42E11D009A7206 /* HeaderKey.swift */,
 			);
@@ -627,6 +633,7 @@
 			children = (
 				32894D272C31E5C700773549 /* UseAutoLayout.swift */,
 				32F4B0C52C3B399100458B23 /* LogFormatter.swift */,
+				32F5AC7F2C4946C90088475D /* DeviceID.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -740,13 +747,12 @@
 		329D35C82C2C900600036905 /* UIComponents */ = {
 			isa = PBXGroup;
 			children = (
+				32F1A2AE2C47FBA0004B32F2 /* Views */,
 				32E7675C2C279B60009F5B1C /* Modifiers */,
 				327C4D782C2B1A800074933B /* Styles */,
 				32894D2A2C31E5FD00773549 /* Buttons */,
 				32894D292C31E5E600773549 /* Coltrollers */,
 				327C9A782C2F785000F8AA77 /* ColorPicker */,
-				329D35D62C2CD0D300036905 /* GradientRing.swift */,
-				32636D9A2C344B70000E029C /* CategoryColorView.swift */,
 			);
 			path = UIComponents;
 			sourceTree = "<group>";
@@ -778,6 +784,17 @@
 				32392FE12C2A2E550078030C /* RowSepatatorLeadingPadding.swift */,
 			);
 			path = Modifiers;
+			sourceTree = "<group>";
+		};
+		32F1A2AE2C47FBA0004B32F2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				32F1A2AC2C47F5A7004B32F2 /* LoadingViewSUI.swift */,
+				329D35D62C2CD0D300036905 /* GradientRing.swift */,
+				32636D9A2C344B70000E029C /* CategoryColorView.swift */,
+				32F1A2AF2C47FC1B004B32F2 /* LoadingView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		B2247A3368C28FECD592F5BD /* Pods */ = {
@@ -1051,6 +1068,7 @@
 				32638F5C2C42B33B009A7206 /* ToDoListPath.swift in Sources */,
 				32894D282C31E5C700773549 /* UseAutoLayout.swift in Sources */,
 				32636DA42C34811A000E029C /* CalendarListHeader.swift in Sources */,
+				32F1A2AD2C47F5A7004B32F2 /* LoadingViewSUI.swift in Sources */,
 				32638F582C42AE08009A7206 /* NetworkError.swift in Sources */,
 				3261F1362C3EB82400944EA4 /* RickAndMortyAPIManager.swift in Sources */,
 				32E767572C2784F2009F5B1C /* DeadlineCell.swift in Sources */,
@@ -1082,6 +1100,7 @@
 				327C4D862C2B78D60074933B /* DeleteButton.swift in Sources */,
 				32894D2E2C31E68700773549 /* UIView+Style.swift in Sources */,
 				3296AA112C36BAB50068A910 /* Category+JSON.swift in Sources */,
+				32F1A2B02C47FC1B004B32F2 /* LoadingView.swift in Sources */,
 				327C9A732C2EDD0700F8AA77 /* Importance+Comparable.swift in Sources */,
 				32636D862C32D6BD000E029C /* CalendarListViewController+CollectionViewDataSource.swift in Sources */,
 				327C9A772C2F6E2200F8AA77 /* GrayShadesColorPicker.swift in Sources */,
@@ -1093,11 +1112,12 @@
 				32636D932C341A6B000E029C /* CalendarItemCell.swift in Sources */,
 				329D35CC2C2C90D700036905 /* ShapeStyle+ColorPickerGradient.swift in Sources */,
 				32636D882C32D820000E029C /* CalendarListViewController+CollectionSection.swift in Sources */,
-				32638F532C42AD5B009A7206 /* HttpMethod.swift in Sources */,
+				32638F532C42AD5B009A7206 /* HTTPMethod.swift in Sources */,
 				32894D392C31E9EA00773549 /* Color+UIColor.swift in Sources */,
 				32638F692C42D077009A7206 /* ToDoListResponce.swift in Sources */,
 				3261F1382C3EC98F00944EA4 /* URLSession+dataTask.swift in Sources */,
 				32638F512C42AD0F009A7206 /* NetworkRequestManager.swift in Sources */,
+				32F5AC802C4946C90088475D /* DeviceID.swift in Sources */,
 				329D35CE2C2CA21200036905 /* ItemColorView.swift in Sources */,
 				323A70D12C357CF900ECB9DB /* RoundPlusButton.swift in Sources */,
 				320B2D852C2751E9009C9063 /* Images.swift in Sources */,

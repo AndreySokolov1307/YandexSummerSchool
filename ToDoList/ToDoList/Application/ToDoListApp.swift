@@ -24,10 +24,10 @@ struct ToDoListApp: App {
                 .environmentObject(itemsListViewModel)
                 .onAppear {
                     do {
+                        LoggerManager.setupLoggers()
                         itemsListViewModel.handle(.loadItems)
                          //itemsListViewModel.loadItems()
                         try CategoryStore.shared.loadItems()
-                        LoggerManager.setupLoggers()
                         //NetworkCheck.shared.checkPUT()
                         //NetworkCheck.shared.checkPost()
                         //NetworkCheck.shared.check()

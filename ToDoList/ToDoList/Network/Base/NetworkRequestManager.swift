@@ -2,6 +2,8 @@ import Combine
 import Foundation
 import CocoaLumberjackSwift
 
+private let token: String = "Aldaron"
+
 class NetworkRequestManager {
     typealias Params = [String: String]
     
@@ -124,7 +126,7 @@ class NetworkRequestManager {
         headers?.forEach {
             request.setValue($0.value, forHTTPHeaderField: $0.key)
         }
-        request.setValue("Bearer Aldaron", forHTTPHeaderField: HeaderKey.authorization)
+        request.setValue("Bearer \(token)", forHTTPHeaderField: HeaderKey.authorization)
         
         return request
     }

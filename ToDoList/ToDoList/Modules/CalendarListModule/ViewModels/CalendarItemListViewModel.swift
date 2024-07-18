@@ -171,7 +171,7 @@ final class CalendarItemListViewModel {
         let toDoNetworkItems = fileCache.items.compactMap { ToDoItemNetwork(toDoItem: $0) }
         
         return ToDoListResponce(
-            status: "ok",
+            status: Constants.Strings.okStatus,
             list: toDoNetworkItems,
             revision: nil
         )
@@ -179,10 +179,9 @@ final class CalendarItemListViewModel {
     
     private func setupItemResponce(_ item: ToDoItem) -> ToDoItemResponce {
         return ToDoItemResponce(
-            status: "ok",
+            status: Constants.Strings.okStatus,
             element: ToDoItemNetwork(toDoItem: item),
             revision: nil)
     }
-    
 }
 

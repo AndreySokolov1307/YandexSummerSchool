@@ -69,6 +69,7 @@ enum Constants {
         static let toDoItemBaseUrl = "://hive.mrdekk.ru/todo"
         static let transferProtocol = "https"
         static let toDoItemListEndpoint = "/list"
+        static let okStatus = "ok"
     }
     
     enum Dates {

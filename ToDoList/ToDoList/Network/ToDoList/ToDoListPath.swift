@@ -1,8 +1,8 @@
 import Foundation
 
 enum ToDoItemPath: Path {
-    case toDoItemList(_ method: HttpMethod)
-    case toDoItem(_ id: String, _ method: HttpMethod)
+    case toDoItemList(_ method: HTTPMethod)
+    case toDoItem(_ id: String, _ method: HTTPMethod)
     
     var baseUrl: String {
         switch self {
@@ -20,7 +20,7 @@ enum ToDoItemPath: Path {
         }
     }
     
-    var method: HttpMethod {
+    var method: HTTPMethod {
         switch self {
         case .toDoItemList(let method):
             return method

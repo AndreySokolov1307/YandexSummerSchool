@@ -1,4 +1,4 @@
-import Foundation
+import UIKit
 
 struct ToDoItemNetwork: Codable {
     let id: String
@@ -23,6 +23,7 @@ struct ToDoItemNetwork: Codable {
 }
 
 extension ToDoItemNetwork {
+    
     init(toDoItem: ToDoItem) {
         self.id = toDoItem.id
         self.text = toDoItem.text
@@ -30,7 +31,7 @@ extension ToDoItemNetwork {
         self.isDone = toDoItem.isDone
         self.hexColor = toDoItem.hexColor
         self.creationDate = Int64(toDoItem.creationDate.timeIntervalSince1970)
-        self.lastUpdatedBy = "vamoo"
+        self.lastUpdatedBy = DeviceID.id
         self.files = nil
         self.modificationDate = Int64(Date().timeIntervalSince1970)
  

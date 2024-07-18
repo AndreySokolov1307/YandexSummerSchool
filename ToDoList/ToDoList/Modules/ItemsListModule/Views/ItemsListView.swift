@@ -26,11 +26,11 @@ struct ItemsListView: View {
                 itemsList
                 addNewItemButton
                     .toolbar(content: toolBarContent)
+                if vm.isLoading {
+                  LoadingViewSUI()
+                }
             }
         }
-//        .task {
-//            await NetworkCheck.printCharacters()
-//        }
     }
     
     // MARK: - Private Views
@@ -56,7 +56,6 @@ struct ItemsListView: View {
                     }
                     .swipeActions(edge: .trailing) {
                         DeleteButton {
-                            //vm.deleteItem(todoItem)
                             vm.handle(.deleteItem(todoItem))
                         }
                         InfoButton {
