@@ -1,6 +1,7 @@
 import Combine
 import Foundation
 import FileCache
+import CocoaLumberjackSwift
 
 typealias FilterOption = ItemsListViewModel.FilterOption
 typealias SortOption = ItemsListViewModel.SortOption
@@ -26,6 +27,16 @@ final class ItemsListViewModel: ObservableObject {
         var id: Self { return self }
     }
     
+    // MARK: - Input
+    
+    enum Input {
+        case loadItems
+        case deleteItem(_ item: ToDoItem)
+        case toggleIsDone(_ item: ToDoItem)
+        case saveItems
+        case updateItems
+    }
+    
     // MARK: - Public Properties
     
     @Published
@@ -37,10 +48,13 @@ final class ItemsListViewModel: ObservableObject {
     @Published
     var sortOption: SortOption = .creationDate
     
-    let fileCache: FileCache<ToDoItem>
+    @Published
+    var isLoading = false
+    
+    let toDoManager: ToDoManager
     
     var isDoneCount: Int {
-        return fileCache.items.lazy.filter({ $0.isDone }).count
+        return toDoManager.toDoListSubject.value.lazy.filter({ $0.isDone }).count
     }
     
     // MARK: - Private Properties
@@ -49,26 +63,53 @@ final class ItemsListViewModel: ObservableObject {
     
     // MARK: - Init
     
-    init(fileCache: FileCache<ToDoItem>) {
-        self.fileCache = fileCache
+    init(toDoManager: ToDoManager) {
+        self.toDoManager = toDoManager
         bind()
     }
     
     // MARK: - Public Methods
     
-    func deleteItem(_ item: ToDoItem) {
-        self.fileCache.deleteItem(withId: item.id)
+    func handle(_ input: Input) {
+        switch input {
+        case .loadItems:
+            toDoManager.loadItems()
+        case .saveItems:
+            toDoManager.saveItems()
+        case .toggleIsDone(let item):
+            self.toggleIsDone(for: item)
+        case .deleteItem(let item):
+            toDoManager.deleteItem(item)
+        case .updateItems:
+            toDoManager.updateList()
+        }
     }
     
-    func saveItems(to file: String = Constants.Strings.file) throws {
-        try fileCache.saveItems(to: file)
-    }
+    // MARK: - Private Methods
     
-    func loadItems(from file: String = Constants.Strings.file) throws {
-        try fileCache.loadItems(from: file)
+    private func bind() {
+        toDoManager.toDoListSubject.combineLatest($filterOption, $sortOption)
+            .eraseToAnyPublisher()
+            .sink { [weak self] items, filterOption, sortOption in
+                guard let self else { return }
+                self.toDoItems = self.filter(items, with: filterOption)
+                self.toDoItems = self.sort(self.toDoItems, with: sortOption)
+            }
+            .store(in: &cancellables)
+        
+        toDoManager.stateSubject
+            .sink { state in
+                switch state {
+                case .loading:
+                    self.isLoading = true
+                case .regular:
+                    self.isLoading = false
+                }
+            }
+            .store(in: &cancellables)
     }
-    
-    func toggleIsDone(for item: ToDoItem) {
+            
+    private func toggleIsDone(for item: ToDoItem) {
         let newItem = ToDoItem(id: item.id,
                                text: item.text,
                                importance: item.importance,
@@ -78,27 +119,9 @@ final class ItemsListViewModel: ObservableObject {
                                modificationDate: item.modificationDate,
                                hexColor: item.hexColor,
                                category: item.category)
-        addItem(newItem)
+        toDoManager.updateItem(newItem)
     }
-    
-    // MARK: - Private Methods
-    
-    private func addItem(_ item: ToDoItem) {
-        fileCache.addItem(item)
-    }
-    
-    private func bind() {
-        fileCache.$items.combineLatest($filterOption, $sortOption)
-            .eraseToAnyPublisher()
-            .sink { [weak self] items, filterOption, sortOption in
-                guard let self else { return }
-                self.toDoItems = self.filter(items, with: filterOption)
-                self.toDoItems = self.sort(self.toDoItems, with: sortOption)
-            }
-            .store(in: &cancellables)
-    }
-    
-    
+        
     private func filter(_ items: [ToDoItem], with filterOption: FilterOption) -> [ToDoItem] {
         switch filterOption {
         case .all:

@@ -86,4 +86,12 @@ enum Constants {
         static let hobbyID = "3"
         static let otherID = "4"
     }
+    
+    enum Network {
+        static let toDoItemBaseUrl = "://hive.mrdekk.ru/todo"
+        static let transferProtocol = "https"
+        static let toDoItemListEndpoint = "/list"
+        static let okStatus = "ok"
+        static let isDirtyKey = "isDirty"
+    }
 }

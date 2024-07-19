@@ -1,6 +1,7 @@
 import Foundation
 import Combine
 import FileCache
+import CocoaLumberjackSwift
 
 typealias TableSection = CalendarItemListViewController.TableSection
 typealias SectionIDs = [Dictionary<TableSection, [ToDoItem]>.Keys.Element]
@@ -21,18 +22,17 @@ final class CalendarItemListViewModel {
     
     // MARK: - Public Properties
     
-    let fileCache: FileCache<ToDoItem>
+    let toDoManager: ToDoManager
     
     var onOutput: ((Output) -> Void)?
     
     // MARK: - Private Properties
-    
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     
-    init(fileCahce: FileCache<ToDoItem>) {
-        self.fileCache = fileCahce
+    init(toDoManager: ToDoManager) {
+        self.toDoManager = toDoManager
     }
     
     // MARK: - Public Methods
@@ -42,16 +42,18 @@ final class CalendarItemListViewModel {
         case .getData:
             getData()
         case .makeDone(let item):
-            chageToDone(for: item)
+            let newItem = changeToDone(for: item)
+            toDoManager.updateItem(newItem)
         case .makeNotDone(let item):
-            chageToNotDone(for: item)
+            let newItem = chageToNotDone(for: item)
+            toDoManager.updateItem(newItem)
         }
     }
     
     // MARK: - Private Methods
     
     private func getData() {
-        fileCache.$items
+        toDoManager.toDoListSubject
             .sink { [weak self] items in
                 var itemsBySection = items.reduce(into: [TableSection: [ToDoItem]]()) { dict, item in
                     
@@ -83,30 +85,28 @@ final class CalendarItemListViewModel {
             }.store(in: &cancellables)
     }
     
-    private func chageToDone(for item: ToDoItem) {
-        let newItem = ToDoItem(id: item.id,
-                               text: item.text,
-                               importance: item.importance,
-                               deadline: item.deadline,
-                               isDone: true,
-                               creationDate: item.creationDate,
-                               modificationDate: item.modificationDate,
-                               hexColor: item.hexColor,
-                               category: item.category)
-        fileCache.addItem(newItem)
+    private func changeToDone(for item: ToDoItem) -> ToDoItem {
+        return ToDoItem(id: item.id,
+                        text: item.text,
+                        importance: item.importance,
+                        deadline: item.deadline,
+                        isDone: true,
+                        creationDate: item.creationDate,
+                        modificationDate: item.modificationDate,
+                        hexColor: item.hexColor,
+                        category: item.category)
     }
     
-    private func chageToNotDone(for item: ToDoItem) {
-        let newItem = ToDoItem(id: item.id,
-                               text: item.text,
-                               importance: item.importance,
-                               deadline: item.deadline,
-                               isDone: false,
-                               creationDate: item.creationDate,
-                               modificationDate: item.modificationDate,
-                               hexColor: item.hexColor,
-                               category: item.category)
-        fileCache.addItem(newItem)
+    private func chageToNotDone(for item: ToDoItem) -> ToDoItem {
+        return ToDoItem(id: item.id,
+                        text: item.text,
+                        importance: item.importance,
+                        deadline: item.deadline,
+                        isDone: false,
+                        creationDate: item.creationDate,
+                        modificationDate: item.modificationDate,
+                        hexColor: item.hexColor,
+                        category: item.category)
     }
 }
 

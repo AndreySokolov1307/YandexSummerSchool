@@ -105,7 +105,10 @@ final class CalendarItemListViewController: ViewController<CalendarItemListView>
     }
     
     private func presentItemDetailView(with item: ToDoItem = ToDoItem.newItem()) {
-        let viewModel = ItemDetailViewModel(toDoItem: item, fileCache: viewModel.fileCache)
+        let viewModel = ItemDetailViewModel(
+            toDoItem: item,
+            toDoManager: viewModel.toDoManager
+        )
         let vc = UIHostingController(rootView: ItemDetailView(viewModel: viewModel))
         self.navigationController?.present(vc, animated: true)
     }

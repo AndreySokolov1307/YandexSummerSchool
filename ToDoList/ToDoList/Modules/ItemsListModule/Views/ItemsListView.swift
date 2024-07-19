@@ -26,10 +26,10 @@ struct ItemsListView: View {
                 itemsList
                 addNewItemButton
                     .toolbar(content: toolBarContent)
+                if vm.isLoading {
+                  LoadingViewSUI()
+                }
             }
-        }
-        .task {
-            await RickAndMortyAPIManager.printCharacters()
         }
     }
     
@@ -42,7 +42,7 @@ struct ItemsListView: View {
                     ItemCell(
                         toDoItem: todoItem,
                         onButtonTap: {
-                        vm.toggleIsDone(for: todoItem)
+                            vm.handle(.toggleIsDone(todoItem))
                     })
                     .listRowBackground(Theme.Back.backSecondary.color)
                     .contentShape(Rectangle())
@@ -51,12 +51,12 @@ struct ItemsListView: View {
                     }
                     .swipeActions(edge: .leading) {
                         SuccessButton {
-                            vm.toggleIsDone(for: todoItem)
+                            vm.handle(.toggleIsDone(todoItem))
                         }
                     }
                     .swipeActions(edge: .trailing) {
                         DeleteButton {
-                            vm.deleteItem(todoItem)
+                            vm.handle(.deleteItem(todoItem))
                         }
                         InfoButton {
                             print(todoItem.text)
@@ -70,12 +70,15 @@ struct ItemsListView: View {
             .textCase(nil)
             .rowSepatatorLeadingPadding()
         }
+        .refreshable {
+            vm.handle(.updateItems)
+        }
         .sheet(item: $selectedItem,
                content: { item in
             ItemDetailView(
                 viewModel: ItemDetailViewModel(
                     toDoItem: item,
-                    fileCache: vm.fileCache
+                    toDoManager: vm.toDoManager
                 )
             )
         })
@@ -115,7 +118,7 @@ struct ItemsListView: View {
     private func toolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
             NavigationLink(destination: {
-                CalendarListView(fileCache: vm.fileCache)
+                CalendarListView(toDoManager: vm.toDoManager)
                     .navigationTitle(Constants.Strings.calendarListTitle)
                     .navigationBarTitleDisplayMode(.inline)
                     .ignoresSafeArea()
@@ -129,6 +132,6 @@ struct ItemsListView: View {
 struct ItemsListView_Previews: PreviewProvider {
     static var previews: some View {
         ItemsListView()
-            .environmentObject(ItemsListViewModel(fileCache: FileCache()))
+            .environmentObject(ItemsListViewModel(toDoManager: ToDoManager(fileCache: FileCache(), toDoRequestManager: ToDoRequestManager())))
     }
 }

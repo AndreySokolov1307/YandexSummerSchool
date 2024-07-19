@@ -9,7 +9,7 @@ let package = Package(
     products: [
         .library(
             name: "FileCache",
-            targets: ["FileCache"]),
+            targets: ["FileCache"])
     ],
     dependencies: [
         .package(url: "https://github.com/CocoaLumberjack/CocoaLumberjack.git", from: "3.8.0")

@@ -8,7 +8,12 @@ struct ToDoListApp: App {
     // MARK: - Private Properties
     
     @StateObject
-    private var itemsListViewModel = ItemsListViewModel(fileCache: FileCache<ToDoItem>())
+    private var itemsListViewModel = ItemsListViewModel(
+        toDoManager: ToDoManager(
+            fileCache: FileCache<ToDoItem>(),
+            toDoRequestManager: ToDoRequestManager()
+        )
+    )
     
     @Environment(\.scenePhase)
     private var scenePhase
@@ -21,9 +26,9 @@ struct ToDoListApp: App {
                 .environmentObject(itemsListViewModel)
                 .onAppear {
                     do {
-                        try itemsListViewModel.loadItems()
-                        try CategoryStore.shared.loadItems()
                         LoggerManager.setupLoggers()
+                        itemsListViewModel.handle(.loadItems)
+                        try CategoryStore.shared.loadItems()
                     } catch {
                         DDLogError("\(error)")
                     } 
@@ -31,7 +36,7 @@ struct ToDoListApp: App {
                 .onChange(of: scenePhase) { phase in
                     if phase == .inactive {
                         do {
-                            try itemsListViewModel.saveItems()
+                            itemsListViewModel.handle(.saveItems)
                             try CategoryStore.shared.saveCategories()
                         } catch {
                             DDLogError("\(error)")

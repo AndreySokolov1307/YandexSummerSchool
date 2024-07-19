@@ -9,9 +9,9 @@ extension Importance: Comparable {
         switch self {
         case .low:
             return 0
-        case .regular:
+        case .basic:
             return 1
-        case .high:
+        case .important:
             return 2
         }
     }

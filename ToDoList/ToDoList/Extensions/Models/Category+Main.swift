@@ -1,24 +1,25 @@
 import Foundation
+import UIKit
 
 extension ToDoItem.Category {
     static let job = ToDoItem.Category(
         name: Constants.Categories.jobTitle,
-        color: .systemRed,
+        hexColor: UIColor.systemRed.hexString,
         id: Constants.Categories.jobID
     )
     static let study = ToDoItem.Category(
         name: Constants.Categories.studyTitle,
-        color: .systemBlue,
+        hexColor: UIColor.systemBlue.hexString,
         id: Constants.Categories.studyID
     )
     static let hobby = ToDoItem.Category(
         name: Constants.Categories.hobbyTitle,
-        color: .systemGreen,
+        hexColor: UIColor.systemGreen.hexString,
         id: Constants.Categories.hobbyID
     )
     static let other = ToDoItem.Category(
         name: Constants.Categories.otherTitle,
-        color: .clear,
+        hexColor: UIColor.clear.hexString,
         id: Constants.Categories.otherID
     )
 }

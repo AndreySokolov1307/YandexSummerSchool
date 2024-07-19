@@ -13,10 +13,10 @@ struct ImportancePicker: View {
         Picker(importance.title, selection: $importance) {
             Images.importanceLow.image
                 .tag(Importance.low)
-            Text(Importance.regular.title)
-                .tag(Importance.regular)
-            Importance.high.image
-                .tag(Importance.high)
+            Text(Importance.basic.title)
+                .tag(Importance.basic)
+            Importance.important.image
+                .tag(Importance.important)
         }
         .pickerStyle(.segmented)
     }
@@ -24,6 +24,6 @@ struct ImportancePicker: View {
 
 struct ImportancePicker_Previews: PreviewProvider {
     static var previews: some View {
-        ImportancePicker(importance: .constant(.regular))
+        ImportancePicker(importance: .constant(.basic))
     }
 }

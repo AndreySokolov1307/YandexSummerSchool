@@ -36,7 +36,7 @@ struct CategoryCell: View {
     
     private var categoryColor: some View {
         Circle()
-            .fill(Color(category.color))
+            .fill(Color(hex: category.hexColor) ?? .white)
             .frame(
                 width: LayoutConstants.categoryColorSideLenght,
                 height: LayoutConstants.categoryColorSideLenght

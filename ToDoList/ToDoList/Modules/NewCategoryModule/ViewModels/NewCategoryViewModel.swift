@@ -1,11 +1,12 @@
 import UIKit
+import SwiftUI
 import Combine
 
 final class NewCategoryViewModel {
     
     enum Input {
         case categoryName(_ name: String)
-        case categoryColor(_ color: UIColor)
+        case categoryColor(_ hexColor: String)
         case saveCategory
     }
     
@@ -45,11 +46,11 @@ final class NewCategoryViewModel {
         case .categoryName(let name):
             self.name = name
             self.onOutput?(.charactersLeft(charactersLeft(for: name)))
-        case .categoryColor(let color):
-            self.color = color
+        case .categoryColor(let hexColor):
+            self.color = Color(hex: hexColor)?.uiColor
         case .saveCategory:
             if let color = color {
-                categoryStore.addCategory(ToDoItem.Category(name: name, color: color))
+                categoryStore.addCategory(ToDoItem.Category(name: name, hexColor: color.hexString))
             }
         }
     }

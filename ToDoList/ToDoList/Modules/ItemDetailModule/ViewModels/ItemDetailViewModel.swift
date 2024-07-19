@@ -1,6 +1,7 @@
 import SwiftUI
 import Combine
 import FileCache
+import CocoaLumberjackSwift
 
 @MainActor
 class ItemDetailViewModel: ObservableObject {
@@ -10,6 +11,13 @@ class ItemDetailViewModel: ObservableObject {
     enum ToDoType {
         case new
         case existed
+    }
+    
+    // MARK: - Input
+    
+    enum Input {
+        case addItem
+        case deleteItem
     }
     
     // MARK: - Public Properties
@@ -53,11 +61,14 @@ class ItemDetailViewModel: ObservableObject {
     
     // MARK: - Private Properties
     
-    private let fileCache: FileCache<ToDoItem>
+    private let toDoManager: ToDoManager
+    private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     
-    init(toDoItem: ToDoItem, fileCache: FileCache<ToDoItem>) {
+    init(toDoItem: ToDoItem,
+         toDoManager: ToDoManager
+    ) {
         self.id = toDoItem.id
         self.text = toDoItem.text
         self.isDone = toDoItem.isDone
@@ -65,16 +76,31 @@ class ItemDetailViewModel: ObservableObject {
         self.hasDeadline = toDoItem.deadline == nil ? false : true
         self.deadline = toDoItem.deadline ?? Constants.Dates.nextDay
         self.creationDate = toDoItem.creationDate
-        self.fileCache = fileCache
         self.toDoType = toDoItem.text.isEmpty ? .new : .existed
         self.hasColor = toDoItem.hexColor == nil ? false : true
         self.color = Color(hex: toDoItem.hexColor) ?? .white
         self.category = toDoItem.category ?? ToDoItem.Category.other
+        self.toDoManager = toDoManager
     }
     
     // MARK: - Public Methods
     
-    func addItem() {
+    func handle(_ input: Input) {
+        switch input {
+        case .addItem:
+            if toDoType == .new {
+                toDoManager.addItem(setupItem())
+            } else {
+                toDoManager.updateItem(setupItem())
+            }
+        case .deleteItem:
+            toDoManager.deleteItem(setupItem())
+        }
+    }
+    
+    // MARK: - Private Methods
+    
+    private func setupItem() -> ToDoItem {
         var currentDeadline: Date?
         
         if !hasDeadline {
@@ -94,14 +120,9 @@ class ItemDetailViewModel: ObservableObject {
             hexColor: hasColor ? color.hexString : nil,
             category: category == ToDoItem.Category.other ? nil : category
         )
-        fileCache.addItem(item)
+        
+        return item
     }
-    
-    func deleteItem() {
-        fileCache.deleteItem(withId: id)
-    }
-    
-    // MARK: - Private Methods
     
     private func croppDate(_ date: Date) -> Date? {
         let components = date.components(.day, .month, .year)

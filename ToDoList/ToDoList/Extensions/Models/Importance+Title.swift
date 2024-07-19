@@ -7,9 +7,9 @@ extension Importance {
         switch self {
         case .low:
             return Constants.Strings.importanceLowTitle
-        case .regular:
+        case .basic:
             return Constants.Strings.importanceRegularTitle
-        case .high:
+        case .important:
             return Constants.Strings.importanceHighTitle
         }
     }
