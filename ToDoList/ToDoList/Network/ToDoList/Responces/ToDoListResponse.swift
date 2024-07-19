@@ -1,6 +1,6 @@
 import Foundation
 
-struct ToDoListResponce: Codable {
+struct ToDoListResponse: Codable {
     let status: String
     let list: [ToDoItemNetwork]
     let revision: Int?

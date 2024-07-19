@@ -70,14 +70,15 @@ struct ItemsListView: View {
             .textCase(nil)
             .rowSepatatorLeadingPadding()
         }
+        .refreshable {
+            vm.handle(.updateItems)
+        }
         .sheet(item: $selectedItem,
                content: { item in
             ItemDetailView(
                 viewModel: ItemDetailViewModel(
                     toDoItem: item,
-                    fileCache: vm.fileCache,
-                    toDoRequestManager: vm.toDoRequestManager,
-                    toDoNetworkInfo: vm.toDoNetworkInfo
+                    toDoManager: vm.toDoManager
                 )
             )
         })
@@ -117,11 +118,7 @@ struct ItemsListView: View {
     private func toolBarContent() -> some ToolbarContent {
         ToolbarItem(placement: .confirmationAction) {
             NavigationLink(destination: {
-                CalendarListView(
-                    fileCache: vm.fileCache,
-                    toDoRequestManager: vm.toDoRequestManager,
-                    toDoNetworkInfo: vm.toDoNetworkInfo
-                )
+                CalendarListView(toDoManager: vm.toDoManager)
                     .navigationTitle(Constants.Strings.calendarListTitle)
                     .navigationBarTitleDisplayMode(.inline)
                     .ignoresSafeArea()
@@ -135,6 +132,6 @@ struct ItemsListView: View {
 struct ItemsListView_Previews: PreviewProvider {
     static var previews: some View {
         ItemsListView()
-            .environmentObject(ItemsListViewModel(fileCache: FileCache(), toDoRequestManager: ToDoRequestManager()))
+            .environmentObject(ItemsListViewModel(toDoManager: ToDoManager(fileCache: FileCache(), toDoRequestManager: ToDoRequestManager())))
     }
 }

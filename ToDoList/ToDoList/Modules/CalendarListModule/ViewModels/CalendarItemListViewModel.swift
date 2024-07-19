@@ -22,11 +22,7 @@ final class CalendarItemListViewModel {
     
     // MARK: - Public Properties
     
-    let fileCache: FileCache<ToDoItem>
-    
-    let toDoRequestManager: IToDoRequestManager
-    
-    let toDoNetworkInfo: ToDoNetworkInfo
+    let toDoManager: ToDoManager
     
     var onOutput: ((Output) -> Void)?
     
@@ -35,14 +31,8 @@ final class CalendarItemListViewModel {
     
     // MARK: - Init
     
-    init(
-        fileCahce: FileCache<ToDoItem>,
-        toDoRequestManager: IToDoRequestManager,
-        toDoNetworkInfo: ToDoNetworkInfo
-    ) {
-        self.fileCache = fileCahce
-        self.toDoNetworkInfo = toDoNetworkInfo
-        self.toDoRequestManager = toDoRequestManager
+    init(toDoManager: ToDoManager) {
+        self.toDoManager = toDoManager
     }
     
     // MARK: - Public Methods
@@ -53,17 +43,17 @@ final class CalendarItemListViewModel {
             getData()
         case .makeDone(let item):
             let newItem = changeToDone(for: item)
-            self.updateItem(newItem)
+            toDoManager.updateItem(newItem)
         case .makeNotDone(let item):
             let newItem = chageToNotDone(for: item)
-            self.updateItem(newItem)
+            toDoManager.updateItem(newItem)
         }
     }
     
     // MARK: - Private Methods
     
     private func getData() {
-        fileCache.$items
+        toDoManager.toDoListSubject
             .sink { [weak self] items in
                 var itemsBySection = items.reduce(into: [TableSection: [ToDoItem]]()) { dict, item in
                     
@@ -117,71 +107,6 @@ final class CalendarItemListViewModel {
                         modificationDate: item.modificationDate,
                         hexColor: item.hexColor,
                         category: item.category)
-    }
-    
-    private func updateItem(_ item: ToDoItem) {
-        if toDoNetworkInfo.isDirty {
-            self.fileCache.addItem(item)
-            self.updateList()
-        } else {
-            if let revision = toDoNetworkInfo.revision {
-                toDoRequestManager.updateItem(setupItemResponce(item), revision: revision)
-                    .receive(on: DispatchQueue.main)
-                    .sink { [weak self] completion in
-                        switch completion {
-                        case .failure(let error):
-                            self?.toDoNetworkInfo.isDirty = true
-                            DDLogError("Error occused while adding item: \(error)")
-                        case .finished:
-                            DDLogInfo("Item successfully has changed isDone")
-                        }
-                    } receiveValue: { responce in
-                        self.toDoNetworkInfo.revision = responce.revision
-                    }
-                    .store(in: &cancellables)
-            } else {
-                self.toDoNetworkInfo.isDirty = true
-            }
-            self.fileCache.addItem(item)
-        }
-    }
-    
-    private func updateList() {
-        self.toDoRequestManager.updateItemsList(
-            model: setupListResponce(),
-            revision: toDoNetworkInfo.revision ?? 0
-        )
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] completion in
-            switch completion {
-            case .failure(let error):
-                DDLogError("Error occused while updating list: \(error)")
-            case .finished:
-                self?.toDoNetworkInfo.isDirty = false
-                DDLogInfo("Items successfully has been updated")
-            }
-        } receiveValue: { [weak self] responce in
-            self?.toDoNetworkInfo.revision = responce.revision
-            self?.fileCache.addItems(responce.list.compactMap { ToDoItem(toDoItemNetwork: $0) })
-        }
-        .store(in: &cancellables)
-    }
-    
-    private func setupListResponce() -> ToDoListResponce {
-        let toDoNetworkItems = fileCache.items.compactMap { ToDoItemNetwork(toDoItem: $0) }
-        
-        return ToDoListResponce(
-            status: Constants.Strings.okStatus,
-            list: toDoNetworkItems,
-            revision: nil
-        )
-    }
-    
-    private func setupItemResponce(_ item: ToDoItem) -> ToDoItemResponce {
-        return ToDoItemResponce(
-            status: Constants.Strings.okStatus,
-            element: ToDoItemNetwork(toDoItem: item),
-            revision: nil)
     }
 }
 

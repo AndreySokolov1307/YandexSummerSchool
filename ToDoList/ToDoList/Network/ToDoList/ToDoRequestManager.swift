@@ -2,22 +2,28 @@ import Foundation
 import Combine
 import FileCache
 
-private let threshold: Int = 50
+private let threshold: Int = 50 // fails generator
 
-final class ToDoRequestManager: NetworkRequestManager, IToDoRequestManager {
-    static var revision: Int?
-
-    func getItemsList() -> AnyPublisher<ToDoListResponce, NetworkError> {
-        return request(
+final class ToDoRequestManager: IToDoRequestManager {
+    
+    private let networkRequestManager: INetworkRequestManager
+    
+    init(networkRequestManager: INetworkRequestManager = NetworkRequestManager()) {
+        self.networkRequestManager = networkRequestManager
+    }
+  
+    func getItemsList() -> AnyPublisher<ToDoListResponse, NetworkError> {
+        return networkRequestManager.request(
             path: ToDoItemPath.toDoItemList(.get),
+            queryParams: [:],
             headers: [HeaderKey.generateFails: "\(threshold)"])
     }
     
     func updateItemsList(
-        model: ToDoListResponce,
+        model: ToDoListResponse,
         revision: Int
-    ) -> AnyPublisher<ToDoListResponce, NetworkError> {
-        return requestWithModel(
+    ) -> AnyPublisher<ToDoListResponse, NetworkError> {
+        return networkRequestManager.requestWithModel(
             path: ToDoItemPath.toDoItemList(.patch),
             model: model,
             headers: [
@@ -28,10 +34,10 @@ final class ToDoRequestManager: NetworkRequestManager, IToDoRequestManager {
     }
       
     func addItem(
-        _ toDoItem: ToDoItemResponce,
+        _ toDoItem: ToDoItemResponse,
         revision: Int
-    ) -> AnyPublisher<ToDoItemResponce, NetworkError> {
-        return requestWithModel(
+    ) -> AnyPublisher<ToDoItemResponse, NetworkError> {
+        return networkRequestManager.requestWithModel(
             path: ToDoItemPath.toDoItemList(.post),
             model: toDoItem,
             headers: [
@@ -42,10 +48,10 @@ final class ToDoRequestManager: NetworkRequestManager, IToDoRequestManager {
     }
     
     func updateItem(
-        _ toDoItem: ToDoItemResponce,
+        _ toDoItem: ToDoItemResponse,
         revision: Int
-    ) -> AnyPublisher<ToDoItemResponce, NetworkError> {
-        return requestWithModel(
+    ) -> AnyPublisher<ToDoItemResponse, NetworkError> {
+        return networkRequestManager.requestWithModel(
             path: ToDoItemPath.toDoItem(toDoItem.element.id, .put),
             model: toDoItem,
             headers: [
@@ -57,9 +63,10 @@ final class ToDoRequestManager: NetworkRequestManager, IToDoRequestManager {
     
     func getItem(
         with id: String
-    ) -> AnyPublisher<ToDoItemResponce, NetworkError> {
-        return request(
+    ) -> AnyPublisher<ToDoItemResponse, NetworkError> {
+        return networkRequestManager.request(
             path: ToDoItemPath.toDoItem(id, .get),
+            queryParams: [:],
             headers: [HeaderKey.generateFails: "\(threshold)"]
         )
     }
@@ -67,9 +74,10 @@ final class ToDoRequestManager: NetworkRequestManager, IToDoRequestManager {
     func deleteItem(
         with id: String,
         revision: Int
-    ) -> AnyPublisher<ToDoItemResponce, NetworkError> {
-        return request(
+    ) -> AnyPublisher<ToDoItemResponse, NetworkError> {
+        return networkRequestManager.request(
             path: ToDoItemPath.toDoItem(id, .delete),
+            queryParams: [:],
             headers: [
                 HeaderKey.lastKnownRevision: "\(revision)",
                 HeaderKey.generateFails: "\(threshold)"

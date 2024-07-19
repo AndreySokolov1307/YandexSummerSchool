@@ -10,19 +10,13 @@ struct CalendarListView: UIViewControllerRepresentable {
     
     // MARK: - Public Properties
     
-    let fileCache: FileCache<ToDoItem>
-    let toDoRequestManager: IToDoRequestManager
-    let toDoNetworkInfo: ToDoNetworkInfo
+    let toDoManager: ToDoManager
         
     // MARK: - Public Methods
     
     func makeUIViewController(context: Context) -> UIViewController {
         let vc = CalendarItemListViewController(
-            viewModel: CalendarItemListViewModel(
-                fileCahce: fileCache,
-                toDoRequestManager: toDoRequestManager,
-                toDoNetworkInfo: toDoNetworkInfo
-            )
+            viewModel: CalendarItemListViewModel(toDoManager: toDoManager)
         )
         
         context.coordinator.parentObserver = vc.observe(\.parent, changeHandler: { vc, _ in

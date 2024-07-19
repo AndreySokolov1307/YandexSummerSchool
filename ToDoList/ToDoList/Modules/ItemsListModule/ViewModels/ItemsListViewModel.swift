@@ -5,17 +5,9 @@ import CocoaLumberjackSwift
 
 typealias FilterOption = ItemsListViewModel.FilterOption
 typealias SortOption = ItemsListViewModel.SortOption
-typealias ToDoNetworkInfo = ItemsListViewModel.ToDoNetworkInfo
 
 @MainActor
 final class ItemsListViewModel: ObservableObject {
-    
-    // MARK: - ToDoNetworkInfo
-    
-    final class ToDoNetworkInfo {
-        var revision: Int?
-        var isDirty = false 
-    }
     
     // MARK: - FilterOptions
     
@@ -42,6 +34,7 @@ final class ItemsListViewModel: ObservableObject {
         case deleteItem(_ item: ToDoItem)
         case toggleIsDone(_ item: ToDoItem)
         case saveItems
+        case updateItems
     }
     
     // MARK: - Public Properties
@@ -58,14 +51,10 @@ final class ItemsListViewModel: ObservableObject {
     @Published
     var isLoading = false
     
-    let fileCache: FileCache<ToDoItem>
+    let toDoManager: ToDoManager
     
-    let toDoRequestManager: IToDoRequestManager
-    
-    var toDoNetworkInfo: ToDoNetworkInfo = ToDoNetworkInfo()
-        
     var isDoneCount: Int {
-        return fileCache.items.lazy.filter({ $0.isDone }).count
+        return toDoManager.toDoListSubject.value.lazy.filter({ $0.isDone }).count
     }
     
     // MARK: - Private Properties
@@ -74,12 +63,8 @@ final class ItemsListViewModel: ObservableObject {
     
     // MARK: - Init
     
-    init(
-        fileCache: FileCache<ToDoItem>,
-        toDoRequestManager: IToDoRequestManager
-    ) {
-        self.fileCache = fileCache
-        self.toDoRequestManager = toDoRequestManager
+    init(toDoManager: ToDoManager) {
+        self.toDoManager = toDoManager
         bind()
     }
     
@@ -88,109 +73,42 @@ final class ItemsListViewModel: ObservableObject {
     func handle(_ input: Input) {
         switch input {
         case .loadItems:
-            self.loadItems()
+            toDoManager.loadItems()
         case .saveItems:
-            self.saveItems()
+            toDoManager.saveItems()
         case .toggleIsDone(let item):
             self.toggleIsDone(for: item)
         case .deleteItem(let item):
-            self.deleteItem(item)
+            toDoManager.deleteItem(item)
+        case .updateItems:
+            toDoManager.updateList()
         }
     }
     
     // MARK: - Private Methods
     
-    private func deleteItem(_ item: ToDoItem) {
-        if toDoNetworkInfo.isDirty {
-            self.fileCache.deleteItem(withId: item.id)
-            self.updateList()
-        } else {
-            if let revision = toDoNetworkInfo.revision {
-                self.toDoRequestManager.deleteItem(with: item.id, revision: revision)
-                    .receive(on: DispatchQueue.main)
-                    .sink { [weak self] completion in
-                        switch completion {
-                        case .failure(let error):
-                            self?.toDoNetworkInfo.isDirty = true
-                            DDLogError("Error occused on item delete: \(error)")
-                        case .finished:
-                            DDLogInfo("Item successfully has been deleted")
-                        }
-                    } receiveValue: { [weak self] responce in
-                        self?.toDoNetworkInfo.revision = responce.revision
-                    }
-                    .store(in: &cancellables)
-            } else {
-                toDoNetworkInfo.isDirty = true
+    private func bind() {
+        toDoManager.toDoListSubject.combineLatest($filterOption, $sortOption)
+            .eraseToAnyPublisher()
+            .sink { [weak self] items, filterOption, sortOption in
+                guard let self else { return }
+                self.toDoItems = self.filter(items, with: filterOption)
+                self.toDoItems = self.sort(self.toDoItems, with: sortOption)
             }
-            self.fileCache.deleteItem(withId: item.id)
-        }
-    }
-    
-    private func saveItems(to file: String = Constants.Strings.file) {
-        do {
-            try fileCache.saveItems(to: file)
-        } catch {
-            DDLogInfo("Error occused while saving items to file: \(error)")
-        }
-    }
-    
-    private func loadItems(from file: String = Constants.Strings.file) {
-        isLoading = true
-        self.toDoRequestManager.getItemsList()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] completion in
-                switch completion {
-                case .failure(let error):
-                    self?.toDoNetworkInfo.isDirty = true
-                    DDLogError("Error occused while loading items: \(error)")
-                    do {
-                        try self?.fileCache.loadItems(from: file)
-                    } catch {
-                        DDLogError("Error occused while loading items from file: \(error)")
-                    }
-                case .finished:
-                    DDLogInfo("Items successfully has been loaded")
+            .store(in: &cancellables)
+        
+        toDoManager.stateSubject
+            .sink { state in
+                switch state {
+                case .loading:
+                    self.isLoading = true
+                case .regular:
+                    self.isLoading = false
                 }
-                self?.isLoading = false
-            } receiveValue: { [weak self] responce in
-                self?.toDoNetworkInfo.revision = responce.revision
-                self?.fileCache.addItems(responce.list.compactMap { ToDoItem(toDoItemNetwork: $0) })
             }
             .store(in: &cancellables)
     }
-    
-    private func updateList() {
-        self.toDoRequestManager.updateItemsList(
-            model: setupListResponce(),
-            revision: toDoNetworkInfo.revision ?? 0
-        )
-        .receive(on: DispatchQueue.main)
-        .sink { [weak self] completion in
-            switch completion {
-            case .failure(let error):
-                DDLogError("Error occused while updating list: \(error)")
-            case .finished:
-                self?.toDoNetworkInfo.isDirty = false
-                DDLogInfo("Items successfully has been updated")
-            }
-        } receiveValue: { [weak self] responce in
-            self?.toDoNetworkInfo.revision = responce.revision
-            self?.fileCache.addItems(responce.list.compactMap { ToDoItem(toDoItemNetwork: $0) })
-        }
-        .store(in: &cancellables)
-    }
-    
-    private func setupListResponce() -> ToDoListResponce {
-        let toDoNetworkItems = fileCache.items.compactMap { ToDoItemNetwork(toDoItem: $0) }
-        
-        return ToDoListResponce(
-            status: Constants.Strings.okStatus,
-            list: toDoNetworkItems,
-            revision: nil
-        )
-    }
-    
+            
     private func toggleIsDone(for item: ToDoItem) {
         let newItem = ToDoItem(id: item.id,
                                text: item.text,
@@ -201,55 +119,9 @@ final class ItemsListViewModel: ObservableObject {
                                modificationDate: item.modificationDate,
                                hexColor: item.hexColor,
                                category: item.category)
-        updateItem(newItem)
+        toDoManager.updateItem(newItem)
     }
-    
-    private func setupItemResponce(_ item: ToDoItem) -> ToDoItemResponce {
-        return ToDoItemResponce(
-            status: Constants.Strings.okStatus,
-            element: ToDoItemNetwork(toDoItem: item),
-            revision: nil)
-    }
-    
-    private func updateItem(_ item: ToDoItem) {
-        if toDoNetworkInfo.isDirty {
-            self.fileCache.addItem(item)
-            self.updateList()
-        } else {
-            if let revision = toDoNetworkInfo.revision {
-                toDoRequestManager.updateItem(setupItemResponce(item), revision: revision)
-                    .receive(on: DispatchQueue.main)
-                    .sink { [weak self] completion in
-                        switch completion {
-                        case .failure(let error):
-                            self?.toDoNetworkInfo.isDirty = true
-                            DDLogError("Error occused while adding item: \(error)")
-                        case .finished:
-                            DDLogInfo("Item successfully has changed isDone")
-                        }
-                    } receiveValue: { responce in
-                        self.toDoNetworkInfo.revision = responce.revision
-                    }
-                    .store(in: &cancellables)
-            } else {
-                self.toDoNetworkInfo.isDirty = true
-            }
-            self.fileCache.addItem(item)
-        }
-    }
-    
-    private func bind() {
-        fileCache.$items.combineLatest($filterOption, $sortOption)
-            .eraseToAnyPublisher()
-            .sink { [weak self] items, filterOption, sortOption in
-                guard let self else { return }
-                self.toDoItems = self.filter(items, with: filterOption)
-                self.toDoItems = self.sort(self.toDoItems, with: sortOption)
-            }
-            .store(in: &cancellables)
-    }
-    
-    
+        
     private func filter(_ items: [ToDoItem], with filterOption: FilterOption) -> [ToDoItem] {
         switch filterOption {
         case .all:

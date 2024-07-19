@@ -229,6 +229,6 @@ struct ItemDetailView: View {
 
 struct ItemDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        ItemDetailView(viewModel: ItemDetailViewModel(toDoItem: ToDoItem.newItem(), fileCache: FileCache(), toDoRequestManager: ToDoRequestManager(), toDoNetworkInfo: ToDoNetworkInfo()))
+        ItemDetailView(viewModel: ItemDetailViewModel(toDoItem: ToDoItem.newItem(), toDoManager: ToDoManager(fileCache: FileCache(), toDoRequestManager: ToDoRequestManager())))
     }
 }

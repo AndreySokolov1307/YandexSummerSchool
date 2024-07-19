@@ -89,7 +89,7 @@ public final class FileCache<Item: Equatable & Identifiable & Cachable> {
             throw FileCacheError.unableToLoad(error)
         }
     }
-    
+
     // MARK: - Private Methods
     
     private func url(for file: String, fileFormat: FileFormat) -> URL? {

@@ -2,11 +2,10 @@ import Combine
 import Foundation
 import CocoaLumberjackSwift
 
-private let token: String = "Aldaron"
+private let token: String = "" // your token
 
-class NetworkRequestManager {
-    typealias Params = [String: String]
-    
+final class NetworkRequestManager: INetworkRequestManager {
+ 
     // MARK: - Public Methods
     
     func request<T: Decodable>(

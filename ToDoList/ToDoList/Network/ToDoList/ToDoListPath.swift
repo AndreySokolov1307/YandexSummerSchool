@@ -7,16 +7,16 @@ enum ToDoItemPath: Path {
     var baseUrl: String {
         switch self {
         case .toDoItemList, .toDoItem:
-            return transferProtocol + Constants.Strings.toDoItemBaseUrl
+            return transferProtocol + Constants.Network.toDoItemBaseUrl
         }
     }
     
     var endpoint: String {
         switch self {
         case .toDoItemList:
-            return Constants.Strings.toDoItemListEndpoint
+            return Constants.Network.toDoItemListEndpoint
         case .toDoItem(let id, _):
-            return Constants.Strings.toDoItemListEndpoint + "/" + id
+            return Constants.Network.toDoItemListEndpoint + "/" + id
         }
     }
     
@@ -30,6 +30,6 @@ enum ToDoItemPath: Path {
     }
     
     var transferProtocol: String {
-        return Constants.Strings.transferProtocol
+        return Constants.Network.transferProtocol
     }
 }
