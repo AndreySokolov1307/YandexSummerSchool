@@ -57,7 +57,7 @@ class ItemDetailViewModel: ObservableObject {
     var color: Color
     
     @Published
-    var category: ToDoItem.Category
+    var category: Category
     
     // MARK: - Private Properties
     
@@ -79,7 +79,7 @@ class ItemDetailViewModel: ObservableObject {
         self.toDoType = toDoItem.text.isEmpty ? .new : .existed
         self.hasColor = toDoItem.hexColor == nil ? false : true
         self.color = Color(hex: toDoItem.hexColor) ?? .white
-        self.category = toDoItem.category ?? ToDoItem.Category.other
+        self.category = toDoItem.category ?? Category.other
         self.toDoManager = toDoManager
     }
     
@@ -118,7 +118,7 @@ class ItemDetailViewModel: ObservableObject {
             creationDate: creationDate,
             modificationDate: toDoType == .new ? nil : Date(),
             hexColor: hasColor ? color.hexString : nil,
-            category: category == ToDoItem.Category.other ? nil : category
+            category: category == Category.other ? nil : category
         )
         
         return item

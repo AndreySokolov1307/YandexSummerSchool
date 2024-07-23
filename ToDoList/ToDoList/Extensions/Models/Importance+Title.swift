@@ -1,7 +1,5 @@
 import Foundation
 
-typealias Importance = ToDoItem.Importance
-
 extension Importance {
     var title: String {
         switch self {

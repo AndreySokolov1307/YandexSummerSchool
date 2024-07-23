@@ -2,31 +2,8 @@ import Foundation
 import SwiftUI
 import FileCache
 
-struct ToDoItem: Identifiable, Equatable, Hashable, Cachable, Codable {
-    
-    // MARK: - Category
-    
-    struct Category: Identifiable, Equatable, Hashable, Codable {
-        let name: String
-        let hexColor: String
-        
-        let id: String
-        
-        init(name: String, hexColor: String, id: String = UUID().uuidString) {
-            self.name = name
-            self.hexColor = hexColor
-            self.id = id
-        }
-    }
-    
-    // MARK: - Importance
-    
-    enum Importance: String, Identifiable, Codable {
-        case low, basic, important
-        
-        var id: Self { self }
-    }
-    
+struct ToDoItem: Identifiable, Equatable, Hashable, Cachable {
+
     // MARK: - Public Properties
     
     let id: String
@@ -37,7 +14,7 @@ struct ToDoItem: Identifiable, Equatable, Hashable, Cachable, Codable {
     let creationDate: Date
     let modificationDate: Date?
     let hexColor: String?
-    let category: ToDoItem.Category?
+    let category: Category?
     
     // MARK: - Init
     
@@ -50,7 +27,7 @@ struct ToDoItem: Identifiable, Equatable, Hashable, Cachable, Codable {
         creationDate: Date = Date(),
         modificationDate: Date? = nil,
         hexColor: String? = nil,
-        category: ToDoItem.Category? = nil
+        category: Category? = nil
     ) {
         self.id = id
         self.text = text

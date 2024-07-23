@@ -24,11 +24,11 @@ final class CategoryStore {
     
     // MARK: - Public Properties
         
-    private(set) var categories: [ToDoItem.Category] = [.other, .hobby, .job, .study]
+    private(set) var categories: [Category] = [.other, .hobby, .job, .study]
     
     // MARK: - Public Methods
     
-    func addCategory(_ category: ToDoItem.Category) {
+    func addCategory(_ category: Category) {
         if !categories.contains(where: { $0.name == category.name }) {
             categories.append(category)
             DDLogInfo("\(Constants.Strings.categoryAddMessageStart) \(category.name) \(Constants.Strings.addMessageEnd)")
@@ -44,8 +44,8 @@ final class CategoryStore {
             let retrievedJsonData = try Data(contentsOf: archieveURL)
             if let jsonObject = try JSONSerialization.jsonObject(with: retrievedJsonData,
                                                                  options: []) as? [Any] {
-                if !jsonObject.compactMap(ToDoItem.Category.parse).isEmpty {
-                    categories = jsonObject.compactMap(ToDoItem.Category.parse)
+                if !jsonObject.compactMap(Category.parse).isEmpty {
+                    categories = jsonObject.compactMap(Category.parse)
                 }
             }
         } catch {
