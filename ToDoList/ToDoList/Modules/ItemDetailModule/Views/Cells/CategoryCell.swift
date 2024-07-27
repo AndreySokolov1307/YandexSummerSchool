@@ -10,14 +10,14 @@ struct CategoryCell: View {
     // MARK: - Public Properties
     
     @Binding
-    var category: ToDoItem.Category
+    var category: Category
     
     // MARK: - Body
     
     var body: some View {
         HStack(spacing: LayoutConstants.hStackSpacing) {
             categoryPicker
-            if category.id != ToDoItem.Category.other.id {
+            if category.id != Category.other.id {
                 categoryColor
             }
         }

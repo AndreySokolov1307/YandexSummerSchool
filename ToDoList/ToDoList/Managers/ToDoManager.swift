@@ -16,17 +16,16 @@ final class ToDoManager {
     
     let toDoListSubject = CurrentValueSubject<[ToDoItem], Never>([])
     let stateSubject = PassthroughSubject<State, Never>()
-    
     // MARK: - Private Properties
     
-    private let fileCache: FileCache<ToDoItem>
+    private let fileCache: FileCache
     private let toDoRequestManager: IToDoRequestManager
     private var cancellables = Set<AnyCancellable>()
     
     // MARK: - Init
     
     init(
-        fileCache: FileCache<ToDoItem>,
+        fileCache: FileCache,
         toDoRequestManager: IToDoRequestManager
     ) {
         self.fileCache = fileCache
@@ -38,7 +37,7 @@ final class ToDoManager {
     
     func updateItem(_ item: ToDoItem) {
         if ToDoNetworkInfo.shared.isDirty {
-            fileCache.addItem(item)
+            fileCache.update(item)
             updateList()
         } else {
             if let revision = ToDoNetworkInfo.shared.revision {
@@ -59,13 +58,13 @@ final class ToDoManager {
             } else {
                 ToDoNetworkInfo.shared.isDirty = true
             }
-            fileCache.addItem(item)
+            fileCache.insert(item)
         }
     }
     
     func deleteItem(_ item: ToDoItem) {
         if ToDoNetworkInfo.shared.isDirty {
-            fileCache.deleteItem(withId: item.id)
+            fileCache.delete(item)
             updateList()
         } else {
             if let revision = ToDoNetworkInfo.shared.revision {
@@ -86,13 +85,13 @@ final class ToDoManager {
             } else {
                 ToDoNetworkInfo.shared.isDirty = true
             }
-            fileCache.deleteItem(withId: item.id)
+            fileCache.delete(item)
         }
     }
     
     func addItem(_ item: ToDoItem) {
         if ToDoNetworkInfo.shared.isDirty {
-            fileCache.addItem(item)
+            fileCache.insert(item)
             updateList()
         } else {
             if let revision = ToDoNetworkInfo.shared.revision {
@@ -113,21 +112,16 @@ final class ToDoManager {
             } else {
                 ToDoNetworkInfo.shared.isDirty = true
             }
-            fileCache.addItem(item)
+            fileCache.insert(item)
         }
     }
     
     func saveItems(to file: String = Constants.Strings.file) {
-        do {
-            try fileCache.saveItems(to: file)
-        } catch {
-            DDLogInfo("Error occused while saving items to file: \(error)")
-        }
+        fileCache.save()
     }
     
     func loadItems(from file: String = Constants.Strings.file) {
         stateSubject.send(.loading)
-        
         if ToDoNetworkInfo.shared.isDirty {
             loadFromFileCache(file)
             updateList()
@@ -185,11 +179,7 @@ final class ToDoManager {
     }
     
     private func loadFromFileCache(_ file: String) {
-        do {
-            try fileCache.loadItems(from: file)
-        } catch {
-            DDLogError("Error occused while loading items from file: \(error)")
-        }
+        fileCache.fetch()
     }
    
     private func setupItemResponce(_ item: ToDoItem) -> ToDoItemResponse {

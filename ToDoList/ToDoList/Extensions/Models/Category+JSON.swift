@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 
-extension ToDoItem.Category {
+extension Category {
     var json: Any {
         var dictionary: [String: Any] = [:]
         
@@ -12,7 +12,7 @@ extension ToDoItem.Category {
         return dictionary
     }
     
-    static func parse(json: Any) -> ToDoItem.Category? {
+    static func parse(json: Any) -> Category? {
         guard let dictionary = json as? [String: Any] else { return nil }
         
         guard let name = dictionary[Constants.JsonKeys.name] as? String,
@@ -20,7 +20,7 @@ extension ToDoItem.Category {
               let id = dictionary[Constants.JsonKeys.categoryId] as? String
         else { return nil }
         
-        let category = ToDoItem.Category(
+        let category = Category(
             name: name,
             hexColor: colorString,
             id: id

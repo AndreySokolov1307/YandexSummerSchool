@@ -1,7 +1,7 @@
 import Foundation
 
 extension Importance: Comparable {
-    static func < (lhs: ToDoItem.Importance, rhs: ToDoItem.Importance) -> Bool {
+    static func < (lhs: Importance, rhs: Importance) -> Bool {
         lhs.comparableValue < rhs.comparableValue
     }
     

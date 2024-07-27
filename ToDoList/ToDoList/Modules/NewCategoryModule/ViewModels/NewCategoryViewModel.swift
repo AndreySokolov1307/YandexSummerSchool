@@ -50,7 +50,7 @@ final class NewCategoryViewModel {
             self.color = Color(hex: hexColor)?.uiColor
         case .saveCategory:
             if let color = color {
-                categoryStore.addCategory(ToDoItem.Category(name: name, hexColor: color.hexString))
+                categoryStore.addCategory(Category(name: name, hexColor: color.hexString))
             }
         }
     }
