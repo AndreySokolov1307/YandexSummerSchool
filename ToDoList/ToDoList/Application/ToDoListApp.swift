@@ -10,7 +10,7 @@ struct ToDoListApp: App {
     @StateObject
     private var itemsListViewModel = ItemsListViewModel(
         toDoManager: ToDoManager(
-            fileCache: FileCache<ToDoItem>(),
+            fileCache: FileCache(),
             toDoRequestManager: ToDoRequestManager()
         )
     )

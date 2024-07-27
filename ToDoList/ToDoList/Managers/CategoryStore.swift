@@ -2,7 +2,7 @@ import Foundation
 import CocoaLumberjackSwift
 import FileCache
 
-typealias FileFormat = FileCache<ToDoItem>.FileFormat
+typealias FileFormat = FileCache.FileFormat
 
 final class CategoryStore {
     
